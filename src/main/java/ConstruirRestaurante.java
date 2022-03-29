@@ -46,13 +46,6 @@ public class ConstruirRestaurante {
         panel.setLayout(null);
         panel.setBackground(Color.WHITE);
 
-        etiqueta = new JLabel("Bienvenido a la Clinica.");
-        etiqueta.setBounds(300,5,200,30);
-        panel.add(etiqueta);
-
-        etiqueta = new JLabel("Muevase por la barra superior.");
-        etiqueta.setBounds(280,20,200,30);
-        panel.add(etiqueta);
     }
 
 
