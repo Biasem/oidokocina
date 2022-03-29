@@ -5,7 +5,7 @@ import java.awt.*;
 public class ConstruirRestaurante {
 
     private JFrame ventana;
-    private JPanel panel,panelimprimir;
+    private JPanel panel,panelprincipal;
     private JTextArea areadetexto;
     private JScrollPane barralateral;
     private JTextField cajatexto;
@@ -24,9 +24,11 @@ public class ConstruirRestaurante {
         ventana.setLocationRelativeTo(null);
 
 
-        PanelBienvenida(panel);
-        ventana.add(panel);
+        PanelFondo();
+        PanelConstruir();
+        ventana.setContentPane(panel);
         ventana.setVisible(true);
+
     }
 
     private void RestaurarPanel()   //metodo para inicializar paneles
@@ -36,20 +38,25 @@ public class ConstruirRestaurante {
         panel.revalidate();
     }
 
-    private void PanelBienvenida(JPanel Panel)   //panel principal de bienvenida
+    private void PanelFondo()   //panel principal de bienvenida
     {
         panel = new JPanel();
-        panel.setLayout(null);
-        panel.setBackground(Color.WHITE);
-        //panel.paintComponents();
+
         ImageIcon icon = new ImageIcon("E:\\restaurante_java\\src\\main\\imagenes\\imagen_principal.jpg");
+        panel.paint(icon);
 
-        //Image background = Toolkit.getDefaultToolkit().createImage("E:\\restaurante_java\\src\\main\\imagenes\\imagen_principal.jpg");
-
+        panel.imageUpdate(icon.getImage(), 0,0,)
 
     }
 
+    private void PanelConstruir()   //panel principal de bienvenida
+    {
+        panelprincipal = new JPanel();
+        panelprincipal.setLayout(null);
+        JLabel fondo = new JLabel("hola holita");
+        panelprincipal.setOpaque(false);
 
+    }
 
 
 }
