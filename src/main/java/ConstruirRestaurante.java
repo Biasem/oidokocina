@@ -40,12 +40,19 @@ public class ConstruirRestaurante {
 
     private void PanelFondo()   //panel principal de bienvenida
     {
-        panel = new JPanel();
+        Image image = new ImageIcon("D:\\java_restaurante\\src\\main\\imagenes\\imagen_principal.jpg").getImage();
+        panel = new JPanel(){
+            @Override
+            public void paint(Graphics g){
+                g.drawImage(image, 0, 0, getWidth(), getHeight(), this);
+                super.paint(g);
+            }
+        };
+        panel.setOpaque(false);
 
-        ImageIcon icon = new ImageIcon("E:\\restaurante_java\\src\\main\\imagenes\\imagen_principal.jpg");
-        panel.paint(icon);
+        JLabel prueba = new JLabel("ave aveeee");
+        panel.add(prueba);
 
-        panel.imageUpdate(icon.getImage(), 0,0,)
 
     }
 
