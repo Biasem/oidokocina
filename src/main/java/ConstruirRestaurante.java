@@ -44,7 +44,7 @@ public class ConstruirRestaurante {
         //panel.paintComponents();
         ImageIcon icon = new ImageIcon("E:\\restaurante_java\\src\\main\\imagenes\\imagen_principal.jpg");
 
-        Image background = Toolkit.getDefaultToolkit().createImage("E:\\restaurante_java\\src\\main\\imagenes\\imagen_principal.jpg");
+        //Image background = Toolkit.getDefaultToolkit().createImage("E:\\restaurante_java\\src\\main\\imagenes\\imagen_principal.jpg");
 
 
     }
