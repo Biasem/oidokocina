@@ -1,8 +1,4 @@
 import javax.swing.*;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.JTextArea;
-import javax.swing.JScrollPane;
 import java.awt.*;
 
 
@@ -45,6 +41,11 @@ public class ConstruirRestaurante {
         panel = new JPanel();
         panel.setLayout(null);
         panel.setBackground(Color.WHITE);
+        //panel.paintComponents();
+        ImageIcon icon = new ImageIcon("E:\\restaurante_java\\src\\main\\imagenes\\imagen_principal.jpg");
+
+        Image background = Toolkit.getDefaultToolkit().createImage("E:\\restaurante_java\\src\\main\\imagenes\\imagen_principal.jpg");
+
 
     }
 
