@@ -1,9 +1,10 @@
 import javax.swing.*;
 import java.awt.*;
+import java.io.File;
 
 
 public class ConstruirRestaurante {
-
+    private static final Image urlimg = new ImageIcon(geturlimg()).getImage();
     private JFrame ventana;
     private JPanel panel,panelprincipal;
     private JTextArea areadetexto;
@@ -40,11 +41,10 @@ public class ConstruirRestaurante {
 
     private void PanelFondo()   //panel principal de bienvenida
     {
-        Image image = new ImageIcon("D:\\java_restaurante\\src\\main\\imagenes\\imagen_principal.jpg").getImage();
         panel = new JPanel(){
             @Override
             public void paint(Graphics g){
-                g.drawImage(image, 0, 0, getWidth(), getHeight(), this);
+                g.drawImage(urlimg, 0, 0, getWidth(), getHeight(), this);
                 super.paint(g);
             }
         };
@@ -64,6 +64,9 @@ public class ConstruirRestaurante {
         panelprincipal.setOpaque(false);
 
     }
-
+    private static String geturlimg(){
+        String ruta = new File("").getAbsolutePath();
+        return ruta + "\\src\\main\\imagenes\\imagen_principal.jpg";
+    }
 
 }
