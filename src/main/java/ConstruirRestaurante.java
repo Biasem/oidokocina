@@ -70,7 +70,7 @@ public class ConstruirRestaurante {
 
     private static String geturlimg(){
         String ruta = new File("").getAbsolutePath();
-        return ruta + "\\src\\main\\imagenes\\imagen_principal.jpg";
+        return ruta  + "\\src\\main\\imagenes\\imagen_principal.jpg";
     }
 
 }
