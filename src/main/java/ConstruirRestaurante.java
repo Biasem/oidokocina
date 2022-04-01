@@ -9,7 +9,7 @@ import java.awt.Graphics;
 import static javax.swing.WindowConstants.EXIT_ON_CLOSE;
 
 
-public class ConstruirRestaurante extends JFrame{
+public class ConstruirRestaurante {
     private static Image urlImagen = new ImageIcon(getUrlImagenInicio()).getImage();
     private JFrame ventana;
     private JPanel panel,panelprincipal;
@@ -71,7 +71,7 @@ public class ConstruirRestaurante extends JFrame{
                 panelCocinero();
             }
         };
-        cliente.addActionListener(oyenteCocinero);
+        cocinero.addActionListener(oyenteCocinero);
 
         panel.add(camarero,BorderLayout.WEST);
         ActionListener oyenteCamarero = new ActionListener() {
@@ -80,7 +80,7 @@ public class ConstruirRestaurante extends JFrame{
                 panelCamarero();
             }
         };
-        cliente.addActionListener(oyenteCamarero);
+        camarero.addActionListener(oyenteCamarero);
 
         panel.add(cliente, BorderLayout.EAST);
         ActionListener oyenteCliente = new ActionListener() {
@@ -98,8 +98,7 @@ public class ConstruirRestaurante extends JFrame{
                 panelAdministrador();
             }
         };
-        cliente.addActionListener(oyenteAdmin);
-
+        admin.addActionListener(oyenteAdmin);
 
     }
 
