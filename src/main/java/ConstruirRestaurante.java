@@ -27,7 +27,13 @@ public class ConstruirRestaurante {
         ventana.setSize(800,600);
        // ventana.setLocationRelativeTo(null);
         ventana.setDefaultCloseOperation(EXIT_ON_CLOSE);
-
+        panel = new JPanel(){
+            @Override
+            public void paint(Graphics g){
+                g.drawImage(urlImagen, 0, 0, getWidth(), getHeight(), this);
+                super.paint(g);
+            }
+        };
         panelInicio();
         ventana.setContentPane(panel);
         ventana.setResizable(false);
@@ -36,23 +42,16 @@ public class ConstruirRestaurante {
 
     }
 
-    private void restaurarPanel()   //metodo para inicializar paneles
+    private void restaurarPanel()   //metodo para reinicializar paneles
     {
         panel.removeAll();
         panel.repaint();
         panel.revalidate();
     }
 
-    private void panelInicio()   //panel principal de bienvenida
-    {
-        panel = new JPanel(){
-            @Override
-            public void paint(Graphics g){
-                g.drawImage(urlImagen, 0, 0, getWidth(), getHeight(), this);
-                super.paint(g);
-            }
-        };
-
+    private void panelInicio(){ //panel principal de bienvenida
+        urlImagen = new ImageIcon(getUrlImagenInicio()).getImage();
+        restaurarPanel();
         panel.setOpaque(false);
 
 
@@ -115,26 +114,48 @@ public class ConstruirRestaurante {
     private void panelcliente (){
         urlImagen = new ImageIcon(getUrlImagenCliente()).getImage();
         restaurarPanel();
-        panel.setLayout(new BorderLayout());
-        panel.setBorder(new EmptyBorder(250,300,250,300));
+        panel.setLayout(null);
         vercarta = new JButton("Carta");
+        vercarta.setBounds(350,250,100,50);
 
         panel.add(vercarta);
+        botonatras();
     }
     private void panelAdministrador (){
         urlImagen = new ImageIcon(getUrlImagenCliente()).getImage();
         restaurarPanel();
+        panel.setLayout(null);
+        botonatras();
 
     }
     private void panelCamarero (){
         urlImagen = new ImageIcon(getUrlImagenCliente()).getImage();
         restaurarPanel();
+        panel.setLayout(null);
+        botonatras();
 
     }
     private void panelCocinero (){
         urlImagen = new ImageIcon(getUrlImagenCliente()).getImage();
         restaurarPanel();
+        panel.setLayout(null);
+        botonatras();
 
+
+
+
+    }
+    public void botonatras(){
+        JButton atras = new JButton("atras");
+        atras.setBounds(0,0,100,50);
+        panel.add(atras);
+        ActionListener oyenteAtras = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                panelInicio();
+            }
+        };
+        atras.addActionListener(oyenteAtras);
     }
 
 }
