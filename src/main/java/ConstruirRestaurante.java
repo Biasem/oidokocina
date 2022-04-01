@@ -13,7 +13,7 @@ public class ConstruirRestaurante extends JFrame{
     private static Image urlImagen = new ImageIcon(getUrlImagenInicio()).getImage();
     private JFrame ventana;
     private JPanel panel,panelprincipal;
-    private JButton camarero,admin,cliente,cocinero;
+    private JButton camarero,admin,cliente,cocinero,vercarta;
 
 
     ConstruirRestaurante(){
@@ -25,11 +25,12 @@ public class ConstruirRestaurante extends JFrame{
     {                                               //se construye la ventana y panel principal
         ventana = new JFrame("OidoKocina");
         ventana.setSize(800,600);
-        ventana.setLocationRelativeTo(null);
+       // ventana.setLocationRelativeTo(null);
         ventana.setDefaultCloseOperation(EXIT_ON_CLOSE);
 
         panelInicio();
         ventana.setContentPane(panel);
+        ventana.setResizable(false);
         ventana.setVisible(true);
 
 
@@ -64,7 +65,23 @@ public class ConstruirRestaurante extends JFrame{
 
 
         panel.add(cocinero,BorderLayout.NORTH);
+        ActionListener oyenteCocinero = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                panelCocinero();
+            }
+        };
+        cliente.addActionListener(oyenteCocinero);
+
         panel.add(camarero,BorderLayout.WEST);
+        ActionListener oyenteCamarero = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                panelCamarero();
+            }
+        };
+        cliente.addActionListener(oyenteCamarero);
+
         panel.add(cliente, BorderLayout.EAST);
         ActionListener oyenteCliente = new ActionListener() {
             @Override
@@ -75,6 +92,13 @@ public class ConstruirRestaurante extends JFrame{
         cliente.addActionListener(oyenteCliente);
 
         panel.add(admin, BorderLayout.SOUTH);
+        ActionListener oyenteAdmin = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                panelAdministrador();
+            }
+        };
+        cliente.addActionListener(oyenteAdmin);
 
 
     }
@@ -92,19 +116,26 @@ public class ConstruirRestaurante extends JFrame{
     private void panelcliente (){
         urlImagen = new ImageIcon(getUrlImagenCliente()).getImage();
         restaurarPanel();
+        panel.setLayout(new BorderLayout());
+        panel.setBorder(new EmptyBorder(250,300,250,300));
+        vercarta = new JButton("Carta");
 
-
-
-
-
-
-
-
-
-
-
+        panel.add(vercarta);
+    }
+    private void panelAdministrador (){
+        urlImagen = new ImageIcon(getUrlImagenCliente()).getImage();
+        restaurarPanel();
 
     }
+    private void panelCamarero (){
+        urlImagen = new ImageIcon(getUrlImagenCliente()).getImage();
+        restaurarPanel();
 
+    }
+    private void panelCocinero (){
+        urlImagen = new ImageIcon(getUrlImagenCliente()).getImage();
+        restaurarPanel();
+
+    }
 
 }
