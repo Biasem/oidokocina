@@ -21,8 +21,18 @@ public class ConstruirRestaurante {
 
     }
 
-    private void ConstruirVentana()
-    {                                               //se construye la ventana y panel principal
+    // metodos para obtener urls de las imagenes de fondo
+    private static String getUrlImagenInicio(){
+        String ruta = new File("").getAbsolutePath();
+        return ruta  + "\\src\\main\\imagenes\\imagen_principal.jpg";
+    }
+    private static String getUrlImagenCliente(){
+        String ruta = new File("").getAbsolutePath();
+        return ruta + "\\src\\main\\imagenes\\carta.png";
+    }
+
+    //metodo para inicializar la ventana y el panel vacio
+    private void ConstruirVentana(){
         ventana = new JFrame("OidoKocina");
         ventana.setSize(800,600);
        // ventana.setLocationRelativeTo(null);
@@ -38,18 +48,17 @@ public class ConstruirRestaurante {
         ventana.setContentPane(panel);
         ventana.setResizable(false);
         ventana.setVisible(true);
-
-
     }
 
-    private void restaurarPanel()   //metodo para reinicializar paneles
-    {
+    // metodo para formatear los paneles
+    private void restaurarPanel(){
         panel.removeAll();
         panel.repaint();
         panel.revalidate();
     }
 
-    private void panelInicio(){ //panel principal de bienvenida
+    // metodos para la generacion de paneles
+    private void panelInicio(){
         urlImagen = new ImageIcon(getUrlImagenInicio()).getImage();
         restaurarPanel();
         panel.setOpaque(false);
@@ -100,16 +109,28 @@ public class ConstruirRestaurante {
         admin.addActionListener(oyenteAdmin);
 
     }
+    private void verCarta(){
+
+        JButton atras = new JButton("atras");
+        atras.setBounds(0,0,100,50);
+        panel.add(atras);
+        ActionListener oyenteAtras = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                panelcliente();
+            }
+        };
+        atras.addActionListener(oyenteAtras);
+
+       JButton prueba = new JButton("botonprueba");
+       prueba.setBounds(10,500,100,100);
+       panel.add(prueba);
 
 
-    private static String getUrlImagenInicio(){
-        String ruta = new File("").getAbsolutePath();
-        return ruta  + "\\src\\main\\imagenes\\imagen_principal.jpg";
+
+
     }
-    private static String getUrlImagenCliente(){
-        String ruta = new File("").getAbsolutePath();
-        return ruta + "\\src\\main\\imagenes\\carta.png";
-    }
+
 
     private void panelcliente (){
         urlImagen = new ImageIcon(getUrlImagenCliente()).getImage();
@@ -117,6 +138,15 @@ public class ConstruirRestaurante {
         panel.setLayout(null);
         vercarta = new JButton("Carta");
         vercarta.setBounds(350,250,100,50);
+        ActionListener oyenteCarta = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                restaurarPanel();
+                verCarta();
+            }
+        };
+        vercarta.addActionListener(oyenteCarta);
+
 
         panel.add(vercarta);
         botonatras();
@@ -136,6 +166,7 @@ public class ConstruirRestaurante {
 
     }
     private void panelCocinero (){
+
         urlImagen = new ImageIcon(getUrlImagenCliente()).getImage();
         restaurarPanel();
         panel.setLayout(null);
@@ -144,6 +175,13 @@ public class ConstruirRestaurante {
 
 
 
+
+
+
+
+
+
+    // metodos para botones estándar
     }
     public void botonatras(){
         JButton atras = new JButton("atras");
