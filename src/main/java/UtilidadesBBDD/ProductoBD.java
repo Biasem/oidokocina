@@ -12,7 +12,7 @@ import java.util.List;
 
 public class ProductoBD extends UtilidadesBD{
 
-    public static List<Producto> obtenerProducto() {
+    public static List<Producto> obtenerTodosProductos() {
         List<Producto> milista = new ArrayList<>();
         Connection con = conectarConBD();
         Producto producto = null;

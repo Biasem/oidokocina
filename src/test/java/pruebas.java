@@ -13,7 +13,7 @@ import javax.swing.JScrollPane;
 public class pruebas extends UtilidadesBD{
 
     public static void main(String... args) {
-        System.out.println(ProductoBD.obtenerProducto());
+        System.out.println(ProductoBD.obtenerTodosProductos());
 
     }
 }
