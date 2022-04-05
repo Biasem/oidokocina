@@ -127,7 +127,7 @@ public class ConstruirRestaurante {
         atras.addActionListener(oyenteAtras);
 
         JPanel panel2 = new JPanel();
-        panel2.setLayout(new GridLayout(20, 3, 10, 5));
+        panel2.setLayout(new GridLayout(300, 1, 10, 5));
         for (Producto p : ProductoBD.obtenerTodosProductos()) {
             panel2.add(new JButton(p.toString()));
         }
