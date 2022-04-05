@@ -127,16 +127,20 @@ public class ConstruirRestaurante {
         atras.addActionListener(oyenteAtras);
 
         JPanel panel2 = new JPanel();
-        panel2.setLayout(new GridLayout(300, 1, 10, 5));
+        panel2.setLayout(new GridLayout(ProductoBD.obtenerTodosProductos().size(), 3, 10, 5));
         for (Producto p : ProductoBD.obtenerTodosProductos()) {
-            panel2.add(new JButton(p.toString()));
+            panel2.add(new JButton(p.getDescripcion()));
+            panel2.add(new JButton(String.valueOf(p.getTipoProducto())));
+            panel2.add(new JButton(String.valueOf(p.getPrecio())));
+
+
         }
         panel2.setOpaque(false);
 
         JScrollPane scrollPane = new JScrollPane(panel2);
         scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
-        scrollPane.setBounds(0, 50, 800, 500);
+        scrollPane.setBounds(0, 50, 780, 500);
         scrollPane.setOpaque(false);
         scrollPane.getViewport().setOpaque(false);
         panel.add(scrollPane);

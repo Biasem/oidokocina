@@ -26,7 +26,7 @@ public class ProductoBD extends UtilidadesBD{
                 cuenta = number.getInt("cuenta");
             }
 
-        for(int i = 1;i<=cuenta;i++){
+        for(int i = 1;i<=cuenta+1;i++){
 
 
                 PreparedStatement query = con.prepareStatement("SELECT * FROM producto where id = ?  ");
