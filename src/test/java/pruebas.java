@@ -1,8 +1,13 @@
-import javax.swing.*;
-import java.awt.*;
+import java.awt.Dimension;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 
 public class pruebas {
-    public static void main(String[] args) {
+
+    public static void main(String... args) {
         JFrame frame = new JFrame();
         JPanel panel = new JPanel();
         for (int i = 0; i < 10; i++) {

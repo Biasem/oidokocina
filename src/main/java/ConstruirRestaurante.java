@@ -12,7 +12,7 @@ import static javax.swing.WindowConstants.EXIT_ON_CLOSE;
 public class ConstruirRestaurante {
     private static Image urlImagen = new ImageIcon(getUrlImagenInicio()).getImage();
     private JFrame ventana;
-    private JPanel panel,panelprincipal;
+    private JPanel panel;
     private JButton camarero,admin,cliente,cocinero,vercarta;
 
 
@@ -57,7 +57,7 @@ public class ConstruirRestaurante {
         panel.revalidate();
     }
 
-    // metodos para la generacion de paneles
+    // Panel de Inicio
     private void panelInicio(){
         urlImagen = new ImageIcon(getUrlImagenInicio()).getImage();
         restaurarPanel();
@@ -109,6 +109,7 @@ public class ConstruirRestaurante {
         admin.addActionListener(oyenteAdmin);
 
     }
+    // Panel de la carta
     private void verCarta(){
 
         JButton atras = new JButton("atras");
@@ -122,16 +123,26 @@ public class ConstruirRestaurante {
         };
         atras.addActionListener(oyenteAtras);
 
-       JButton prueba = new JButton("botonprueba");
-       prueba.setBounds(10,500,100,100);
-       panel.add(prueba);
+        JPanel panel2 = new JPanel();
+        panel2.setLayout(new GridLayout(20, 3, 10, 5));
+        for (int i = 0; i < 50; i++) {
+            panel2.add(new JButton("Hello-" + i));
+        }
+        panel2.setOpaque(false);
 
+        JScrollPane scrollPane = new JScrollPane(panel2);
+        scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+        scrollPane.setBounds(0, 50, 800, 500);
+        scrollPane.setOpaque(false);
+        scrollPane.getViewport().setOpaque(false);
+        panel.add(scrollPane);
 
 
 
     }
 
-
+    // Panel cliente
     private void panelcliente (){
         urlImagen = new ImageIcon(getUrlImagenCliente()).getImage();
         restaurarPanel();
