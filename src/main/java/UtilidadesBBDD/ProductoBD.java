@@ -38,6 +38,9 @@ public class ProductoBD extends UtilidadesBD{
                     producto = new Producto(rs.getInt("id"), rs.getString("descripcion"),
                             rs.getDouble("precio"), TipoProducto.values()[rs.getInt("tipo_producto")]);
                 }
+                if(producto == null){
+                    continue;
+                }
                 milista.add(producto);
             }
         } catch (SQLException sqle) {
