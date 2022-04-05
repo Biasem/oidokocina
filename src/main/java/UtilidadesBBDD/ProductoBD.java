@@ -12,7 +12,7 @@ import java.util.List;
 
 public class ProductoBD extends UtilidadesBD{
 
-    public static List<Producto> obtenerProducto() {
+    public static List<Producto> obtenerTodosProductos() {
         List<Producto> milista = new ArrayList<>();
         Connection con = conectarConBD();
         Producto producto = null;
@@ -22,7 +22,11 @@ public class ProductoBD extends UtilidadesBD{
             PreparedStatement buclequery = con.prepareStatement("select count(distinct id) as cuenta from producto  ");
             ResultSet number = buclequery.executeQuery();
             int cuenta = 0;
-        for(int i = 1;i<=number.getInt("cuenta");i++){
+            while (number.next()){
+                cuenta = number.getInt("cuenta");
+            }
+
+        for(int i = 1;i<=cuenta;i++){
 
 
                 PreparedStatement query = con.prepareStatement("SELECT * FROM producto where id = ?  ");

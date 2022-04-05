@@ -1,3 +1,6 @@
+import Modelos.Producto;
+import UtilidadesBBDD.ProductoBD;
+
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
@@ -125,8 +128,8 @@ public class ConstruirRestaurante {
 
         JPanel panel2 = new JPanel();
         panel2.setLayout(new GridLayout(20, 3, 10, 5));
-        for (int i = 0; i < 50; i++) {
-            panel2.add(new JButton("Hello-" + i));
+        for (Producto p : ProductoBD.obtenerTodosProductos()) {
+            panel2.add(new JButton(p.toString()));
         }
         panel2.setOpaque(false);
 
