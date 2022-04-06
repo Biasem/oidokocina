@@ -46,7 +46,13 @@ public class ConstruirRestaurante {
         ventana.setResizable(false);
         ventana.setLocationRelativeTo(null);
         ventana.setDefaultCloseOperation(EXIT_ON_CLOSE);
-
+        panel = new JPanel(){
+            @Override
+            public void paint(Graphics g){
+                g.drawImage(urlimg, 0, 0, getWidth(), getHeight(), this);
+                super.paint(g);
+            }
+        };
         PanelFondo();
         ventana.setContentPane(panel);
         ventana.setVisible(true);
@@ -72,13 +78,8 @@ public class ConstruirRestaurante {
 
     private void PanelFondo()   //panel principal de bienvenida
     {
-        panel = new JPanel(){
-            @Override
-            public void paint(Graphics g){
-                g.drawImage(urlimg, 0, 0, getWidth(), getHeight(), this);
-                super.paint(g);
-            }
-        };
+
+        RestaurarPanel();
 
         panel.setOpaque(false);
 
