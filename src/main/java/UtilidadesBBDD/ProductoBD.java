@@ -53,7 +53,7 @@ public class ProductoBD extends UtilidadesBD{
 
         return milista;
     }
-/*
+
     public static Producto obtenerPorId(Integer id) {
 
         Connection con = conectarConBD();
@@ -82,7 +82,7 @@ public class ProductoBD extends UtilidadesBD{
     }
 
 
-
+/*
     public static void crearActualizarProducto(Producto producto){
 
         Producto productoBD = obtenerPorId(producto.getId());
