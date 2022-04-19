@@ -1,5 +1,7 @@
 import Modelos.Producto;
+import Modelos.Rol;
 import Modelos.TipoProducto;
+import UtilidadesBBDD.EmpleadoBD;
 import UtilidadesBBDD.ProductoBD;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -377,9 +379,13 @@ public class ConstruirRestaurante {
         labelRol.setBounds(150,230,60,20);
         panel.add(labelRol);
         //Campo ROL
-        JTextField campoRol = new JTextField();
-        campoRol.setBounds(180,230,50,20);
-        panel.add(campoRol);
+        JComboBox comboRol = new JComboBox();
+        comboRol.setBounds(190,230,130,20);
+        comboRol.setBounds(190,230,130,20);
+        comboRol.addItem(Rol.CAMARERO);
+        comboRol.addItem(Rol.COCINERO);
+        comboRol.addItem(Rol.ADMINISTRADOR);
+        panel.add(comboRol);
 
         //Boton Crear EMPLEADO
         JButton botonCrear = new JButton("CREAR");
@@ -397,6 +403,18 @@ public class ConstruirRestaurante {
         //Boton Buscar EMPLEADO
         JButton botonBuscar = new JButton("Buscar");
         botonBuscar.setBounds(300,600,100,50);
+        ActionListener oyenteBuscar = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Producto nuevoProducto = new Producto();
+                campoNombre.setText(EmpleadoBD.obtenerPorId(Integer.valueOf(campoId.getText())).getNombre());
+                campoApellidos.setText(EmpleadoBD.obtenerPorId(Integer.valueOf(campoId.getText())).getApellidos());
+                campoNumEmpleado.setText(EmpleadoBD.obtenerPorId(Integer.valueOf(campoId.getText())).getNum_empleado().toString());
+                comboRol.setSelectedItem(EmpleadoBD.obtenerPorId(Integer.parseInt(campoId.getText())).getRol());
+            }
+        };
+        botonBuscar.addActionListener(oyenteBuscar);
+
         panel.add(botonBuscar);
         //Boton Modificar EMPLEADO
         JButton botonModificar = new JButton("MODIFICAR");
@@ -406,9 +424,6 @@ public class ConstruirRestaurante {
         JButton botonEliminar = new JButton("ELIMINAR");
         botonEliminar.setBounds(510,600,100,50);
         panel.add(botonEliminar);
-
-
-
         //boton Atras hacia panel camarero
         botonAtrasAdministrador();
     }
@@ -502,7 +517,7 @@ public class ConstruirRestaurante {
             public void actionPerformed(ActionEvent e) {
                 Producto nuevoProducto = new Producto();
                 campoDescripcion.setText(ProductoBD.obtenerPorId(Integer.valueOf(campoId.getText())).getDescripcion());
-                campoPrecio.setText(ProductoBD.obtenerPorId(Integer.parseInt(campoId.getText())).getPrecio().toString());
+                campoPrecio.setText(ProductoBD.obtenerPorId(Integer.valueOf(campoId.getText())).getPrecio().toString());
                 comboTipoProducto.setSelectedItem(ProductoBD.obtenerPorId(Integer.parseInt(campoId.getText())).getTipoProducto());
             }
         };
@@ -641,6 +656,11 @@ public class ConstruirRestaurante {
         urlimg = new ImageIcon(geturlimg()).getImage();
         RestaurarPanel();
         panel.setLayout(null);
+
+        //Boton Comandas
+        JButton verComandas = new JButton("Comandas");
+        verComandas.setBounds(300,300,100,100);
+        panel.add(verComandas);
 
         //boton atras
         botonAtras();
