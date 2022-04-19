@@ -1,28 +1,17 @@
 import Modelos.Producto;
 import UtilidadesBBDD.ProductoBD;
-
 import javax.swing.*;
-import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
-
 import static javax.swing.WindowConstants.EXIT_ON_CLOSE;
-import java.awt.BasicStroke;
 import java.awt.Color;
-import java.awt.Component;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Insets;
-import java.awt.RenderingHints;
 import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.SwingUtilities;
-import javax.swing.border.AbstractBorder;
-import java.awt.*;
+
+
 
 
 
@@ -129,8 +118,6 @@ public class ConstruirRestaurante {
         admin.addActionListener(oyenteAdmin);
         ruta = new File("").getAbsolutePath() + "\\src\\main\\imagenes\\apoyo.png" ;
         imagen = new ImageIcon(ruta);
-        imagenLimitadaTamanyo = imagen.getImage().getScaledInstance(60, 60,  java.awt.Image.SCALE_SMOOTH);
-        imagen.setImage(imagenLimitadaTamanyo);
         admin.setIcon(imagen);
         admin.setFocusPainted(true);
 
@@ -153,6 +140,10 @@ public class ConstruirRestaurante {
 
         panel.setLayout(null);
 
+        cocinero.setBounds(860, 500, 250, 100);
+        camarero.setBounds(610, 500, 250, 100);
+        admin.setBounds(360, 500, 250, 100);
+        cliente.setBounds(110, 500, 250, 100);
 
         panel.add(cocinero);
         panel.add(camarero);
@@ -160,16 +151,14 @@ public class ConstruirRestaurante {
         panel.add(admin);
 
 
-        cocinero.setLocation(750,200);
-        cocinero.setSize(400, 100);
+
         cocinero.setFocusPainted(true);
         cocinero.setContentAreaFilled(true);
         cocinero.setBorder(BorderFactory.createMatteBorder(
                 1, 1, 1, 1, Color.darkGray));
         cocinero.setBackground(Color.WHITE);
 
-        camarero.setLocation(750,200);
-        camarero.setSize(400, 100);
+
         camarero.setBorderPainted(true);
         camarero.setFocusPainted(true);
         camarero.setContentAreaFilled(true);
@@ -177,8 +166,7 @@ public class ConstruirRestaurante {
                 1, 1, 1, 1, Color.darkGray));
         camarero.setBackground(Color.WHITE);
 
-        admin.setLocation(750,300);
-        admin.setSize(400, 100);
+
         admin.setBorderPainted(true);
         admin.setFocusPainted(true);
         admin.setContentAreaFilled(true);
@@ -186,8 +174,7 @@ public class ConstruirRestaurante {
                 1, 1, 1, 1, Color.darkGray));
         admin.setBackground(Color.WHITE);
 
-        cliente.setLocation(750,100);
-        cliente.setSize(400, 100);
+
         cliente.setBorderPainted(true);
         cliente.setFocusPainted(true);
         cliente.setContentAreaFilled(true);
@@ -244,8 +231,13 @@ public class ConstruirRestaurante {
         urlimg = new ImageIcon(geturlimg()).getImage();
         RestaurarPanel();
         panel.setLayout(null);
-        JButton vercarta = new JButton("Carta");
-        vercarta.setBounds(350,250,100,50);
+        JButton vercarta = new JButton();
+        vercarta.setBounds(400,200,400,400);
+        String ruta = new File("").getAbsolutePath() + "\\src\\main\\imagenes\\menu.png" ;
+        ImageIcon imagen = new ImageIcon(ruta);
+        Image imagenLimitadaTamanyo = imagen.getImage().getScaledInstance(200, 200,  java.awt.Image.SCALE_SMOOTH);
+        imagen.setImage(imagenLimitadaTamanyo);
+        vercarta.setIcon(imagen);
         ActionListener oyenteCarta = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -366,8 +358,16 @@ public class ConstruirRestaurante {
 
     // metodos para botones estándar
     public void botonatras(){
-        JButton atras = new JButton("atras");
-        atras.setBounds(0,0,100,50);
+        JButton atras = new JButton();
+        atras.setBounds(10,10,40,40);
+        String ruta = new File("").getAbsolutePath() + "\\src\\main\\imagenes\\atras.png" ;
+        ImageIcon imagen = new ImageIcon(ruta);
+        Image imagenLimitadaTamanyo = imagen.getImage().getScaledInstance(40, 40,  java.awt.Image.SCALE_SMOOTH);
+        imagen.setImage(imagenLimitadaTamanyo);
+        atras.setIcon(imagen);
+        atras.setContentAreaFilled(false);
+        atras.setBorderPainted(false);
+        atras.setFocusPainted(false);
         panel.add(atras);
         ActionListener oyenteAtras = new ActionListener() {
             @Override
@@ -376,10 +376,17 @@ public class ConstruirRestaurante {
             }
         };
         atras.addActionListener(oyenteAtras);
+
     }
     public void botonatrascamarero(){
-        JButton atras = new JButton("atras");
-        atras.setBounds(0,0,100,50);
+        JButton atras = new JButton();
+        atras.setBounds(10,10,40,40);
+        atras.setOpaque(false);
+        String ruta = new File("").getAbsolutePath() + "\\src\\main\\imagenes\\atras.png" ;
+        ImageIcon imagen = new ImageIcon(ruta);
+        Image imagenLimitadaTamanyo = imagen.getImage().getScaledInstance(40, 40,  java.awt.Image.SCALE_SMOOTH);
+        imagen.setImage(imagenLimitadaTamanyo);
+        atras.setIcon(imagen);
         panel.add(atras);
         ActionListener oyenteAtras = new ActionListener() {
             @Override
