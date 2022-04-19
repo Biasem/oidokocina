@@ -484,7 +484,7 @@ public class ConstruirRestaurante {
             @Override
             public void actionPerformed(ActionEvent e) {
                 Producto nuevoProducto = new Producto();
-                nuevoProducto.setId(Integer.valueOf(campoId.getText())); //filtrar las letras
+                nuevoProducto.setId(Integer.parseInt(campoId.getText())); //filtrar las letras
                 nuevoProducto.setTipoProducto(TipoProducto.valueOf(comboTipoProducto.getSelectedItem().toString()));
                 nuevoProducto.setPrecio(Double.valueOf(campoPrecio.getText()));
                 nuevoProducto.setDescripcion(campoDescripcion.getText());
@@ -501,21 +501,44 @@ public class ConstruirRestaurante {
             @Override
             public void actionPerformed(ActionEvent e) {
                 Producto nuevoProducto = new Producto();
-                campoDescripcion.setText(ProductoBD.obtenerPorId(Integer.parseInt(campoId.getText())).getDescripcion());
+                campoDescripcion.setText(ProductoBD.obtenerPorId(Integer.valueOf(campoId.getText())).getDescripcion());
                 campoPrecio.setText(ProductoBD.obtenerPorId(Integer.parseInt(campoId.getText())).getPrecio().toString());
                 comboTipoProducto.setSelectedItem(ProductoBD.obtenerPorId(Integer.parseInt(campoId.getText())).getTipoProducto());
-
             }
         };
         botonBuscar.addActionListener(oyenteBuscar);
         panel.add(botonBuscar);
+
         //Boton Modificar Producto
         JButton botonModificar = new JButton("MODIFICAR");
         botonModificar.setBounds(400,600,110,50);
+        ActionListener oyenteModificar = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Producto productoModificar = new Producto();
+                Producto nuevoProducto = new Producto();
+                nuevoProducto.setId(Integer.valueOf(campoId.getText())); //filtrar las letras
+                nuevoProducto.setTipoProducto(TipoProducto.valueOf(comboTipoProducto.getSelectedItem().toString()));
+                nuevoProducto.setPrecio(Double.valueOf(campoPrecio.getText()));
+                nuevoProducto.setDescripcion(campoDescripcion.getText());
+                ProductoBD.actualizarProducto(nuevoProducto);
+            }
+        };
+        botonModificar.addActionListener(oyenteModificar);
         panel.add(botonModificar);
         //Boton Eliminar Producto
         JButton botonEliminar = new JButton("ELIMINAR");
         botonEliminar.setBounds(510,600,100,50);
+        ActionListener oyenteEliminar = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Producto productoModificar = new Producto();
+                Producto nuevoProducto = new Producto();
+                nuevoProducto.setId(Integer.valueOf(campoId.getText())); //filtrar las letras
+                ProductoBD.eliminarProducto(nuevoProducto);
+            }
+        };
+        botonEliminar.addActionListener(oyenteEliminar);
         panel.add(botonEliminar);
 
         //boton Atras hacia panel camarero

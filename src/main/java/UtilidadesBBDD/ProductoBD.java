@@ -128,9 +128,8 @@ public class ProductoBD extends UtilidadesBD{
 
         try {
             PreparedStatement update = con.prepareStatement("update producto " +
-                    "set descripcion = ? , precio = ? , tipo_producto = ?" +
-                    "where id = ? ");
-
+                    "set descripcion = ? , precio = ? , tipo_producto = ? " +
+                    " where id = ? ");
             update.setString(1,producto.getDescripcion());
             update.setDouble(2,producto.getPrecio());
             update.setInt(3, producto.getTipoProducto().ordinal());
