@@ -53,7 +53,7 @@ public class ProductoBD extends UtilidadesBD{
 
         return milista;
     }
-/*
+
     public static Producto obtenerPorId(Integer id) {
 
         Connection con = conectarConBD();
@@ -68,6 +68,7 @@ public class ProductoBD extends UtilidadesBD{
             while (rs.next()) {
                 producto = new Producto(rs.getInt("id"), rs.getString("descripcion"),
                         rs.getDouble("precio"), TipoProducto.values()[rs.getInt("tipo_producto")]);
+
             }
 
         } catch (SQLException sqle) {
@@ -77,6 +78,7 @@ public class ProductoBD extends UtilidadesBD{
         } finally {
             cerrarConexion(con);
         }
+
 
         return producto;
     }
@@ -126,9 +128,8 @@ public class ProductoBD extends UtilidadesBD{
 
         try {
             PreparedStatement update = con.prepareStatement("update producto " +
-                    "set descripcion = ? , precio = ? , tipo_producto = ?" +
-                    "where id = ? ");
-
+                    "set descripcion = ? , precio = ? , tipo_producto = ? " +
+                    " where id = ? ");
             update.setString(1,producto.getDescripcion());
             update.setDouble(2,producto.getPrecio());
             update.setInt(3, producto.getTipoProducto().ordinal());
@@ -168,7 +169,7 @@ public class ProductoBD extends UtilidadesBD{
         } finally {
             cerrarConexion(con);
         }
-    }*/
+    }
 
 
 }
