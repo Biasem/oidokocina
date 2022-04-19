@@ -99,7 +99,7 @@ public class ConstruirRestaurante {
         imagen.setImage(imagenLimitadaTamanyo);
         cocinero.setIcon(imagen);
         cocinero.setFocusPainted(true);
-        cocinero.setBackground(Color.DARK_GRAY);
+
 
         /// Botón camarero
         camarero = new JButton("Camarero");
@@ -151,8 +151,7 @@ public class ConstruirRestaurante {
         cliente.setIcon(imagen);
         cliente.setFocusPainted(true);
 
-        panel.setLayout(new BorderLayout());
-        panel.setBorder(new EmptyBorder(100,100,100,100));
+        panel.setLayout(null);
 
 
         panel.add(cocinero);
@@ -160,7 +159,8 @@ public class ConstruirRestaurante {
         panel.add(cliente);
         panel.add(admin);
 
-        cocinero.setLocation(400,400);
+
+        cocinero.setLocation(750,200);
         cocinero.setSize(400, 100);
         cocinero.setFocusPainted(true);
         cocinero.setContentAreaFilled(true);
@@ -168,6 +168,8 @@ public class ConstruirRestaurante {
                 1, 1, 1, 1, Color.darkGray));
         cocinero.setBackground(Color.WHITE);
 
+        camarero.setLocation(750,200);
+        camarero.setSize(400, 100);
         camarero.setBorderPainted(true);
         camarero.setFocusPainted(true);
         camarero.setContentAreaFilled(true);
@@ -175,6 +177,8 @@ public class ConstruirRestaurante {
                 1, 1, 1, 1, Color.darkGray));
         camarero.setBackground(Color.WHITE);
 
+        admin.setLocation(750,300);
+        admin.setSize(400, 100);
         admin.setBorderPainted(true);
         admin.setFocusPainted(true);
         admin.setContentAreaFilled(true);
@@ -182,6 +186,8 @@ public class ConstruirRestaurante {
                 1, 1, 1, 1, Color.darkGray));
         admin.setBackground(Color.WHITE);
 
+        cliente.setLocation(750,100);
+        cliente.setSize(400, 100);
         cliente.setBorderPainted(true);
         cliente.setFocusPainted(true);
         cliente.setContentAreaFilled(true);
