@@ -42,7 +42,7 @@ public class ConstruirRestaurante {
     private void ConstruirVentana()
     {                                               //se construye la ventana y panel principal
         ventana = new JFrame("OidoKocina");
-        ventana.setSize(1920,1080);
+        ventana.setSize(1200,720);
         ventana.setResizable(false);
         ventana.setLocationRelativeTo(null);
         ventana.setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -155,26 +155,41 @@ public class ConstruirRestaurante {
         panel.setBorder(new EmptyBorder(100,100,100,100));
 
 
-        panel.add(cocinero,BorderLayout.NORTH);
-        panel.add(camarero,BorderLayout.WEST);
-        panel.add(cliente, BorderLayout.EAST);
-        panel.add(admin, BorderLayout.SOUTH);
+        panel.add(cocinero);
+        panel.add(camarero);
+        panel.add(cliente);
+        panel.add(admin);
 
-        cocinero.setBorderPainted(false);
-        cocinero.setFocusPainted(false);
+        cocinero.setLocation(400,400);
+        cocinero.setSize(400, 100);
+        cocinero.setFocusPainted(true);
         cocinero.setContentAreaFilled(true);
+        cocinero.setBorder(BorderFactory.createMatteBorder(
+                1, 1, 1, 1, Color.darkGray));
+        cocinero.setBackground(Color.WHITE);
 
-        camarero.setBorderPainted(false);
-        camarero.setFocusPainted(false);
+        camarero.setBorderPainted(true);
+        camarero.setFocusPainted(true);
         camarero.setContentAreaFilled(true);
+        camarero.setBorder(BorderFactory.createMatteBorder(
+                1, 1, 1, 1, Color.darkGray));
+        camarero.setBackground(Color.WHITE);
 
-        admin.setBorderPainted(false);
-        admin.setFocusPainted(false);
+        admin.setBorderPainted(true);
+        admin.setFocusPainted(true);
         admin.setContentAreaFilled(true);
+        admin.setBorder(BorderFactory.createMatteBorder(
+                1, 1, 1, 1, Color.darkGray));
+        admin.setBackground(Color.WHITE);
 
-        cliente.setBorderPainted(false);
-        cliente.setFocusPainted(false);
+        cliente.setBorderPainted(true);
+        cliente.setFocusPainted(true);
         cliente.setContentAreaFilled(true);
+        cliente.setBorder(BorderFactory.createMatteBorder(
+                1, 1, 1, 1, Color.darkGray));
+        cliente.setBackground(Color.WHITE);
+
+
 
 
     }
