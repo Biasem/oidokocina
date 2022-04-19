@@ -63,19 +63,12 @@ public class ProductoBD extends UtilidadesBD{
             PreparedStatement query = con.prepareStatement("SELECT * FROM producto where id = ?  ");
             query.setInt(1, id);
             ResultSet rs = query.executeQuery();
-            if(rs==null){
-                producto.setId(id);
-                producto.setPrecio(0.0);
-                producto.setDescripcion("");
-                producto.setTipoProducto(TipoProducto.TAPA);
-            }else{
 
             //Recorremos los datos
             while (rs.next()) {
                 producto = new Producto(rs.getInt("id"), rs.getString("descripcion"),
                         rs.getDouble("precio"), TipoProducto.values()[rs.getInt("tipo_producto")]);
 
-            }
             }
 
         } catch (SQLException sqle) {
@@ -91,7 +84,7 @@ public class ProductoBD extends UtilidadesBD{
     }
 
 
-/*
+
     public static void crearActualizarProducto(Producto producto){
 
         Producto productoBD = obtenerPorId(producto.getId());
@@ -177,7 +170,7 @@ public class ProductoBD extends UtilidadesBD{
         } finally {
             cerrarConexion(con);
         }
-    }*/
+    }
 
 
 }

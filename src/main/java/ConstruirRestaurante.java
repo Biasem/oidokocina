@@ -485,12 +485,10 @@ public class ConstruirRestaurante {
             public void actionPerformed(ActionEvent e) {
                 Producto nuevoProducto = new Producto();
                 nuevoProducto.setId(Integer.valueOf(campoId.getText())); //filtrar las letras
-                nuevoProducto.setTipoProducto(TipoProducto.valueOf(comboTipoProducto.getName()));
+                nuevoProducto.setTipoProducto(TipoProducto.valueOf(comboTipoProducto.getSelectedItem().toString()));
                 nuevoProducto.setPrecio(Double.valueOf(campoPrecio.getText()));
-                //nuevoProducto.setDescripcion(campo);
-
-
-
+                nuevoProducto.setDescripcion(campoDescripcion.getText());
+                ProductoBD.crearProducto(nuevoProducto);
             }
         };
         botonCrear.addActionListener(oyenteCrear);
