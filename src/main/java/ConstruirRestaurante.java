@@ -1,4 +1,5 @@
 import Modelos.Producto;
+import Modelos.TipoProducto;
 import UtilidadesBBDD.ProductoBD;
 import javax.swing.*;
 import java.awt.*;
@@ -15,18 +16,18 @@ import javax.swing.JFrame;
 
 
 
+
 public class ConstruirRestaurante {
     private Image urlimg = new ImageIcon(geturlimg()).getImage();
     private JFrame ventana;
-    private JPanel panel,panelprincipal;
-    private JButton camarero,admin,cliente,cocinero;
+    private JPanel panel;
+    private JButton camarero, admin, cliente, cocinero;
 
 
     ConstruirRestaurante(){
-    ConstruirVentana();
+        ConstruirVentana();
 
     }
-
 
     private void ConstruirVentana()
     {                                               //se construye la ventana y panel principal
@@ -45,16 +46,10 @@ public class ConstruirRestaurante {
         PanelFondo();
         ventana.setContentPane(panel);
         ventana.setVisible(true);
-
-
-
-
     }
 
     public class seticonimg extends javax.swing.JFrame{
-
         public seticonimg() {
-
         }
     }
 
@@ -67,11 +62,8 @@ public class ConstruirRestaurante {
 
     private void PanelFondo()   //panel principal de bienvenida
     {
-
         RestaurarPanel();
-
         panel.setOpaque(false);
-
 
         /// Botón cocinero
         cocinero = new JButton("Cocinero");
@@ -223,7 +215,6 @@ public class ConstruirRestaurante {
         scrollPane.setOpaque(false);
         scrollPane.getViewport().setOpaque(false);
         panel.add(scrollPane);
-
     }
 
     // Panel cliente
@@ -247,17 +238,342 @@ public class ConstruirRestaurante {
         };
         vercarta.addActionListener(oyenteCarta);
 
-
         panel.add(vercarta);
-        botonatras();
+        botonAtras();
     }
+
+    //panel administrador y subpaneles a continuacion
     private void panelAdministrador (){
         urlimg = new ImageIcon(geturlimg()).getImage();
         RestaurarPanel();
         panel.setLayout(null);
-        botonatras();
+        //boton de Mesas
+        JButton mesas = new JButton("Mesas");
+        mesas.setBounds(100,100,100,50);
+        ActionListener oyenteMesas = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                panelMesa();
+            }
+        };
+        mesas.addActionListener(oyenteMesas);
+        panel.add(mesas);
 
+        //boton de Empleados
+        JButton empleados = new JButton("Empleados");
+        empleados.setBounds(200,100,100,50);
+        ActionListener oyenteEmpleados = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                panelEmpleados();
+            }
+        };
+        empleados.addActionListener(oyenteEmpleados);
+        panel.add(empleados);
+
+        //boton de Productos
+        JButton productos = new JButton("Productos");
+        productos.setBounds(300,100,100,50);
+        ActionListener oyenteProductos = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                panelProductos();
+            }
+        };
+        productos.addActionListener(oyenteProductos);
+        panel.add(productos);
+        botonAtras();
     }
+
+    //Subpaneles de administrador  MESAS
+    private void panelMesa(){
+        urlimg = new ImageIcon(geturlimg()).getImage();
+        RestaurarPanel();
+        panel.setLayout(null);
+
+        //Etiqueta ID
+        JLabel labelId = new JLabel("ID");
+        labelId.setFont( new Font("TimesRoman",Font.BOLD,20));
+        labelId.setForeground(Color.white);
+        labelId.setBounds(150,150,60,20);
+        panel.add(labelId);
+        //Campo ID
+        JTextField campoId = new JTextField();
+        campoId.setBounds(170,150,50,20);
+        panel.add(campoId);
+        //Etiqueta NUM MESA
+        JLabel labelNumMesa = new JLabel("Num. Mesa");
+        labelNumMesa.setFont( new Font("TimesRoman",Font.BOLD,20));
+        labelNumMesa.setForeground(Color.white);
+        labelNumMesa.setBounds(150,170,120,20);
+        panel.add(labelNumMesa);
+        //Campo NUM MESA
+        JTextField campoNumMesa = new JTextField();
+        campoNumMesa.setBounds(260,170,50,20);
+        panel.add(campoNumMesa);
+        //Etiqueta NUM COMENSALES
+        JLabel labelNumComensales = new JLabel("Num. Comensales");
+        labelNumComensales.setFont( new Font("TimesRoman",Font.BOLD,20));
+        labelNumComensales.setForeground(Color.white);
+        labelNumComensales.setBounds(150,190,190,20);
+        panel.add(labelNumComensales);
+        //Campo NUM COMENSALES
+        JTextField campoNumComensales = new JTextField();
+        campoNumComensales.setBounds(330,190,50,20);
+        panel.add(campoNumComensales);
+
+
+
+        //Boton Crear Producto
+        JButton botonCrear = new JButton("CREAR");
+        botonCrear.setBounds(200,600,100,50);
+        ActionListener oyenteCrear = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Producto nuevoProducto = new Producto();
+
+            }
+        };
+        botonCrear.addActionListener(oyenteCrear);
+
+        panel.add(botonCrear);
+        //Boton Buscar MESA
+        JButton botonBuscar = new JButton("Buscar");
+        botonBuscar.setBounds(300,600,100,50);
+        panel.add(botonBuscar);
+        //Boton Modificar MESA
+        JButton botonModificar = new JButton("MODIFICAR");
+        botonModificar.setBounds(400,600,110,50);
+        panel.add(botonModificar);
+        //Boton Eliminar MESA
+        JButton botonEliminar = new JButton("ELIMINAR");
+        botonEliminar.setBounds(510,600,100,50);
+        panel.add(botonEliminar);
+
+        //boton Atras hacia panel camarero
+        botonAtrasAdministrador();
+    }
+    //Subpaneles de administrador  EMPLEADOS
+    private void panelEmpleados(){
+        urlimg = new ImageIcon(geturlimg()).getImage();
+        RestaurarPanel();
+        panel.setLayout(null);
+        //Etiqueta ID
+        JLabel labelId = new JLabel("ID");
+        labelId.setFont( new Font("TimesRoman",Font.BOLD,20));
+        labelId.setForeground(Color.white);
+        labelId.setBounds(150,150,60,20);
+        panel.add(labelId);
+        //Campo ID
+        JTextField campoId = new JTextField();
+        campoId.setBounds(170,150,50,20);
+        panel.add(campoId);
+        //Etiqueta NOMBRE
+        JLabel labelNombre = new JLabel("Nombre");
+        labelNombre.setFont( new Font("TimesRoman",Font.BOLD,20));
+        labelNombre.setForeground(Color.white);
+        labelNombre.setBounds(150,170,100,20);
+        panel.add(labelNombre);
+        //Campo NOMBRE
+        JTextField campoNombre = new JTextField();
+        campoNombre.setBounds(230,170,50,20);
+        panel.add(campoNombre);
+        //Etiqueta APELLIDOS
+        JLabel labelApellidos = new JLabel("Apellidos");
+        labelApellidos.setFont( new Font("TimesRoman",Font.BOLD,20));
+        labelApellidos.setForeground(Color.white);
+        labelApellidos.setBounds(150,190,100,20);
+        panel.add(labelApellidos);
+        //Campo APELLIDOS
+        JTextField campoApellidos = new JTextField();
+        campoApellidos.setBounds(240,190,50,20);
+        panel.add(campoApellidos);
+        //Etiqueta NUM.EMPLEADO
+        JLabel labelNumEmpleado = new JLabel("Num. Empleado");
+        labelNumEmpleado.setFont( new Font("TimesRoman",Font.BOLD,20));
+        labelNumEmpleado.setForeground(Color.white);
+        labelNumEmpleado.setBounds(150,210,150,20);
+        panel.add(labelNumEmpleado);
+        //Campo NUM.EMPLEADO
+        JTextField campoNumEmpleado = new JTextField();
+        campoNumEmpleado.setBounds(300,210,50,20);
+        panel.add(campoNumEmpleado);
+        //Etiqueta ROL
+        JLabel labelRol = new JLabel("Rol");
+        labelRol.setFont( new Font("TimesRoman",Font.BOLD,20));
+        labelRol.setForeground(Color.white);
+        labelRol.setBounds(150,230,60,20);
+        panel.add(labelRol);
+        //Campo ROL
+        JTextField campoRol = new JTextField();
+        campoRol.setBounds(180,230,50,20);
+        panel.add(campoRol);
+
+        //Boton Crear EMPLEADO
+        JButton botonCrear = new JButton("CREAR");
+        botonCrear.setBounds(200,600,100,50);
+        ActionListener oyenteCrear = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Producto nuevoProducto = new Producto();
+
+            }
+        };
+        botonCrear.addActionListener(oyenteCrear);
+
+        panel.add(botonCrear);
+        //Boton Buscar EMPLEADO
+        JButton botonBuscar = new JButton("Buscar");
+        botonBuscar.setBounds(300,600,100,50);
+        panel.add(botonBuscar);
+        //Boton Modificar EMPLEADO
+        JButton botonModificar = new JButton("MODIFICAR");
+        botonModificar.setBounds(400,600,110,50);
+        panel.add(botonModificar);
+        //Boton Eliminar EMPLEADO
+        JButton botonEliminar = new JButton("ELIMINAR");
+        botonEliminar.setBounds(510,600,100,50);
+        panel.add(botonEliminar);
+
+
+
+        //boton Atras hacia panel camarero
+        botonAtrasAdministrador();
+    }
+    //Subpaneles de administrador  PRODUCTOS
+    private void panelProductos(){
+        urlimg = new ImageIcon(geturlimg()).getImage();
+        RestaurarPanel();
+        panel.setLayout(null);
+        //Etiqueta ID
+        JLabel labelId = new JLabel("ID");
+        labelId.setFont( new Font("TimesRoman",Font.BOLD,20));
+        labelId.setForeground(Color.white);
+        labelId.setBounds(150,150,60,20);
+        panel.add(labelId);
+        //Campo ID
+        JTextField campoId = new JTextField();
+        campoId.setBounds(170,150,50,20);
+        panel.add(campoId);
+        //Etiqueta Codigo
+        JLabel labelCodigo = new JLabel("CODIGO");
+        labelCodigo.setFont( new Font("TimesRoman",Font.BOLD,20));
+        labelCodigo.setForeground(Color.white);
+        labelCodigo.setBounds(250,150,100,20);
+        panel.add(labelCodigo);
+        //Campo Codigo
+        JTextField campoCodigo = new JTextField();
+        campoCodigo.setBounds(330,150,50,20);
+        panel.add(campoCodigo);
+
+        //Etiqueta Tipo Producto
+        JLabel labelTipoProducto = new JLabel("Tipo de Producto");
+        labelTipoProducto.setFont( new Font("TimesRoman",Font.BOLD,20));
+        labelTipoProducto.setForeground(Color.white);
+        labelTipoProducto.setBounds(150,200,200,20);
+        panel.add(labelTipoProducto);
+        //Campo Tipo Producto
+        JComboBox comboTipoProducto = new JComboBox<TipoProducto>();
+        comboTipoProducto.addItem(TipoProducto.TAPA);
+        comboTipoProducto.addItem(TipoProducto.MEDIA);
+        comboTipoProducto.addItem(TipoProducto.RACION);
+        comboTipoProducto.addItem(TipoProducto.ESPECIALIDADES);
+        comboTipoProducto.addItem(TipoProducto.BEBIDAS);
+        comboTipoProducto.addItem(TipoProducto.POSTRES);
+        comboTipoProducto.setBounds(320,200,100,20);
+        panel.add(comboTipoProducto);
+
+        //Etiqueta Precio
+        JLabel labelPrecio = new JLabel("Precio");
+        labelPrecio.setFont( new Font("TimesRoman",Font.BOLD,20));
+        labelPrecio.setForeground(Color.white);
+        labelPrecio.setBounds(150,250,100,20);
+        panel.add(labelPrecio);
+        //Campo Precio
+        JTextField campoPrecio = new JTextField();
+        campoPrecio.setBounds(220,250,50,20);
+        panel.add(campoPrecio);
+
+        //Etiqueta DESCRIPCION
+        JLabel labelDescripcion = new JLabel("Descripcion");
+        labelDescripcion.setFont( new Font("TimesRoman",Font.BOLD,20));
+        labelDescripcion.setForeground(Color.white);
+        labelDescripcion.setBounds(150,270,130,20);
+        panel.add(labelDescripcion);
+        //Campo DESCRIPCION
+        JTextField campoDescripcion = new JTextField();
+        campoDescripcion.setBounds(270,270,200,20);
+        panel.add(campoDescripcion);
+
+        //Boton Crear Producto
+        JButton botonCrear = new JButton("CREAR");
+        botonCrear.setBounds(200,600,100,50);
+        ActionListener oyenteCrear = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Producto nuevoProducto = new Producto();
+                nuevoProducto.setId(Integer.parseInt(campoId.getText())); //filtrar las letras
+                nuevoProducto.setTipoProducto(TipoProducto.valueOf(comboTipoProducto.getSelectedItem().toString()));
+                nuevoProducto.setPrecio(Double.valueOf(campoPrecio.getText()));
+                nuevoProducto.setDescripcion(campoDescripcion.getText());
+                ProductoBD.crearProducto(nuevoProducto);
+            }
+        };
+        botonCrear.addActionListener(oyenteCrear);
+        panel.add(botonCrear);
+
+        //Boton Buscar Producto
+        JButton botonBuscar = new JButton("Buscar");
+        botonBuscar.setBounds(300,600,100,50);
+        ActionListener oyenteBuscar = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Producto nuevoProducto = new Producto();
+                campoDescripcion.setText(ProductoBD.obtenerPorId(Integer.valueOf(campoId.getText())).getDescripcion());
+                campoPrecio.setText(ProductoBD.obtenerPorId(Integer.parseInt(campoId.getText())).getPrecio().toString());
+                comboTipoProducto.setSelectedItem(ProductoBD.obtenerPorId(Integer.parseInt(campoId.getText())).getTipoProducto());
+            }
+        };
+        botonBuscar.addActionListener(oyenteBuscar);
+        panel.add(botonBuscar);
+
+        //Boton Modificar Producto
+        JButton botonModificar = new JButton("MODIFICAR");
+        botonModificar.setBounds(400,600,110,50);
+        ActionListener oyenteModificar = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Producto productoModificar = new Producto();
+                Producto nuevoProducto = new Producto();
+                nuevoProducto.setId(Integer.valueOf(campoId.getText())); //filtrar las letras
+                nuevoProducto.setTipoProducto(TipoProducto.valueOf(comboTipoProducto.getSelectedItem().toString()));
+                nuevoProducto.setPrecio(Double.valueOf(campoPrecio.getText()));
+                nuevoProducto.setDescripcion(campoDescripcion.getText());
+                ProductoBD.actualizarProducto(nuevoProducto);
+            }
+        };
+        botonModificar.addActionListener(oyenteModificar);
+        panel.add(botonModificar);
+        //Boton Eliminar Producto
+        JButton botonEliminar = new JButton("ELIMINAR");
+        botonEliminar.setBounds(510,600,100,50);
+        ActionListener oyenteEliminar = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Producto productoModificar = new Producto();
+                Producto nuevoProducto = new Producto();
+                nuevoProducto.setId(Integer.valueOf(campoId.getText())); //filtrar las letras
+                ProductoBD.eliminarProducto(nuevoProducto);
+            }
+        };
+        botonEliminar.addActionListener(oyenteEliminar);
+        panel.add(botonEliminar);
+
+        //boton Atras hacia panel camarero
+        botonAtrasAdministrador();
+    }
+
+    //panel Camarero y subpaneles a continuacion
     private void panelCamarero (){
         urlimg = new ImageIcon(geturlimg()).getImage();
         RestaurarPanel();
@@ -299,9 +615,9 @@ public class ConstruirRestaurante {
         cuentas.addActionListener(oyentecuentas);
         panel.add(cuentas);
         //boton atras
-        botonatras();
+        botonAtras();
     }
-
+    // subpanel de camarero AFORO
     private void panelAforo(){
         urlimg = new ImageIcon(geturlimg()).getImage();
         RestaurarPanel();
@@ -326,26 +642,28 @@ public class ConstruirRestaurante {
         panel.add(scrollPane);
 
         //boton Atras hacia panel camarero
-        botonatrascamarero();
+        botonAtrasCamarero();
     }
+    // subpanel de camarero CUENTAS
     private void panelCuentas(){
         urlimg = new ImageIcon(geturlimg()).getImage();
         RestaurarPanel();
         panel.setLayout(null);
 
         //boton Atras hacia panel camarero
-        botonatrascamarero();
+        botonAtrasCamarero();
     }
+    // subpanel de camarero PEDIDOS
     private void panelPedidos(){
         urlimg = new ImageIcon(geturlimg()).getImage();
         RestaurarPanel();
         panel.setLayout(null);
 
         //boton Atras hacia panel camarero
-        botonatrascamarero();
+        botonAtrasCamarero();
     }
 
-
+    //panel de COCINERO
     private void panelCocinero (){
 
         urlimg = new ImageIcon(geturlimg()).getImage();
@@ -353,11 +671,11 @@ public class ConstruirRestaurante {
         panel.setLayout(null);
 
         //boton atras
-        botonatras();
+        botonAtras();
     }
 
     // metodos para botones estándar
-    public void botonatras(){
+    public void botonAtras(){
         JButton atras = new JButton();
         atras.setBounds(10,10,40,40);
         String ruta = new File("").getAbsolutePath() + "\\src\\main\\imagenes\\atras.png" ;
@@ -376,9 +694,8 @@ public class ConstruirRestaurante {
             }
         };
         atras.addActionListener(oyenteAtras);
-
     }
-    public void botonatrascamarero(){
+    public void botonAtrasCamarero(){
         JButton atras = new JButton();
         atras.setBounds(10,10,40,40);
         atras.setOpaque(false);
@@ -396,6 +713,20 @@ public class ConstruirRestaurante {
         };
         atras.addActionListener(oyenteAtras);
     }
+    public void botonAtrasAdministrador(){
+        JButton atras = new JButton("atras");
+        atras.setBounds(0,0,100,50);
+        panel.add(atras);
+        ActionListener oyenteAtras = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                panelAdministrador();
+            }
+        };
+        atras.addActionListener(oyenteAtras);
+    }
+
+
 
 
 }
