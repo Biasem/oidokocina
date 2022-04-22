@@ -25,10 +25,24 @@ import java.util.List;
 public class pruebas extends UtilidadesBD{
 
     public static void main(String... args) {
-
-        System.out.println(ProductoBD.obtenerTodosProductos().stream().sorted(Comparator.comparing(Producto::getDescripcion)).collect(Collectors.toList()));
+        List<Producto> lista;
+        lista = ProductoBD.obtenerTodosProductos().stream().sorted(Comparator.comparing(Producto::getDescripcion)).collect(Collectors.toList());
         System.out.println(ProductoBD.obtenerTodosProductos().size());
 
-
+        //lista de bebidas System.out.println(lista.stream().filter(p->p.getTipoProducto().equals(TipoProducto.BEBIDAS)).collect(Collectors.toList()));
+        //lista de postres System.out.println(lista.stream().filter(p->p.getTipoProducto().equals(TipoProducto.POSTRE)).collect(Collectors.toList()));
+        Producto np = new Producto();
+        np = lista.get(0);
+        for (Producto p:lista){
+            if (p.equals(np)){
+                System.out.println(p);
+            }else if(p.getDescripcion().equals(np.getDescripcion())&&!p.getTipoProducto().equals(np.getTipoProducto())){
+                System.out.println(p.getPrecio());
+            }
+            else{
+                np = p;
+                System.out.println(p);
+            }
+        }
     }
 }
