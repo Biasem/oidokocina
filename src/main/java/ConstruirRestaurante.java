@@ -178,12 +178,29 @@ public class ConstruirRestaurante {
         atras.addActionListener(oyenteAtras);
         //panel donde van los productos
         JPanel panel2 = new JPanel();
-        panel2.setLayout(new GridLayout(ProductoBD.obtenerTodosProductos().size(), 3, 10, 5));
+        panel2.setLayout(new GridLayout(ProductoBD.obtenerTodosProductos().size(), 4, 5, 5));
+
+        JLabel labelDescripcion = new JLabel("Descripcion");
+        labelDescripcion.setFont( new Font("TimesRoman",Font.BOLD,20));
+        labelDescripcion.setForeground(Color.white);
+        panel2.add(labelDescripcion);
+
+        JLabel labelPrecioTapa = new JLabel("Precio Tapa");
+        labelPrecioTapa.setFont( new Font("TimesRoman",Font.BOLD,20));
+        labelPrecioTapa.setForeground(Color.white);
+        panel2.add(labelPrecioTapa);
+
+        JLabel labelPrecioMedia = new JLabel("Precio Media");
+        labelPrecioMedia.setFont( new Font("TimesRoman",Font.BOLD,20));
+        labelPrecioMedia.setForeground(Color.white);
+        panel2.add(labelPrecioMedia);
+
+        JLabel labelPrecioRacion = new JLabel("Precio Racion");
+        labelPrecioRacion.setFont( new Font("TimesRoman",Font.BOLD,20));
+        labelPrecioRacion.setForeground(Color.white);
+        panel2.add(labelPrecioRacion);
         //productos en botones para poner bonico
         for (Producto p : ProductoBD.obtenerTodosProductos()) {
-            panel2.add(new JButton(p.getDescripcion()));
-            panel2.add(new JButton(String.valueOf(p.getTipoProducto())));
-            panel2.add(new JButton(String.valueOf(p.getPrecio())));
 
         }
         panel2.setOpaque(false);
