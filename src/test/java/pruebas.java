@@ -26,8 +26,8 @@ public class pruebas extends UtilidadesBD{
 
     public static void main(String... args) {
 
-
-
+        System.out.println(ProductoBD.obtenerTodosProductos().stream().sorted(Comparator.comparing(Producto::getDescripcion)).collect(Collectors.toList()));
+        System.out.println(ProductoBD.obtenerTodosProductos().size());
 
 
     }

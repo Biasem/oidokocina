@@ -178,7 +178,7 @@ public class ConstruirRestaurante {
         atras.addActionListener(oyenteAtras);
         //panel donde van los productos
         JPanel panel2 = new JPanel();
-        panel2.setLayout(new GridLayout(ProductoBD.obtenerTodosProductos().size(), 4, 5, 5));
+        panel2.setLayout(new GridLayout(2, 4, 5, 5));
 
         JLabel labelDescripcion = new JLabel("Descripcion");
         labelDescripcion.setFont( new Font("TimesRoman",Font.BOLD,20));
