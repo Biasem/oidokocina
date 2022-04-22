@@ -188,8 +188,25 @@ public class ConstruirRestaurante {
         //productos en botones para poner bonico
         Producto np = new Producto();
         np = lista.get(0);
-        for (Producto p :lista) {
+        for (int i=0;i<=lista.size();i++) {
+            if (i==0){
+                if(lista.get(i).getDescripcion().equals(TipoProducto.MEDIA)){
+                    panel2.add(new JButton(lista.get(i).getDescripcion()));
+                    panel2.add(new JButton(""));
+                    panel2.add(new JButton(lista.get(i).getPrecio().toString()));
+                }else if(lista.get(i).getDescripcion().equals(TipoProducto.RACION)){
+                    panel2.add(new JButton(lista.get(i).getDescripcion()));
+                    panel2.add(new JButton(""));
+                    panel2.add(new JButton(""));
+                    panel2.add(new JButton(lista.get(i).getPrecio().toString()));
+                }else{
+                    panel2.add(new JButton(lista.get(i).getDescripcion()));
+                    panel2.add(new JButton(lista.get(i).getPrecio().toString()));
+                }
+            }
+            if (i>0){
 
+            }
 
 
             if(p.getTipoProducto().equals(TipoProducto.ESPECIALIDADES)){
