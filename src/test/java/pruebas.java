@@ -32,11 +32,11 @@ public class pruebas extends UtilidadesBD{
         //lista de postres System.out.println(lista.stream().filter(p->p.getTipoProducto().equals(TipoProducto.POSTRE)).collect(Collectors.toList()));
         Producto np = new Producto();
         lista = lista.stream().filter(p->!p.getTipoProducto().equals(TipoProducto.BEBIDAS)&&!p.getTipoProducto().equals(TipoProducto.POSTRES)).collect(Collectors.toList());
+        //System.out.println(lista.stream().collect(Collectors.toMap(p->p.getDescripcion(),p->p)));
 
         np = lista.get(0);
         String cadena="";
         for (Producto p:lista){
-            if(p.)
             if (p.equals(np)){
                 cadena +=p.getDescripcion()+p.getPrecio();
             }else if(p.getDescripcion().equals(np.getDescripcion())&&!p.getTipoProducto().equals(np.getTipoProducto())){
@@ -48,6 +48,6 @@ public class pruebas extends UtilidadesBD{
 
             }
         }
-        System.out.println(cadena);
+
     }
 }

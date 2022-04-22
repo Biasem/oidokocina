@@ -180,17 +180,40 @@ public class ConstruirRestaurante {
         };
         atras.addActionListener(oyenteAtras);
         //panel donde van los productos
-        JTextArea textare = new JTextArea();
-        textare.setEditable(false);
-        textare.setEnabled(false);
-        textare.setFont( new Font("TimesRoman",Font.BOLD,20));
-        textare.setForeground(Color.white);
-        textare.setText("     Descripción         Precio Tapa     Precio Media      Precio Plato  \n"+
-                        "");
+        List<Producto> lista;
+        lista = ProductoBD.obtenerTodosProductos().stream().sorted(Comparator.comparing(Producto::getDescripcion)).collect(Collectors.toList());
+        lista = lista.stream().filter(p->!p.getTipoProducto().equals(TipoProducto.BEBIDAS)&&!p.getTipoProducto().equals(TipoProducto.POSTRES)).collect(Collectors.toList());
+        JPanel panel2 = new JPanel();
+        panel2.setLayout(new GridLayout(42, 4, 5, 2));
+        //productos en botones para poner bonico
+        Producto np = new Producto();
+        np = lista.get(0);
+        for (Producto p :lista) {
 
 
-        textare.setOpaque(false);
-        JScrollPane scrollPane = new JScrollPane(textare);
+
+            if(p.getTipoProducto().equals(TipoProducto.ESPECIALIDADES)){
+                panel2.add(new JButton(p.getDescripcion()));
+                panel2.add(new JButton(""));
+                panel2.add(new JButton(""));
+                panel2.add(new JButton(p.getPrecio().toString()));
+            }
+
+
+            if(p.getTipoProducto().equals(TipoProducto.TAPA)){
+                panel2.add(new JButton(p.getDescripcion()));
+                panel2.add(new JButton(p.getPrecio().toString()));
+            }
+            if(p.getTipoProducto().equals(TipoProducto.MEDIA)){
+                panel2.add(new JButton(p.getPrecio().toString()));
+            }
+            if(p.getTipoProducto().equals(TipoProducto.RACION)){
+                panel2.add(new JButton(p.getPrecio().toString()));
+            }
+
+        }
+        panel2.setOpaque(false);
+        JScrollPane scrollPane = new JScrollPane(panel2);
         scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
         scrollPane.setBounds(0, 50, 780, 500);// aqui se puede ajustar los parametros del scrool
