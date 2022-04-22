@@ -11,6 +11,9 @@ import java.awt.event.ActionListener;
 import java.io.File;
 import static javax.swing.WindowConstants.EXIT_ON_CLOSE;
 import java.awt.Graphics;
+import java.util.Comparator;
+import java.util.List;
+import java.util.stream.Collectors;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 
@@ -177,34 +180,17 @@ public class ConstruirRestaurante {
         };
         atras.addActionListener(oyenteAtras);
         //panel donde van los productos
-        JPanel panel2 = new JPanel();
-        panel2.setLayout(new GridLayout(2, 4, 5, 5));
+        JTextArea textare = new JTextArea();
+        textare.setEditable(false);
+        textare.setEnabled(false);
+        textare.setFont( new Font("TimesRoman",Font.BOLD,20));
+        textare.setForeground(Color.white);
+        textare.setText("     Descripción         Precio Tapa     Precio Media      Precio Plato  \n"+
+                        "");
 
-        JLabel labelDescripcion = new JLabel("Descripcion");
-        labelDescripcion.setFont( new Font("TimesRoman",Font.BOLD,20));
-        labelDescripcion.setForeground(Color.white);
-        panel2.add(labelDescripcion);
 
-        JLabel labelPrecioTapa = new JLabel("Precio Tapa");
-        labelPrecioTapa.setFont( new Font("TimesRoman",Font.BOLD,20));
-        labelPrecioTapa.setForeground(Color.white);
-        panel2.add(labelPrecioTapa);
-
-        JLabel labelPrecioMedia = new JLabel("Precio Media");
-        labelPrecioMedia.setFont( new Font("TimesRoman",Font.BOLD,20));
-        labelPrecioMedia.setForeground(Color.white);
-        panel2.add(labelPrecioMedia);
-
-        JLabel labelPrecioRacion = new JLabel("Precio Racion");
-        labelPrecioRacion.setFont( new Font("TimesRoman",Font.BOLD,20));
-        labelPrecioRacion.setForeground(Color.white);
-        panel2.add(labelPrecioRacion);
-        //productos en botones para poner bonico
-        for (Producto p : ProductoBD.obtenerTodosProductos()) {
-
-        }
-        panel2.setOpaque(false);
-        JScrollPane scrollPane = new JScrollPane(panel2);
+        textare.setOpaque(false);
+        JScrollPane scrollPane = new JScrollPane(textare);
         scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
         scrollPane.setBounds(0, 50, 780, 500);// aqui se puede ajustar los parametros del scrool

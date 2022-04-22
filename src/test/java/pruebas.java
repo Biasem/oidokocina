@@ -27,22 +27,27 @@ public class pruebas extends UtilidadesBD{
     public static void main(String... args) {
         List<Producto> lista;
         lista = ProductoBD.obtenerTodosProductos().stream().sorted(Comparator.comparing(Producto::getDescripcion)).collect(Collectors.toList());
-        System.out.println(ProductoBD.obtenerTodosProductos().size());
 
         //lista de bebidas System.out.println(lista.stream().filter(p->p.getTipoProducto().equals(TipoProducto.BEBIDAS)).collect(Collectors.toList()));
         //lista de postres System.out.println(lista.stream().filter(p->p.getTipoProducto().equals(TipoProducto.POSTRE)).collect(Collectors.toList()));
         Producto np = new Producto();
+        lista = lista.stream().filter(p->!p.getTipoProducto().equals(TipoProducto.BEBIDAS)&&!p.getTipoProducto().equals(TipoProducto.POSTRES)).collect(Collectors.toList());
+
         np = lista.get(0);
+        String cadena="";
         for (Producto p:lista){
+            if(p.)
             if (p.equals(np)){
-                System.out.println(p);
+                cadena +=p.getDescripcion()+p.getPrecio();
             }else if(p.getDescripcion().equals(np.getDescripcion())&&!p.getTipoProducto().equals(np.getTipoProducto())){
-                System.out.println(p.getPrecio());
+                cadena+= "  "+p.getPrecio();
             }
             else{
                 np = p;
-                System.out.println(p);
+                cadena+=" \n"+p.getDescripcion()+" "+p.getPrecio();
+
             }
         }
+        System.out.println(cadena);
     }
 }
