@@ -182,53 +182,75 @@ public class ConstruirRestaurante {
         //panel donde van los productos
         List<Producto> lista;
         lista = ProductoBD.obtenerTodosProductos().stream().sorted(Comparator.comparing(Producto::getDescripcion)).collect(Collectors.toList());
-        lista = lista.stream().filter(p->!p.getTipoProducto().equals(TipoProducto.BEBIDAS)&&!p.getTipoProducto().equals(TipoProducto.POSTRES)).collect(Collectors.toList());
+        lista = lista.stream().filter(p->!p.getTipoProducto().equals(TipoProducto.BEBIDAS)&&
+                !p.getTipoProducto().equals(TipoProducto.POSTRES)&&
+                !p.getTipoProducto().equals(TipoProducto.ESPECIALIDADES)).collect(Collectors.toList());
         JPanel panel2 = new JPanel();
-        panel2.setLayout(new GridLayout(42, 4, 5, 2));
+        panel2.setLayout(new GridLayout(lista.stream().map(p->p.getDescripcion()).distinct().collect(Collectors.toList()).size(), 4, 5, 2));
         //productos en botones para poner bonico
         Producto np = new Producto();
         np = lista.get(0);
-        for (int i=0;i<=lista.size();i++) {
-            if (i==0){
-                if(lista.get(i).getDescripcion().equals(TipoProducto.MEDIA)){
-                    panel2.add(new JButton(lista.get(i).getDescripcion()));
+
+        for (Producto p:lista){
+            if(p.equals(np)){// primera iteracion del bucle
+                if(p.getTipoProducto().equals(TipoProducto.TAPA)){
+                    panel2.add(new JButton(p.getDescripcion()));
+                    panel2.add(new JButton(p.getPrecio().toString()));
+                    np=p;
+                }
+                if(p.getTipoProducto().equals(TipoProducto.MEDIA)){
+                    panel2.add(new JButton(p.getDescripcion()));
                     panel2.add(new JButton(""));
-                    panel2.add(new JButton(lista.get(i).getPrecio().toString()));
-                }else if(lista.get(i).getDescripcion().equals(TipoProducto.RACION)){
-                    panel2.add(new JButton(lista.get(i).getDescripcion()));
+                    panel2.add(new JButton(p.getPrecio().toString()));
+                    np=p;
+                }
+                if(p.getTipoProducto().equals(TipoProducto.RACION)){
+                    panel2.add(new JButton(p.getDescripcion()));
                     panel2.add(new JButton(""));
                     panel2.add(new JButton(""));
-                    panel2.add(new JButton(lista.get(i).getPrecio().toString()));
-                }else{
-                    panel2.add(new JButton(lista.get(i).getDescripcion()));
-                    panel2.add(new JButton(lista.get(i).getPrecio().toString()));
+                    panel2.add(new JButton(p.getPrecio().toString()));
+                    np=p;
                 }
             }
-            if (i>0){
-
+            //segunda iteración y siguientes, si p es distinto a np significa que entramos en un nuevo producto por tanto
+            // tenemos que ver si ese producto nuevo es tapa media o racion y segun el anterior haya sido habra que rellenar
+            else if (!p.getDescripcion().equals(np.getDescripcion())){
+                //relleno del anterior segun sea tapa o media
+                if(np.getTipoProducto().equals(TipoProducto.TAPA)){
+                    panel2.add(new JButton(""));
+                    panel2.add(new JButton(""));
+                }
+                if(np.getTipoProducto().equals(TipoProducto.MEDIA)){
+                    panel2.add(new JButton(""));
+                }
+                //segun el siguiente producto, procedemos a su inicio y prodecemos al avance de la variable auxiliar
+                if(p.getTipoProducto().equals(TipoProducto.TAPA)){
+                    panel2.add(new JButton(p.getDescripcion()));
+                    panel2.add(new JButton(p.getPrecio().toString()));
+                    np=p;
+                }
+                if(p.getTipoProducto().equals(TipoProducto.MEDIA)){
+                    panel2.add(new JButton(p.getDescripcion()));
+                    panel2.add(new JButton(""));
+                    panel2.add(new JButton(p.getPrecio().toString()));
+                    np=p;
+                }
+                if(p.getTipoProducto().equals(TipoProducto.RACION)){
+                    panel2.add(new JButton(p.getDescripcion()));
+                    panel2.add(new JButton(""));
+                    panel2.add(new JButton(""));
+                    panel2.add(new JButton(p.getPrecio().toString()));
+                    np=p;
+                }
             }
-
-
-            if(p.getTipoProducto().equals(TipoProducto.ESPECIALIDADES)){
-                panel2.add(new JButton(p.getDescripcion()));
-                panel2.add(new JButton(""));
-                panel2.add(new JButton(""));
+            //comparamos si el siguiente tiene la misma descripción solo obtenemos el precio
+            else if(np.getDescripcion().equals(p.getDescripcion())){
                 panel2.add(new JButton(p.getPrecio().toString()));
-            }
-
-
-            if(p.getTipoProducto().equals(TipoProducto.TAPA)){
-                panel2.add(new JButton(p.getDescripcion()));
-                panel2.add(new JButton(p.getPrecio().toString()));
-            }
-            if(p.getTipoProducto().equals(TipoProducto.MEDIA)){
-                panel2.add(new JButton(p.getPrecio().toString()));
-            }
-            if(p.getTipoProducto().equals(TipoProducto.RACION)){
-                panel2.add(new JButton(p.getPrecio().toString()));
+                np=p;
             }
 
         }
+
         panel2.setOpaque(false);
         JScrollPane scrollPane = new JScrollPane(panel2);
         scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
