@@ -838,10 +838,10 @@ public class ConstruirRestaurante {
                     }
                 }
             });
-
-            panel2.add(new JButton("ocupar mesa"){
-
-            });
+            JButton bocon = new JButton("Ocupar mesa");
+            bocon.setEnabled(true);
+            panel2.add(bocon);
+            System.out.println(bocon.getName());
 
         }
         panel2.setOpaque(false);
