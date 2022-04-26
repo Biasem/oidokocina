@@ -7,7 +7,7 @@ public class UtilidadesBD {
 
     private static final String url = "jdbc:mariadb://localhost:3306/oidokocina";
     private static final String usuario = "root";
-    private static final String password = "Plomite94";
+    private static final String password = "1234";
 
 
     protected static Connection conectarConBD() {
