@@ -29,6 +29,7 @@ public class ConstruirRestaurante {
     private JButton camarero, admin, cliente, cocinero;
 
 
+
     ConstruirRestaurante(){
         ConstruirVentana();
 
@@ -781,6 +782,8 @@ public class ConstruirRestaurante {
     }
     // subpanel de camarero AFORO
     private void panelAforo(){
+    Font otra = new Font("TimesRoman",Font.BOLD,20);
+
         urlimg = new ImageIcon(geturlimg()).getImage();
         RestaurarPanel();
         panel.setLayout(null);
@@ -788,8 +791,23 @@ public class ConstruirRestaurante {
         JPanel panel2 = new JPanel();
         panel2.setLayout(new GridLayout(20, 3, 20, 20));
         //productos en botones para poner bonico
+
+        JLabel nombre = new JLabel();
+        nombre.setFont( new Font("TimesRoman",Font.BOLD,20));
+        nombre.setForeground(Color.white);
         for (int i = 1;i<20;i++) {
-            panel2.add(new JButton("Mesa "+i));
+            panel2.add(new JLabel("Mesa "+i){
+                @Override
+                public void setFont(Font font) {
+                     font = otra;
+                    super.setFont(font);
+                }
+
+                @Override
+                public void setForeground(Color bg) {
+                    super.setForeground(Color.white);
+                }
+            });
             panel2.add(new JButton("Ocupada/Libre"));
             panel2.add(new JButton("boton para ocupar mesa"));
 
@@ -811,6 +829,27 @@ public class ConstruirRestaurante {
         urlimg = new ImageIcon(geturlimg()).getImage();
         RestaurarPanel();
         panel.setLayout(null);
+
+        JPanel panel2 = new JPanel();
+        panel2.setLayout(new GridLayout(20, 3, 20, 20));
+        //productos en botones para poner bonico
+        for (int i = 1;i<20;i++) {
+            panel2.add(new JButton("Mesa "+i));
+            panel2.add(new JButton("Pedido finalizado/si/no"));
+            panel2.add(new JButton("boton pagar"));
+
+        }
+        panel2.setOpaque(false);
+        JScrollPane scrollPane = new JScrollPane(panel2);
+        scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+        scrollPane.setBounds(0, 50, 780, 500);// aqui se puede ajustar los parametros del scrool
+        scrollPane.setOpaque(false);
+        scrollPane.getViewport().setOpaque(false);
+        panel.add(scrollPane);
+
+
+
 
         //boton Atras hacia panel camarero
         botonAtrasCamarero();
@@ -893,18 +932,40 @@ public class ConstruirRestaurante {
 
     //panel de COCINERO
     private void panelCocinero (){
-
+        urlimg = new ImageIcon(geturlimg()).getImage();
+        RestaurarPanel();
+        panel.setLayout(null);
+        //Boton Comandas
+        JButton verComandas = new JButton("Comandas");
+        verComandas.setBounds(300,300,100,100);
+        ActionListener oyenteComandas = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                panelComandas();
+            }
+        };
+        verComandas.addActionListener(oyenteComandas);
+        panel.add(verComandas);
+        //boton atras
+        botonAtras();
+    }
+    private void panelComandas (){
         urlimg = new ImageIcon(geturlimg()).getImage();
         RestaurarPanel();
         panel.setLayout(null);
 
-        //Boton Comandas
-        JButton verComandas = new JButton("Comandas");
-        verComandas.setBounds(300,300,100,100);
-        panel.add(verComandas);
 
         //boton atras
-        botonAtras();
+        JButton atras = new JButton("atras");
+        atras.setBounds(0,0,100,50);
+        panel.add(atras);
+        ActionListener oyenteAtras = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                panelCocinero();
+            }
+        };
+        atras.addActionListener(oyenteAtras);
     }
 
     // metodos para botones estándar
