@@ -129,9 +129,9 @@ public class PanelCamarero extends JPanel {
                     }
                 }
             });
-            JButton boton = new JButton("Ocupar mesa");
-            boton.setEnabled(true);
-            panel2.add(boton);
+            JButton botonOcuparMesa = new JButton("Ocupar mesa");
+            botonOcuparMesa.setEnabled(true);
+            panel2.add(botonOcuparMesa);
         }
         panel2.setOpaque(false);
         JScrollPane scrollPane = new JScrollPane(panel2);
