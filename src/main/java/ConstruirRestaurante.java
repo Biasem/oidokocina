@@ -1,3 +1,4 @@
+import Modelos.Mesa;
 import Modelos.Producto;
 import Modelos.Rol;
 import Modelos.TipoProducto;
@@ -11,6 +12,7 @@ import java.io.File;
 import static javax.swing.WindowConstants.EXIT_ON_CLOSE;
 import java.awt.Color;
 import java.awt.Graphics;
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -27,6 +29,7 @@ public class ConstruirRestaurante {
     private JFrame ventana;
     private JPanel panel;
     private JButton camarero, admin, cliente, cocinero;
+    private List<Mesa> listaMesas = new ArrayList<>();
 
 
 
@@ -35,8 +38,16 @@ public class ConstruirRestaurante {
 
     }
 
-    private void ConstruirVentana()
-    {                                               //se construye la ventana y panel principal
+    private void ConstruirVentana(){                     //se construye la ventana y panel principal
+    ////LISTA PROVISIONAL DE MESESAS
+    Mesa mesa1 = new Mesa(1,1,0,false);
+    Mesa mesa2 = new Mesa(2,2,0,true);
+    listaMesas.add(mesa1);
+    listaMesas.add(mesa2);
+    /////BORRARRRRR-------------------
+
+
+
         ventana = new JFrame("OidoKocina");
         ventana.setSize(1200,720);
         ventana.setResizable(false);
@@ -147,7 +158,6 @@ public class ConstruirRestaurante {
         panel.add(camarero);
         panel.add(cliente);
         panel.add(admin);
-
 
 
         cocinero.setFocusPainted(true);
@@ -782,34 +792,56 @@ public class ConstruirRestaurante {
     }
     // subpanel de camarero AFORO
     private void panelAforo(){
-    Font otra = new Font("TimesRoman",Font.BOLD,20);
+        Font fuente = new Font("TimesRoman",Font.BOLD,20);
 
         urlimg = new ImageIcon(geturlimg()).getImage();
         RestaurarPanel();
         panel.setLayout(null);
 
         JPanel panel2 = new JPanel();
-        panel2.setLayout(new GridLayout(20, 3, 20, 20));
+        panel2.setLayout(new GridLayout(listaMesas.size(), 3, 20, 20));
         //productos en botones para poner bonico
 
-        JLabel nombre = new JLabel();
-        nombre.setFont( new Font("TimesRoman",Font.BOLD,20));
-        nombre.setForeground(Color.white);
-        for (int i = 1;i<20;i++) {
-            panel2.add(new JLabel("Mesa "+i){
+        for (Mesa m:listaMesas) {
+            panel2.add(new JLabel("Mesa "+m.getNum_Mesa()){
                 @Override
                 public void setFont(Font font) {
-                     font = otra;
+                     font = fuente;
                     super.setFont(font);
                 }
-
                 @Override
                 public void setForeground(Color bg) {
                     super.setForeground(Color.white);
                 }
             });
-            panel2.add(new JButton("Ocupada/Libre"));
-            panel2.add(new JButton("boton para ocupar mesa"));
+            panel2.add(new JLabel(){
+
+                @Override
+                public void setFont(Font font) {
+                    font = fuente;
+                    super.setFont(font);
+                }
+                @Override
+                public void setForeground(Color bg) {
+                if(m.isOcupada()==false){
+                    super.setForeground(Color.green);
+                }else{
+                    super.setForeground(Color.red);
+                }
+                }
+                @Override
+                public void setText(String text) {
+                    if(m.isOcupada()==false){
+                        super.setText("Libre");
+                    }else{
+                        super.setText("Ocupada");
+                    }
+                }
+            });
+
+            panel2.add(new JButton("ocupar mesa"){
+
+            });
 
         }
         panel2.setOpaque(false);
