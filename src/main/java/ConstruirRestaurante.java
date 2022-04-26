@@ -191,9 +191,16 @@ public class ConstruirRestaurante {
     }
     // Panel donde mostramos la carta, se puede hacer modo pestañas
     private void verCarta(){
-
         JButton atras = new JButton("atras");
-        atras.setBounds(0,0,100,50);
+        atras.setBounds(17,10,40,40);
+        String ruta = new File("").getAbsolutePath() + "\\src\\main\\imagenes\\atras.png" ;
+        ImageIcon imagen = new ImageIcon(ruta);
+        Image imagenLimitadaTamanyo = imagen.getImage().getScaledInstance(40, 40,  java.awt.Image.SCALE_SMOOTH);
+        imagen.setImage(imagenLimitadaTamanyo);
+        atras.setIcon(imagen);
+        atras.setContentAreaFilled(false);
+        atras.setBorderPainted(false);
+        atras.setFocusPainted(false);
         panel.add(atras);
         ActionListener oyenteAtras = new ActionListener() {
             @Override
@@ -210,6 +217,7 @@ public class ConstruirRestaurante {
                 !p.getTipoProducto().equals(TipoProducto.ESPECIALIDADES)).collect(Collectors.toList());
         JPanel panel2 = new JPanel();
         panel2.setLayout(new GridLayout(lista.stream().map(p->p.getDescripcion()).distinct().collect(Collectors.toList()).size(), 4, 5, 2));
+
         //productos en botones para poner bonico
         Producto np = new Producto();
         np = lista.get(0);
@@ -217,21 +225,21 @@ public class ConstruirRestaurante {
         for (Producto p:lista){
             if(p.equals(np)){// primera iteracion del bucle
                 if(p.getTipoProducto().equals(TipoProducto.TAPA)){
-                    panel2.add(new JButton(p.getDescripcion()));
-                    panel2.add(new JButton(p.getPrecio().toString()));
+                    panel2.add(etiqueta(p.getDescripcion()));
+                    panel2.add(etiqueta(p.getPrecio().toString()));
                     np=p;
                 }
                 if(p.getTipoProducto().equals(TipoProducto.MEDIA)){
-                    panel2.add(new JButton(p.getDescripcion()));
-                    panel2.add(new JButton(""));
-                    panel2.add(new JButton(p.getPrecio().toString()));
+                    panel2.add(etiqueta(p.getDescripcion()));
+                    panel2.add(etiqueta(""));
+                    panel2.add(etiqueta(p.getPrecio().toString()));
                     np=p;
                 }
                 if(p.getTipoProducto().equals(TipoProducto.RACION)){
-                    panel2.add(new JButton(p.getDescripcion()));
-                    panel2.add(new JButton(""));
-                    panel2.add(new JButton(""));
-                    panel2.add(new JButton(p.getPrecio().toString()));
+                    panel2.add(etiqueta(p.getDescripcion()));
+                    panel2.add(etiqueta(""));
+                    panel2.add(etiqueta(""));
+                    panel2.add(etiqueta(p.getPrecio().toString()));
                     np=p;
                 }
             }
@@ -240,45 +248,45 @@ public class ConstruirRestaurante {
             else if (!p.getDescripcion().equals(np.getDescripcion())){
                 //relleno del anterior segun sea tapa o media
                 if(np.getTipoProducto().equals(TipoProducto.TAPA)){
-                    panel2.add(new JButton(""));
-                    panel2.add(new JButton(""));
+                    panel2.add(etiqueta(""));
+                    panel2.add(etiqueta(""));
                 }
                 if(np.getTipoProducto().equals(TipoProducto.MEDIA)){
-                    panel2.add(new JButton(""));
+                    panel2.add(etiqueta(""));
                 }
                 //segun el siguiente producto, procedemos a su inicio y prodecemos al avance de la variable auxiliar
                 if(p.getTipoProducto().equals(TipoProducto.TAPA)){
-                    panel2.add(new JButton(p.getDescripcion()));
-                    panel2.add(new JButton(p.getPrecio().toString()));
+                    panel2.add(etiqueta(p.getDescripcion()));
+                    panel2.add(etiqueta(p.getPrecio().toString()));
                     np=p;
                 }
                 if(p.getTipoProducto().equals(TipoProducto.MEDIA)){
-                    panel2.add(new JButton(p.getDescripcion()));
-                    panel2.add(new JButton(""));
-                    panel2.add(new JButton(p.getPrecio().toString()));
+                    panel2.add(etiqueta(p.getDescripcion()));
+                    panel2.add(etiqueta(""));
+                    panel2.add(etiqueta(p.getPrecio().toString()));
                     np=p;
                 }
                 if(p.getTipoProducto().equals(TipoProducto.RACION)){
-                    panel2.add(new JButton(p.getDescripcion()));
-                    panel2.add(new JButton(""));
-                    panel2.add(new JButton(""));
-                    panel2.add(new JButton(p.getPrecio().toString()));
+                    panel2.add(etiqueta(p.getDescripcion()));
+                    panel2.add(etiqueta(""));
+                    panel2.add(etiqueta(""));
+                    panel2.add(etiqueta(p.getPrecio().toString()));
                     np=p;
                 }
             }
             //comparamos si el siguiente tiene la misma descripción solo obtenemos el precio
             else if(np.getDescripcion().equals(p.getDescripcion())){
-                panel2.add(new JButton(p.getPrecio().toString()));
+                panel2.add(etiqueta(p.getPrecio().toString()));
                 np=p;
             }
 
         }
 
-        panel2.setOpaque(false);
+        panel2.setOpaque(true);
+        panel2.setBackground(Color.WHITE);
         JScrollPane scrollPane = new JScrollPane(panel2);
-        scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
-        scrollPane.setBounds(0, 50, 780, 500);// aqui se puede ajustar los parametros del scrool
+        scrollPane.setBounds(50, 50, 1100, 620);// aqui se puede ajustar los parametros del scrool
         scrollPane.setOpaque(false);
         scrollPane.getViewport().setOpaque(false);
         panel.add(scrollPane);
@@ -969,7 +977,30 @@ public class ConstruirRestaurante {
         atras.addActionListener(oyenteAtras);
     }
 
+    //metodo jlabel
 
+    public JLabel etiqueta (String texto) {
+        Font prueba = new Font("TimesRoman", Font.BOLD, 12);
+        JLabel epico = new JLabel(texto) {
+            @Override
+            public void setFont(Font font) {
+                font = prueba;
+                super.setFont(font);
+            }
+
+            @Override
+            public void setForeground(Color bg) {
+                super.setForeground(Color.black);
+            }
+
+            @Override
+            public void setBackground(Color bg) {
+                super.setOpaque(true);
+                super.setBackground(Color.white);
+            }
+        };
+        return epico;
+    }
 
 
 }
