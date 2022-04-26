@@ -282,6 +282,7 @@ public class ConstruirRestaurante {
         scrollPane.setOpaque(false);
         scrollPane.getViewport().setOpaque(false);
         panel.add(scrollPane);
+
     }
 
     // Panel cliente
@@ -396,6 +397,7 @@ public class ConstruirRestaurante {
         imagen2.setImage(imagenLimitadaTamanyo2);
         productos.setIcon(imagen2);
         panel.add(productos);
+        //boton atras
         botonAtras();
     }
 
