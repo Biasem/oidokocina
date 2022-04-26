@@ -1,16 +1,18 @@
+import Modelos.Mesa;
 import Modelos.Producto;
 import Modelos.Rol;
 import Modelos.TipoProducto;
 import UtilidadesBBDD.EmpleadoBD;
 import UtilidadesBBDD.ProductoBD;
 import javax.swing.*;
-import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import static javax.swing.WindowConstants.EXIT_ON_CLOSE;
+import java.awt.Color;
 import java.awt.Graphics;
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -20,21 +22,34 @@ import javax.swing.JFrame;
 
 
 
+
+
 public class ConstruirRestaurante {
     private Image urlimg = new ImageIcon(geturlimg()).getImage();
     private JFrame ventana;
     private JPanel panel;
     private JButton camarero, admin, cliente, cocinero;
+    private List<Mesa> listaMesas = new ArrayList<>();
+
+
 
     ConstruirRestaurante(){
         ConstruirVentana();
 
     }
 
-    private void ConstruirVentana()
-    {                                               //se construye la ventana y panel principal
+    private void ConstruirVentana(){                     //se construye la ventana y panel principal
+    ////LISTA PROVISIONAL DE MESESAS
+    Mesa mesa1 = new Mesa(1,1,0,false);
+    Mesa mesa2 = new Mesa(2,2,0,true);
+    listaMesas.add(mesa1);
+    listaMesas.add(mesa2);
+    /////BORRARRRRR-------------------
+
+
+
         ventana = new JFrame("OidoKocina");
-        ventana.setSize(1920,1080);
+        ventana.setSize(1200,720);
         ventana.setResizable(false);
         ventana.setLocationRelativeTo(null);
         ventana.setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -112,8 +127,6 @@ public class ConstruirRestaurante {
         admin.addActionListener(oyenteAdmin);
         ruta = new File("").getAbsolutePath() + "\\src\\main\\imagenes\\apoyo.png" ;
         imagen = new ImageIcon(ruta);
-        imagenLimitadaTamanyo = imagen.getImage().getScaledInstance(60, 60,  java.awt.Image.SCALE_SMOOTH);
-        imagen.setImage(imagenLimitadaTamanyo);
         admin.setIcon(imagen);
         admin.setFocusPainted(true);
 
@@ -134,30 +147,51 @@ public class ConstruirRestaurante {
         cliente.setIcon(imagen);
         cliente.setFocusPainted(true);
 
-        panel.setLayout(new BorderLayout());
-        panel.setBorder(new EmptyBorder(100,100,100,100));
+        panel.setLayout(null);
+
+        cocinero.setBounds(860, 500, 250, 100);
+        camarero.setBounds(610, 500, 250, 100);
+        admin.setBounds(360, 500, 250, 100);
+        cliente.setBounds(110, 500, 250, 100);
+
+        panel.add(cocinero);
+        panel.add(camarero);
+        panel.add(cliente);
+        panel.add(admin);
 
 
-        panel.add(cocinero,BorderLayout.NORTH);
-        panel.add(camarero,BorderLayout.WEST);
-        panel.add(cliente, BorderLayout.EAST);
-        panel.add(admin, BorderLayout.SOUTH);
-
-        cocinero.setBorderPainted(false);
-        cocinero.setFocusPainted(false);
+        cocinero.setFocusPainted(true);
         cocinero.setContentAreaFilled(true);
+        cocinero.setBorder(BorderFactory.createMatteBorder(
+                1, 1, 1, 1, Color.darkGray));
+        cocinero.setBackground(Color.WHITE);
 
-        camarero.setBorderPainted(false);
-        camarero.setFocusPainted(false);
+
+        camarero.setBorderPainted(true);
+        camarero.setFocusPainted(true);
         camarero.setContentAreaFilled(true);
+        camarero.setBorder(BorderFactory.createMatteBorder(
+                1, 1, 1, 1, Color.darkGray));
+        camarero.setBackground(Color.WHITE);
 
-        admin.setBorderPainted(false);
-        admin.setFocusPainted(false);
+
+        admin.setBorderPainted(true);
+        admin.setFocusPainted(true);
         admin.setContentAreaFilled(true);
+        admin.setBorder(BorderFactory.createMatteBorder(
+                1, 1, 1, 1, Color.darkGray));
+        admin.setBackground(Color.WHITE);
 
-        cliente.setBorderPainted(false);
-        cliente.setFocusPainted(false);
+
+        cliente.setBorderPainted(true);
+        cliente.setFocusPainted(true);
         cliente.setContentAreaFilled(true);
+        cliente.setBorder(BorderFactory.createMatteBorder(
+                1, 1, 1, 1, Color.darkGray));
+        cliente.setBackground(Color.WHITE);
+
+
+
 
     }
 
@@ -259,6 +293,7 @@ public class ConstruirRestaurante {
         scrollPane.setOpaque(false);
         scrollPane.getViewport().setOpaque(false);
         panel.add(scrollPane);
+
     }
 
     // Panel cliente
@@ -266,8 +301,13 @@ public class ConstruirRestaurante {
         urlimg = new ImageIcon(geturlimg()).getImage();
         RestaurarPanel();
         panel.setLayout(null);
-        JButton vercarta = new JButton("Carta");
-        vercarta.setBounds(350,250,100,50);
+        JButton vercarta = new JButton();
+        vercarta.setBounds(400,200,400,400);
+        String ruta = new File("").getAbsolutePath() + "\\src\\main\\imagenes\\menu.png" ;
+        ImageIcon imagen = new ImageIcon(ruta);
+        Image imagenLimitadaTamanyo = imagen.getImage().getScaledInstance(200, 200,  java.awt.Image.SCALE_SMOOTH);
+        imagen.setImage(imagenLimitadaTamanyo);
+        vercarta.setIcon(imagen);
         ActionListener oyenteCarta = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -276,6 +316,20 @@ public class ConstruirRestaurante {
             }
         };
         vercarta.addActionListener(oyenteCarta);
+        vercarta.setBorderPainted(true);
+        vercarta.setFocusPainted(true);
+        vercarta.setContentAreaFilled(true);
+        vercarta.setBorder(BorderFactory.createMatteBorder(
+                1, 1, 1, 1, Color.darkGray));
+        vercarta.setBackground(Color.WHITE);
+
+
+        vercarta.setBorderPainted(true);
+        vercarta.setFocusPainted(true);
+        vercarta.setContentAreaFilled(true);
+        vercarta.setBorder(BorderFactory.createMatteBorder(
+                1, 1, 1, 1, Color.darkGray));
+        vercarta.setBackground(Color.WHITE);
 
         panel.add(vercarta);
         botonAtras();
@@ -288,7 +342,7 @@ public class ConstruirRestaurante {
         panel.setLayout(null);
         //boton de Mesas
         JButton mesas = new JButton("Mesas");
-        mesas.setBounds(100,100,100,50);
+        mesas.setBounds(730, 500, 250, 100);
         ActionListener oyenteMesas = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -296,11 +350,22 @@ public class ConstruirRestaurante {
             }
         };
         mesas.addActionListener(oyenteMesas);
+        mesas.setBorderPainted(true);
+        mesas.setFocusPainted(true);
+        mesas.setContentAreaFilled(true);
+        mesas.setBorder(BorderFactory.createMatteBorder(
+                1, 1, 1, 1, Color.darkGray));
+        mesas.setBackground(Color.WHITE);
+        String ruta13 = new File("").getAbsolutePath() + "\\src\\main\\imagenes\\mesa.png" ;
+        ImageIcon imagen13 = new ImageIcon(ruta13);
+        Image imagenLimitadaTamanyo13 = imagen13.getImage().getScaledInstance(60, 60,  java.awt.Image.SCALE_SMOOTH);
+        imagen13.setImage(imagenLimitadaTamanyo13);
+        mesas.setIcon(imagen13);
         panel.add(mesas);
 
         //boton de Empleados
         JButton empleados = new JButton("Empleados");
-        empleados.setBounds(200,100,100,50);
+        empleados.setBounds(480, 500, 250, 100);
         ActionListener oyenteEmpleados = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -308,11 +373,22 @@ public class ConstruirRestaurante {
             }
         };
         empleados.addActionListener(oyenteEmpleados);
+        empleados.setBorderPainted(true);
+        empleados.setFocusPainted(true);
+        empleados.setContentAreaFilled(true);
+        empleados.setBorder(BorderFactory.createMatteBorder(
+                1, 1, 1, 1, Color.darkGray));
+        empleados.setBackground(Color.WHITE);
+        String direccion = new File("").getAbsolutePath() + "\\src\\main\\imagenes\\waiter.png" ;
+        ImageIcon icono = new ImageIcon(direccion);
+        Image imagenLimitada = icono.getImage().getScaledInstance(60, 60,  java.awt.Image.SCALE_SMOOTH);
+        icono.setImage(imagenLimitada);
+        empleados.setIcon(icono);
         panel.add(empleados);
 
         //boton de Productos
         JButton productos = new JButton("Productos");
-        productos.setBounds(300,100,100,50);
+        productos.setBounds(230, 500, 250, 100);
         ActionListener oyenteProductos = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -320,7 +396,19 @@ public class ConstruirRestaurante {
             }
         };
         productos.addActionListener(oyenteProductos);
+        productos.setBorderPainted(true);
+        productos.setFocusPainted(true);
+        productos.setContentAreaFilled(true);
+        productos.setBorder(BorderFactory.createMatteBorder(
+                1, 1, 1, 1, Color.darkGray));
+        productos.setBackground(Color.WHITE);
+        String ruta2 = new File("").getAbsolutePath() + "\\src\\main\\imagenes\\clipboard.png" ;
+        ImageIcon imagen2 = new ImageIcon(ruta2);
+        Image imagenLimitadaTamanyo2 = imagen2.getImage().getScaledInstance(60, 60,  java.awt.Image.SCALE_SMOOTH);
+        imagen2.setImage(imagenLimitadaTamanyo2);
+        productos.setIcon(imagen2);
         panel.add(productos);
+        //boton atras
         botonAtras();
     }
 
@@ -633,7 +721,7 @@ public class ConstruirRestaurante {
 
         //boton de aforo
         JButton aforo = new JButton("Aforo");
-        aforo.setBounds(100,100,100,50);
+        aforo.setBounds(230, 500, 250, 100);
         ActionListener oyenteAforo = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -641,11 +729,22 @@ public class ConstruirRestaurante {
             }
         };
         aforo.addActionListener(oyenteAforo);
+        aforo.setBorderPainted(true);
+        aforo.setFocusPainted(true);
+        aforo.setContentAreaFilled(true);
+        aforo.setBorder(BorderFactory.createMatteBorder(
+                1, 1, 1, 1, Color.darkGray));
+        aforo.setBackground(Color.WHITE);
+        String ruta6 = new File("").getAbsolutePath() + "\\src\\main\\imagenes\\crowd.png" ;
+        ImageIcon imagen6 = new ImageIcon(ruta6);
+        Image imagenLimitadaTamanyo = imagen6.getImage().getScaledInstance(60, 60,  java.awt.Image.SCALE_SMOOTH);
+        imagen6.setImage(imagenLimitadaTamanyo);
+        aforo.setIcon(imagen6);
         panel.add(aforo);
 
         //boton de pedidos
         JButton pedidos = new JButton("Pedidos");
-        pedidos.setBounds(200,100,100,50);
+        pedidos.setBounds(730, 500, 250, 100);
         ActionListener oyentepedidos = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -653,11 +752,22 @@ public class ConstruirRestaurante {
             }
         };
         pedidos.addActionListener(oyentepedidos);
+        pedidos.setBorderPainted(true);
+        pedidos.setFocusPainted(true);
+        pedidos.setContentAreaFilled(true);
+        pedidos.setBorder(BorderFactory.createMatteBorder(
+                1, 1, 1, 1, Color.darkGray));
+        pedidos.setBackground(Color.WHITE);
+        String ruta3 = new File("").getAbsolutePath() + "\\src\\main\\imagenes\\products.png" ;
+        ImageIcon imagen3 = new ImageIcon(ruta3);
+        Image imagenLimitadaTamanyo3 = imagen3.getImage().getScaledInstance(60, 60,  java.awt.Image.SCALE_SMOOTH);
+        imagen3.setImage(imagenLimitadaTamanyo3);
+        pedidos.setIcon(imagen3);
         panel.add(pedidos);
 
         //boton de cuentas
         JButton cuentas = new JButton("Cuentas");
-        cuentas.setBounds(300,100,100,50);
+        cuentas.setBounds(480, 500, 250, 100);
         ActionListener oyentecuentas = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -665,23 +775,73 @@ public class ConstruirRestaurante {
             }
         };
         cuentas.addActionListener(oyentecuentas);
+        cuentas.setBorderPainted(true);
+        cuentas.setFocusPainted(true);
+        cuentas.setContentAreaFilled(true);
+        cuentas.setBorder(BorderFactory.createMatteBorder(
+                1, 1, 1, 1, Color.darkGray));
+        cuentas.setBackground(Color.WHITE);
+        String ruta4 = new File("").getAbsolutePath() + "\\src\\main\\imagenes\\bill.png" ;
+        ImageIcon imagen4 = new ImageIcon(ruta4);
+        Image imagenLimitadaTamanyo4 = imagen4.getImage().getScaledInstance(60, 60,  java.awt.Image.SCALE_SMOOTH);
+        imagen4.setImage(imagenLimitadaTamanyo4);
+        cuentas.setIcon(imagen4);
         panel.add(cuentas);
         //boton atras
         botonAtras();
     }
     // subpanel de camarero AFORO
     private void panelAforo(){
+        Font fuente = new Font("TimesRoman",Font.BOLD,20);
+
         urlimg = new ImageIcon(geturlimg()).getImage();
         RestaurarPanel();
         panel.setLayout(null);
 
         JPanel panel2 = new JPanel();
-        panel2.setLayout(new GridLayout(20, 3, 20, 20));
+        panel2.setLayout(new GridLayout(listaMesas.size(), 3, 20, 20));
         //productos en botones para poner bonico
-        for (int i = 1;i<20;i++) {
-            panel2.add(new JButton("Mesa "+i));
-            panel2.add(new JButton("Ocupada/Libre"));
-            panel2.add(new JButton("boton para ocupar mesa"));
+
+        for (Mesa m:listaMesas) {
+            panel2.add(new JLabel("Mesa "+m.getNum_Mesa()){
+                @Override
+                public void setFont(Font font) {
+                     font = fuente;
+                    super.setFont(font);
+                }
+                @Override
+                public void setForeground(Color bg) {
+                    super.setForeground(Color.white);
+                }
+            });
+            panel2.add(new JLabel(){
+
+                @Override
+                public void setFont(Font font) {
+                    font = fuente;
+                    super.setFont(font);
+                }
+                @Override
+                public void setForeground(Color bg) {
+                if(m.isOcupada()==false){
+                    super.setForeground(Color.green);
+                }else{
+                    super.setForeground(Color.red);
+                }
+                }
+                @Override
+                public void setText(String text) {
+                    if(m.isOcupada()==false){
+                        super.setText("Libre");
+                    }else{
+                        super.setText("Ocupada");
+                    }
+                }
+            });
+            JButton bocon = new JButton("Ocupar mesa");
+            bocon.setEnabled(true);
+            panel2.add(bocon);
+            System.out.println(bocon.getName());
 
         }
         panel2.setOpaque(false);
@@ -701,6 +861,27 @@ public class ConstruirRestaurante {
         urlimg = new ImageIcon(geturlimg()).getImage();
         RestaurarPanel();
         panel.setLayout(null);
+
+        JPanel panel2 = new JPanel();
+        panel2.setLayout(new GridLayout(20, 3, 20, 20));
+        //productos en botones para poner bonico
+        for (int i = 1;i<20;i++) {
+            panel2.add(new JButton("Mesa "+i));
+            panel2.add(new JButton("Pedido finalizado/si/no"));
+            panel2.add(new JButton("boton pagar"));
+
+        }
+        panel2.setOpaque(false);
+        JScrollPane scrollPane = new JScrollPane(panel2);
+        scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+        scrollPane.setBounds(0, 50, 780, 500);// aqui se puede ajustar los parametros del scrool
+        scrollPane.setOpaque(false);
+        scrollPane.getViewport().setOpaque(false);
+        panel.add(scrollPane);
+
+
+
 
         //boton Atras hacia panel camarero
         botonAtrasCamarero();
@@ -783,24 +964,54 @@ public class ConstruirRestaurante {
 
     //panel de COCINERO
     private void panelCocinero (){
-
+        urlimg = new ImageIcon(geturlimg()).getImage();
+        RestaurarPanel();
+        panel.setLayout(null);
+        //Boton Comandas
+        JButton verComandas = new JButton("Comandas");
+        verComandas.setBounds(300,300,100,100);
+        ActionListener oyenteComandas = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                panelComandas();
+            }
+        };
+        verComandas.addActionListener(oyenteComandas);
+        panel.add(verComandas);
+        //boton atras
+        botonAtras();
+    }
+    private void panelComandas (){
         urlimg = new ImageIcon(geturlimg()).getImage();
         RestaurarPanel();
         panel.setLayout(null);
 
-        //Boton Comandas
-        JButton verComandas = new JButton("Comandas");
-        verComandas.setBounds(300,300,100,100);
-        panel.add(verComandas);
 
         //boton atras
-        botonAtras();
+        JButton atras = new JButton("atras");
+        atras.setBounds(0,0,100,50);
+        panel.add(atras);
+        ActionListener oyenteAtras = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                panelCocinero();
+            }
+        };
+        atras.addActionListener(oyenteAtras);
     }
 
     // metodos para botones estándar
     public void botonAtras(){
-        JButton atras = new JButton("atras");
-        atras.setBounds(0,0,100,50);
+        JButton atras = new JButton();
+        atras.setBounds(10,10,40,40);
+        String ruta = new File("").getAbsolutePath() + "\\src\\main\\imagenes\\atras.png" ;
+        ImageIcon imagen = new ImageIcon(ruta);
+        Image imagenLimitadaTamanyo = imagen.getImage().getScaledInstance(40, 40,  java.awt.Image.SCALE_SMOOTH);
+        imagen.setImage(imagenLimitadaTamanyo);
+        atras.setIcon(imagen);
+        atras.setContentAreaFilled(false);
+        atras.setBorderPainted(false);
+        atras.setFocusPainted(false);
         panel.add(atras);
         ActionListener oyenteAtras = new ActionListener() {
             @Override
@@ -811,8 +1022,17 @@ public class ConstruirRestaurante {
         atras.addActionListener(oyenteAtras);
     }
     public void botonAtrasCamarero(){
-        JButton atras = new JButton("atras");
-        atras.setBounds(0,0,100,50);
+        JButton atras = new JButton();
+        atras.setBounds(10,10,40,40);
+        atras.setOpaque(false);
+        String ruta = new File("").getAbsolutePath() + "\\src\\main\\imagenes\\atras.png" ;
+        ImageIcon imagen = new ImageIcon(ruta);
+        Image imagenLimitadaTamanyo = imagen.getImage().getScaledInstance(40, 40,  java.awt.Image.SCALE_SMOOTH);
+        imagen.setImage(imagenLimitadaTamanyo);
+        atras.setIcon(imagen);
+        atras.setContentAreaFilled(false);
+        atras.setBorderPainted(false);
+        atras.setFocusPainted(false);
         panel.add(atras);
         ActionListener oyenteAtras = new ActionListener() {
             @Override
@@ -823,8 +1043,17 @@ public class ConstruirRestaurante {
         atras.addActionListener(oyenteAtras);
     }
     public void botonAtrasAdministrador(){
-        JButton atras = new JButton("atras");
-        atras.setBounds(0,0,100,50);
+        JButton atras = new JButton();
+        atras.setBounds(10,10,40,40);
+        atras.setOpaque(false);
+        String ruta = new File("").getAbsolutePath() + "\\src\\main\\imagenes\\atras.png" ;
+        ImageIcon imagen = new ImageIcon(ruta);
+        Image imagenLimitadaTamanyo = imagen.getImage().getScaledInstance(40, 40,  java.awt.Image.SCALE_SMOOTH);
+        imagen.setImage(imagenLimitadaTamanyo);
+        atras.setIcon(imagen);
+        atras.setContentAreaFilled(false);
+        atras.setBorderPainted(false);
+        atras.setFocusPainted(false);
         panel.add(atras);
         ActionListener oyenteAtras = new ActionListener() {
             @Override
