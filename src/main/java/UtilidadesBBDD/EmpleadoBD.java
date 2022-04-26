@@ -25,7 +25,7 @@ public class EmpleadoBD extends UtilidadesBD {
             //Recorremos los datos
             while (rs.next()) {
                 empleado = new Empleado(rs.getInt("id"),rs.getString("nombre"),rs.getString("apellidos"),
-                 rs.getInt("codigo_empleado"),Rol.values()[rs.getInt("tipo_empleado")]);
+                 rs.getInt("num_empleado"),Rol.values()[rs.getInt("rol")]);
             }
 
         } catch (SQLException sqle) {

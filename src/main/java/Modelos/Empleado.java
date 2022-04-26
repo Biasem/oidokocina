@@ -7,10 +7,10 @@ public class Empleado {
     private int id;
     private String nombre;
     private String apellidos;
-    private int num_empleado;
+    private Integer num_empleado;
     private Rol rol;
 
-    public Empleado(int id, String nombre, String apellidos, int num_empleado, Rol rol) {
+    public Empleado(int id, String nombre, String apellidos, Integer num_empleado, Rol rol) {
         this.id = id;
         this.nombre = nombre;
         this.apellidos = apellidos;
@@ -44,11 +44,11 @@ public class Empleado {
         this.apellidos = apellidos;
     }
 
-    public int getNum_empleado() {
+    public Integer getNum_empleado() {
         return num_empleado;
     }
 
-    public void setNum_empleado(int num_empleado) {
+    public void setNum_empleado(Integer num_empleado) {
         this.num_empleado = num_empleado;
     }
 
