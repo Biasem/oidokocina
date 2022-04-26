@@ -15,34 +15,19 @@ public class ProductoBD extends UtilidadesBD{
     public static List<Producto> obtenerTodosProductos() {
         List<Producto> milista = new ArrayList<>();
         Connection con = conectarConBD();
-        Producto producto = null;
-        Integer id2 = 1;
+        Producto producto;
 
         try {
-            PreparedStatement buclequery = con.prepareStatement("select count(distinct id) as cuenta from producto  ");
-            ResultSet number = buclequery.executeQuery();
-            int cuenta = 0;
-            while (number.next()){
-                cuenta = number.getInt("cuenta");
-            }
+            PreparedStatement query = con.prepareStatement("SELECT * FROM producto  ");
+            ResultSet rs = query.executeQuery();
 
-        for(int i = 1;i<=cuenta+1;i++){
-
-
-                PreparedStatement query = con.prepareStatement("SELECT * FROM producto where id = ?  ");
-                query.setInt(1, i);
-                ResultSet rs = query.executeQuery();
-
-                //Recorremos los datos
-                while (rs.next()) {
-                    producto = new Producto(rs.getInt("id"), rs.getString("descripcion"),
-                            rs.getDouble("precio"), TipoProducto.values()[rs.getInt("tipo_producto")]);
-                }
-                if(producto == null){
-                    continue;
-                }
+            //Recorremos los datos
+            while (rs.next()) {
+                producto = new Producto(rs.getInt("id"), rs.getString("descripcion"),
+                        rs.getDouble("precio"), TipoProducto.values()[rs.getInt("tipo_producto")]);
                 milista.add(producto);
             }
+
         } catch (SQLException sqle) {
             System.out.println("Error en la ejecución:"
                     + sqle.getErrorCode() + " " + sqle.getMessage());
@@ -50,7 +35,6 @@ public class ProductoBD extends UtilidadesBD{
         } finally {
             cerrarConexion(con);
         }
-
         return milista;
     }
 

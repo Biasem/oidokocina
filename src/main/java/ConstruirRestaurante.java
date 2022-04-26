@@ -1,5 +1,7 @@
 import Modelos.Producto;
+import Modelos.Rol;
 import Modelos.TipoProducto;
+import UtilidadesBBDD.EmpleadoBD;
 import UtilidadesBBDD.ProductoBD;
 import javax.swing.*;
 import java.awt.*;
@@ -9,6 +11,9 @@ import java.io.File;
 import static javax.swing.WindowConstants.EXIT_ON_CLOSE;
 import java.awt.Color;
 import java.awt.Graphics;
+import java.util.Comparator;
+import java.util.List;
+import java.util.stream.Collectors;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 
@@ -198,15 +203,77 @@ public class ConstruirRestaurante {
         };
         atras.addActionListener(oyenteAtras);
         //panel donde van los productos
+        List<Producto> lista;
+        lista = ProductoBD.obtenerTodosProductos().stream().sorted(Comparator.comparing(Producto::getDescripcion)).collect(Collectors.toList());
+        lista = lista.stream().filter(p->!p.getTipoProducto().equals(TipoProducto.BEBIDAS)&&
+                !p.getTipoProducto().equals(TipoProducto.POSTRES)&&
+                !p.getTipoProducto().equals(TipoProducto.ESPECIALIDADES)).collect(Collectors.toList());
         JPanel panel2 = new JPanel();
-        panel2.setLayout(new GridLayout(ProductoBD.obtenerTodosProductos().size(), 3, 10, 5));
+        panel2.setLayout(new GridLayout(lista.stream().map(p->p.getDescripcion()).distinct().collect(Collectors.toList()).size(), 4, 5, 2));
         //productos en botones para poner bonico
-        for (Producto p : ProductoBD.obtenerTodosProductos()) {
-            panel2.add(new JButton(p.getDescripcion()));
-            panel2.add(new JButton(String.valueOf(p.getTipoProducto())));
-            panel2.add(new JButton(String.valueOf(p.getPrecio())));
+        Producto np = new Producto();
+        np = lista.get(0);
+
+        for (Producto p:lista){
+            if(p.equals(np)){// primera iteracion del bucle
+                if(p.getTipoProducto().equals(TipoProducto.TAPA)){
+                    panel2.add(new JButton(p.getDescripcion()));
+                    panel2.add(new JButton(p.getPrecio().toString()));
+                    np=p;
+                }
+                if(p.getTipoProducto().equals(TipoProducto.MEDIA)){
+                    panel2.add(new JButton(p.getDescripcion()));
+                    panel2.add(new JButton(""));
+                    panel2.add(new JButton(p.getPrecio().toString()));
+                    np=p;
+                }
+                if(p.getTipoProducto().equals(TipoProducto.RACION)){
+                    panel2.add(new JButton(p.getDescripcion()));
+                    panel2.add(new JButton(""));
+                    panel2.add(new JButton(""));
+                    panel2.add(new JButton(p.getPrecio().toString()));
+                    np=p;
+                }
+            }
+            //segunda iteración y siguientes, si p es distinto a np significa que entramos en un nuevo producto por tanto
+            // tenemos que ver si ese producto nuevo es tapa media o racion y segun el anterior haya sido habra que rellenar
+            else if (!p.getDescripcion().equals(np.getDescripcion())){
+                //relleno del anterior segun sea tapa o media
+                if(np.getTipoProducto().equals(TipoProducto.TAPA)){
+                    panel2.add(new JButton(""));
+                    panel2.add(new JButton(""));
+                }
+                if(np.getTipoProducto().equals(TipoProducto.MEDIA)){
+                    panel2.add(new JButton(""));
+                }
+                //segun el siguiente producto, procedemos a su inicio y prodecemos al avance de la variable auxiliar
+                if(p.getTipoProducto().equals(TipoProducto.TAPA)){
+                    panel2.add(new JButton(p.getDescripcion()));
+                    panel2.add(new JButton(p.getPrecio().toString()));
+                    np=p;
+                }
+                if(p.getTipoProducto().equals(TipoProducto.MEDIA)){
+                    panel2.add(new JButton(p.getDescripcion()));
+                    panel2.add(new JButton(""));
+                    panel2.add(new JButton(p.getPrecio().toString()));
+                    np=p;
+                }
+                if(p.getTipoProducto().equals(TipoProducto.RACION)){
+                    panel2.add(new JButton(p.getDescripcion()));
+                    panel2.add(new JButton(""));
+                    panel2.add(new JButton(""));
+                    panel2.add(new JButton(p.getPrecio().toString()));
+                    np=p;
+                }
+            }
+            //comparamos si el siguiente tiene la misma descripción solo obtenemos el precio
+            else if(np.getDescripcion().equals(p.getDescripcion())){
+                panel2.add(new JButton(p.getPrecio().toString()));
+                np=p;
+            }
 
         }
+
         panel2.setOpaque(false);
         JScrollPane scrollPane = new JScrollPane(panel2);
         scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
@@ -452,9 +519,13 @@ public class ConstruirRestaurante {
         labelRol.setBounds(150,230,60,20);
         panel.add(labelRol);
         //Campo ROL
-        JTextField campoRol = new JTextField();
-        campoRol.setBounds(180,230,50,20);
-        panel.add(campoRol);
+        JComboBox comboRol = new JComboBox();
+        comboRol.setBounds(190,230,130,20);
+        comboRol.setBounds(190,230,130,20);
+        comboRol.addItem(Rol.CAMARERO);
+        comboRol.addItem(Rol.COCINERO);
+        comboRol.addItem(Rol.ADMINISTRADOR);
+        panel.add(comboRol);
 
         //Boton Crear EMPLEADO
         JButton botonCrear = new JButton("CREAR");
@@ -472,6 +543,18 @@ public class ConstruirRestaurante {
         //Boton Buscar EMPLEADO
         JButton botonBuscar = new JButton("Buscar");
         botonBuscar.setBounds(300,600,100,50);
+        ActionListener oyenteBuscar = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Producto nuevoProducto = new Producto();
+                campoNombre.setText(EmpleadoBD.obtenerPorId(Integer.valueOf(campoId.getText())).getNombre());
+                campoApellidos.setText(EmpleadoBD.obtenerPorId(Integer.valueOf(campoId.getText())).getApellidos());
+                campoNumEmpleado.setText(EmpleadoBD.obtenerPorId(Integer.valueOf(campoId.getText())).getNum_empleado().toString());
+                comboRol.setSelectedItem(EmpleadoBD.obtenerPorId(Integer.parseInt(campoId.getText())).getRol());
+            }
+        };
+        botonBuscar.addActionListener(oyenteBuscar);
+
         panel.add(botonBuscar);
         //Boton Modificar EMPLEADO
         JButton botonModificar = new JButton("MODIFICAR");
@@ -481,9 +564,6 @@ public class ConstruirRestaurante {
         JButton botonEliminar = new JButton("ELIMINAR");
         botonEliminar.setBounds(510,600,100,50);
         panel.add(botonEliminar);
-
-
-
         //boton Atras hacia panel camarero
         botonAtrasAdministrador();
     }
@@ -577,7 +657,7 @@ public class ConstruirRestaurante {
             public void actionPerformed(ActionEvent e) {
                 Producto nuevoProducto = new Producto();
                 campoDescripcion.setText(ProductoBD.obtenerPorId(Integer.valueOf(campoId.getText())).getDescripcion());
-                campoPrecio.setText(ProductoBD.obtenerPorId(Integer.parseInt(campoId.getText())).getPrecio().toString());
+                campoPrecio.setText(ProductoBD.obtenerPorId(Integer.valueOf(campoId.getText())).getPrecio().toString());
                 comboTipoProducto.setSelectedItem(ProductoBD.obtenerPorId(Integer.parseInt(campoId.getText())).getTipoProducto());
             }
         };
@@ -738,6 +818,72 @@ public class ConstruirRestaurante {
         urlimg = new ImageIcon(geturlimg()).getImage();
         RestaurarPanel();
         panel.setLayout(null);
+        //Label Mesa
+        JLabel labelMesa = new JLabel("Mesa:");
+        labelMesa.setFont( new Font("TimesRoman",Font.BOLD,20));
+        labelMesa.setForeground(Color.white);
+        labelMesa.setBounds(100,150,70,20);
+        panel.add(labelMesa);
+        //Campo Mesa
+        JTextField campoMesa = new JTextField();
+        campoMesa.setBounds(160,150,50,20);
+        panel.add(campoMesa);
+
+        //Label Camarero
+        JLabel labelCamarero = new JLabel("Camarero:");
+        labelCamarero.setFont( new Font("TimesRoman",Font.BOLD,20));
+        labelCamarero.setForeground(Color.white);
+        labelCamarero.setBounds(250,150,100,20);
+        panel.add(labelCamarero);
+        //Campo Camarero
+        JTextField campoCamarero = new JTextField();
+        campoCamarero.setBounds(350,150,50,20);
+        panel.add(campoCamarero);
+
+        //Label Producto
+        JLabel labelProducto = new JLabel("Producto:");
+        labelProducto.setFont( new Font("TimesRoman",Font.BOLD,20));
+        labelProducto.setForeground(Color.white);
+        labelProducto.setBounds(100,200,100,20);
+        panel.add(labelProducto);
+        //Campo Producto
+        JTextField campoProducto = new JTextField();
+        campoProducto.setBounds(200,200,50,20);
+        panel.add(campoProducto);
+
+        //Label Cantidad
+        JLabel labelCantidad = new JLabel("Cantidad:");
+        labelCantidad.setFont( new Font("TimesRoman",Font.BOLD,20));
+        labelCantidad.setForeground(Color.white);
+        labelCantidad.setBounds(260,200,100,20);
+        panel.add(labelCantidad);
+        //Campo Cantidad
+        JTextField campoCantidad = new JTextField();
+        campoCantidad.setBounds(350,200,50,20);
+        panel.add(campoCantidad);
+
+        //Boton añadir producto a la comanda
+        JButton aniadirProducto = new JButton("Añadir");
+        aniadirProducto.setBounds(300,250,100,50);
+        panel.add(aniadirProducto);
+
+        //Boton tramitar comanda
+        JButton enviarComanda = new JButton("Enviar Comanda");
+        enviarComanda.setBounds(600,500,300,50);
+        panel.add(enviarComanda);
+
+        JPanel panel2 = new JPanel();
+        panel2.setLayout(new GridLayout(20, 3, 20, 20));
+        //productos en botones para poner bonico
+
+        panel2.setOpaque(false);
+        JScrollPane scrollPane = new JScrollPane(panel2);
+        scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+        scrollPane.setBounds(400, 0, 780, 500);// aqui se puede ajustar los parametros del scrool
+        scrollPane.setOpaque(false);
+        //scrollPane.getViewport().setOpaque(false);
+        panel.add(scrollPane);
 
         //boton Atras hacia panel camarero
         botonAtrasCamarero();
@@ -749,6 +895,11 @@ public class ConstruirRestaurante {
         urlimg = new ImageIcon(geturlimg()).getImage();
         RestaurarPanel();
         panel.setLayout(null);
+
+        //Boton Comandas
+        JButton verComandas = new JButton("Comandas");
+        verComandas.setBounds(300,300,100,100);
+        panel.add(verComandas);
 
         //boton atras
         botonAtras();
