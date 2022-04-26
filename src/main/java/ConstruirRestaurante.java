@@ -782,8 +782,6 @@ public class ConstruirRestaurante {
     }
     // subpanel de camarero AFORO
     private void panelAforo(){
-    Font otra = new Font("TimesRoman",Font.BOLD,20);
-
         urlimg = new ImageIcon(geturlimg()).getImage();
         RestaurarPanel();
         panel.setLayout(null);
@@ -796,18 +794,7 @@ public class ConstruirRestaurante {
         nombre.setFont( new Font("TimesRoman",Font.BOLD,20));
         nombre.setForeground(Color.white);
         for (int i = 1;i<20;i++) {
-            panel2.add(new JLabel("Mesa "+i){
-                @Override
-                public void setFont(Font font) {
-                     font = otra;
-                    super.setFont(font);
-                }
-
-                @Override
-                public void setForeground(Color bg) {
-                    super.setForeground(Color.white);
-                }
-            });
+            panel2.add(nombre.setText(););
             panel2.add(new JButton("Ocupada/Libre"));
             panel2.add(new JButton("boton para ocupar mesa"));
 
