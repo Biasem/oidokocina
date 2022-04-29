@@ -22,7 +22,7 @@ public class PanelCamarero extends JPanel {
         listaMesas.add(mesa1);
         listaMesas.add(mesa2);
         //-------------------------------------------------------
-        ConstruirRestaurante.RestaurarPanel(panel);
+        PanelPrincipal.RestaurarPanel(panel);
         panel.setLayout(null);
 
         //boton de aforo
@@ -94,12 +94,12 @@ public class PanelCamarero extends JPanel {
         cuentas.setIcon(imagen4);
         panel.add(cuentas);
         //boton atras
-        ConstruirRestaurante.botonAtras(panel);
+        PanelPrincipal.botonAtras();
     }
     // subpanel de camarero AFORO
     private static void panelAforo(JPanel panel){
         Font fuente = new Font("TimesRoman",Font.BOLD,20);
-        ConstruirRestaurante.RestaurarPanel(panel);
+        PanelPrincipal.RestaurarPanel(panel);
         panel.setLayout(null);
 
         JPanel panel2 = new JPanel();
@@ -156,12 +156,12 @@ public class PanelCamarero extends JPanel {
         panel.add(scrollPane);
 
         //boton Atras hacia panel camarero
-        ConstruirRestaurante.botonAtrasCamarero();
+        PanelPrincipal.botonAtrasCamarero();
     }
     // subpanel de camarero CUENTAS
     private static void panelCuentas(JPanel panel){
         //urlimg = new ImageIcon(geturlimg()).getImage();
-        ConstruirRestaurante.RestaurarPanel(panel);
+        PanelPrincipal.RestaurarPanel(panel);
         panel.setLayout(null);
 
         JPanel panel2 = new JPanel();
@@ -186,11 +186,11 @@ public class PanelCamarero extends JPanel {
 
 
         //boton Atras hacia panel camarero
-        ConstruirRestaurante.botonAtrasCamarero();
+        PanelPrincipal.botonAtrasCamarero();
     }
     // subpanel de camarero PEDIDOS
     private static void panelPedidos(JPanel panel){
-        ConstruirRestaurante.RestaurarPanel(panel);
+        PanelPrincipal.RestaurarPanel(panel);
         panel.setLayout(null);
         //Label Mesa
         JLabel labelMesa = new JLabel("Mesa:");
@@ -260,7 +260,7 @@ public class PanelCamarero extends JPanel {
         panel.add(scrollPane);
 
         //boton Atras hacia panel camarero
-        ConstruirRestaurante.botonAtrasCamarero();
+        PanelPrincipal.botonAtrasCamarero();
     }
 
 }

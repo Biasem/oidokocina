@@ -16,7 +16,7 @@ public class PanelAdministrador extends JPanel {
 
     static void panelAdministrador(JPanel panel){
         //urlimg = new ImageIcon(geturlimg()).getImage();
-        ConstruirRestaurante.RestaurarPanel(panel);
+        PanelPrincipal.RestaurarPanel(panel);
         panel.setLayout(null);
         //boton de Mesas
         JButton mesas = new JButton("Mesas");
@@ -87,13 +87,13 @@ public class PanelAdministrador extends JPanel {
         productos.setIcon(imagen2);
         panel.add(productos);
         //boton atras
-        ConstruirRestaurante.botonAtras(panel);
+        PanelPrincipal.botonAtras();
     }
 
     //Subpaneles de administrador  MESAS
     private static void panelMesa(JPanel panel){
         //urlimg = new ImageIcon(geturlimg()).getImage();
-        ConstruirRestaurante.RestaurarPanel(panel);
+        PanelPrincipal.RestaurarPanel(panel);
         panel.setLayout(null);
 
         //Etiqueta ID
@@ -156,12 +156,12 @@ public class PanelAdministrador extends JPanel {
         panel.add(botonEliminar);
 
         //boton Atras hacia panel camarero
-        ConstruirRestaurante.botonAtrasAdministrador();
+        PanelPrincipal.botonAtrasAdministrador();
     }
     //Subpaneles de administrador  EMPLEADOS
     private static void panelEmpleados(JPanel panel){
         //urlimg = new ImageIcon(geturlimg()).getImage();
-        ConstruirRestaurante.RestaurarPanel(panel);
+        PanelPrincipal.RestaurarPanel(panel);
         panel.setLayout(null);
         //Etiqueta ID
         JLabel labelId = new JLabel("ID");
@@ -255,12 +255,12 @@ public class PanelAdministrador extends JPanel {
         botonEliminar.setBounds(510,600,100,50);
         panel.add(botonEliminar);
         //boton Atras hacia panel camarero
-        ConstruirRestaurante.botonAtrasAdministrador();
+        PanelPrincipal.botonAtrasAdministrador();
     }
     //Subpaneles de administrador  PRODUCTOS
     private static void panelProductos(JPanel panel){
         //urlimg = new ImageIcon(geturlimg()).getImage();
-        ConstruirRestaurante.RestaurarPanel(panel);
+        PanelPrincipal.RestaurarPanel(panel);
         panel.setLayout(null);
         //Etiqueta ID
         JLabel labelId = new JLabel("ID");
@@ -386,7 +386,7 @@ public class PanelAdministrador extends JPanel {
         panel.add(botonEliminar);
 
         //boton Atras hacia panel camarero
-        ConstruirRestaurante.botonAtrasAdministrador();
+        PanelPrincipal.botonAtrasAdministrador();
     }
 
 }

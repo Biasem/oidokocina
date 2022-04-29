@@ -17,7 +17,7 @@ public class PanelCliente extends JPanel {
 
 
     public static JPanel panelCliente(JPanel panel){
-        ConstruirRestaurante.RestaurarPanel(panel);
+        PanelPrincipal.RestaurarPanel(panel);
         panel.setLayout(null);
         JButton vercarta = new JButton();
         vercarta.setBounds(400,200,400,400);
@@ -29,7 +29,7 @@ public class PanelCliente extends JPanel {
         ActionListener oyenteCarta = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                ConstruirRestaurante.RestaurarPanel(panel);
+                PanelPrincipal.RestaurarPanel(panel);
                 verCarta(panel);
             }
         };
@@ -50,7 +50,7 @@ public class PanelCliente extends JPanel {
         vercarta.setBackground(Color.WHITE);
 
         panel.add(vercarta);
-        ConstruirRestaurante.botonAtras(panel);
+        PanelPrincipal.botonAtras();
 
         return panel;
     }
@@ -62,7 +62,7 @@ public class PanelCliente extends JPanel {
         ActionListener oyenteAtras = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-            ConstruirRestaurante.RestaurarPanel(panel);
+            PanelPrincipal.RestaurarPanel(panel);
                 panelCliente(panel);
             }
         };
