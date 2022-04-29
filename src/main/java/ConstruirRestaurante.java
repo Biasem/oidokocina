@@ -8,9 +8,13 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+
+import static java.awt.Font.BOLD;
 import static javax.swing.WindowConstants.EXIT_ON_CLOSE;
 import java.awt.Color;
 import java.awt.Graphics;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -84,7 +88,7 @@ public class ConstruirRestaurante {
         Image imagenLimitadaTamanyo = imagen.getImage().getScaledInstance(60, 60,  java.awt.Image.SCALE_SMOOTH);
         imagen.setImage(imagenLimitadaTamanyo);
         cocinero.setIcon(imagen);
-        cocinero.setFocusPainted(true);
+
 
 
         /// Botón camarero
@@ -101,7 +105,7 @@ public class ConstruirRestaurante {
         imagenLimitadaTamanyo = imagen.getImage().getScaledInstance(60, 60,  java.awt.Image.SCALE_SMOOTH);
         imagen.setImage(imagenLimitadaTamanyo);
         camarero.setIcon(imagen);
-        camarero.setFocusPainted(true);
+
 
         /// Botón admin
 
@@ -116,7 +120,7 @@ public class ConstruirRestaurante {
         ruta = new File("").getAbsolutePath() + "\\src\\main\\imagenes\\apoyo.png" ;
         imagen = new ImageIcon(ruta);
         admin.setIcon(imagen);
-        admin.setFocusPainted(true);
+
 
         /// Botón cliente
 
@@ -133,54 +137,22 @@ public class ConstruirRestaurante {
         imagenLimitadaTamanyo = imagen.getImage().getScaledInstance(60, 60,  java.awt.Image.SCALE_SMOOTH);
         imagen.setImage(imagenLimitadaTamanyo);
         cliente.setIcon(imagen);
-        cliente.setFocusPainted(true);
+
 
         panel.setLayout(null);
+
+        ArrayList<JButton> principal = new ArrayList<>();
+        principal.add(cocinero);
+        principal.add(camarero);
+        principal.add(admin);
+        principal.add(cliente);
+
+        plantillaboton(principal, panel);
 
         cocinero.setBounds(860, 500, 250, 100);
         camarero.setBounds(610, 500, 250, 100);
         admin.setBounds(360, 500, 250, 100);
         cliente.setBounds(110, 500, 250, 100);
-
-        panel.add(cocinero);
-        panel.add(camarero);
-        panel.add(cliente);
-        panel.add(admin);
-
-
-
-        cocinero.setFocusPainted(true);
-        cocinero.setContentAreaFilled(true);
-        cocinero.setBorder(BorderFactory.createMatteBorder(
-                1, 1, 1, 1, Color.darkGray));
-        cocinero.setBackground(Color.WHITE);
-
-
-        camarero.setBorderPainted(true);
-        camarero.setFocusPainted(true);
-        camarero.setContentAreaFilled(true);
-        camarero.setBorder(BorderFactory.createMatteBorder(
-                1, 1, 1, 1, Color.darkGray));
-        camarero.setBackground(Color.WHITE);
-
-
-        admin.setBorderPainted(true);
-        admin.setFocusPainted(true);
-        admin.setContentAreaFilled(true);
-        admin.setBorder(BorderFactory.createMatteBorder(
-                1, 1, 1, 1, Color.darkGray));
-        admin.setBackground(Color.WHITE);
-
-
-        cliente.setBorderPainted(true);
-        cliente.setFocusPainted(true);
-        cliente.setContentAreaFilled(true);
-        cliente.setBorder(BorderFactory.createMatteBorder(
-                1, 1, 1, 1, Color.darkGray));
-        cliente.setBackground(Color.WHITE);
-
-
-
 
     }
 
@@ -202,6 +174,7 @@ public class ConstruirRestaurante {
         atras.setBorderPainted(false);
         atras.setFocusPainted(false);
         panel.add(atras);
+
         ActionListener oyenteAtras = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -221,6 +194,44 @@ public class ConstruirRestaurante {
         //productos en botones para poner bonico
         Producto np = new Producto();
         np = lista.get(0);
+
+        //Etiquetas de las reciones
+
+        JLabel tapa = new JLabel();
+        JLabel media = new JLabel();
+        JLabel racion = new JLabel();
+
+        tapa.setText("Tapa");
+        media.setText("Media");
+        racion.setText("Ración");
+
+        ArrayList<JLabel> texto = new ArrayList<>();
+        texto.add(tapa);
+        texto.add(media);
+        texto.add(racion);
+
+
+
+
+        for (JLabel x: texto){
+            x.setFont( new Font("TimesRoman", BOLD,15));
+            x.setForeground(Color.BLACK);
+            x.setOpaque(true);
+            if (x == tapa){
+                x.setBounds(325, 20, 260, 30);
+            }
+            if (x == media){
+                x.setBounds(585, 20, 280, 30);
+            }
+            if (x == racion){
+                x.setBounds(865, 20, 285, 30);
+            }
+
+        }
+
+        panel.add(tapa);
+        panel.add(media);
+        panel.add(racion);
 
         for (Producto p:lista){
             if(p.equals(np)){// primera iteracion del bucle
@@ -346,18 +357,11 @@ public class ConstruirRestaurante {
             }
         };
         mesas.addActionListener(oyenteMesas);
-        mesas.setBorderPainted(true);
-        mesas.setFocusPainted(true);
-        mesas.setContentAreaFilled(true);
-        mesas.setBorder(BorderFactory.createMatteBorder(
-                1, 1, 1, 1, Color.darkGray));
-        mesas.setBackground(Color.WHITE);
         String ruta13 = new File("").getAbsolutePath() + "\\src\\main\\imagenes\\mesa.png" ;
         ImageIcon imagen13 = new ImageIcon(ruta13);
         Image imagenLimitadaTamanyo13 = imagen13.getImage().getScaledInstance(60, 60,  java.awt.Image.SCALE_SMOOTH);
         imagen13.setImage(imagenLimitadaTamanyo13);
         mesas.setIcon(imagen13);
-        panel.add(mesas);
 
         //boton de Empleados
         JButton empleados = new JButton("Empleados");
@@ -369,18 +373,11 @@ public class ConstruirRestaurante {
             }
         };
         empleados.addActionListener(oyenteEmpleados);
-        empleados.setBorderPainted(true);
-        empleados.setFocusPainted(true);
-        empleados.setContentAreaFilled(true);
-        empleados.setBorder(BorderFactory.createMatteBorder(
-                1, 1, 1, 1, Color.darkGray));
-        empleados.setBackground(Color.WHITE);
         String direccion = new File("").getAbsolutePath() + "\\src\\main\\imagenes\\waiter.png" ;
         ImageIcon icono = new ImageIcon(direccion);
         Image imagenLimitada = icono.getImage().getScaledInstance(60, 60,  java.awt.Image.SCALE_SMOOTH);
         icono.setImage(imagenLimitada);
         empleados.setIcon(icono);
-        panel.add(empleados);
 
         //boton de Productos
         JButton productos = new JButton("Productos");
@@ -392,19 +389,19 @@ public class ConstruirRestaurante {
             }
         };
         productos.addActionListener(oyenteProductos);
-        productos.setBorderPainted(true);
-        productos.setFocusPainted(true);
-        productos.setContentAreaFilled(true);
-        productos.setBorder(BorderFactory.createMatteBorder(
-                1, 1, 1, 1, Color.darkGray));
-        productos.setBackground(Color.WHITE);
         String ruta2 = new File("").getAbsolutePath() + "\\src\\main\\imagenes\\clipboard.png" ;
         ImageIcon imagen2 = new ImageIcon(ruta2);
         Image imagenLimitadaTamanyo2 = imagen2.getImage().getScaledInstance(60, 60,  java.awt.Image.SCALE_SMOOTH);
         imagen2.setImage(imagenLimitadaTamanyo2);
         productos.setIcon(imagen2);
-        panel.add(productos);
         botonAtras();
+
+        ArrayList<JButton> administrador = new ArrayList<>();
+        administrador.add(mesas);
+        administrador.add(empleados);
+        administrador.add(productos);
+
+        plantillaboton(administrador, panel);
     }
 
     //Subpaneles de administrador  MESAS
@@ -415,7 +412,7 @@ public class ConstruirRestaurante {
 
         //Etiqueta ID
         JLabel labelId = new JLabel("ID");
-        labelId.setFont( new Font("TimesRoman",Font.BOLD,20));
+        labelId.setFont( new Font("TimesRoman", BOLD,20));
         labelId.setForeground(Color.white);
         labelId.setBounds(150,150,60,20);
         panel.add(labelId);
@@ -425,7 +422,7 @@ public class ConstruirRestaurante {
         panel.add(campoId);
         //Etiqueta NUM MESA
         JLabel labelNumMesa = new JLabel("Num. Mesa");
-        labelNumMesa.setFont( new Font("TimesRoman",Font.BOLD,20));
+        labelNumMesa.setFont( new Font("TimesRoman", BOLD,20));
         labelNumMesa.setForeground(Color.white);
         labelNumMesa.setBounds(150,170,120,20);
         panel.add(labelNumMesa);
@@ -435,7 +432,7 @@ public class ConstruirRestaurante {
         panel.add(campoNumMesa);
         //Etiqueta NUM COMENSALES
         JLabel labelNumComensales = new JLabel("Num. Comensales");
-        labelNumComensales.setFont( new Font("TimesRoman",Font.BOLD,20));
+        labelNumComensales.setFont( new Font("TimesRoman", BOLD,20));
         labelNumComensales.setForeground(Color.white);
         labelNumComensales.setBounds(150,190,190,20);
         panel.add(labelNumComensales);
@@ -482,7 +479,7 @@ public class ConstruirRestaurante {
         panel.setLayout(null);
         //Etiqueta ID
         JLabel labelId = new JLabel("ID");
-        labelId.setFont( new Font("TimesRoman",Font.BOLD,20));
+        labelId.setFont( new Font("TimesRoman", BOLD,20));
         labelId.setForeground(Color.white);
         labelId.setBounds(150,150,60,20);
         panel.add(labelId);
@@ -492,7 +489,7 @@ public class ConstruirRestaurante {
         panel.add(campoId);
         //Etiqueta NOMBRE
         JLabel labelNombre = new JLabel("Nombre");
-        labelNombre.setFont( new Font("TimesRoman",Font.BOLD,20));
+        labelNombre.setFont( new Font("TimesRoman", BOLD,20));
         labelNombre.setForeground(Color.white);
         labelNombre.setBounds(150,170,100,20);
         panel.add(labelNombre);
@@ -502,7 +499,7 @@ public class ConstruirRestaurante {
         panel.add(campoNombre);
         //Etiqueta APELLIDOS
         JLabel labelApellidos = new JLabel("Apellidos");
-        labelApellidos.setFont( new Font("TimesRoman",Font.BOLD,20));
+        labelApellidos.setFont( new Font("TimesRoman", BOLD,20));
         labelApellidos.setForeground(Color.white);
         labelApellidos.setBounds(150,190,100,20);
         panel.add(labelApellidos);
@@ -512,7 +509,7 @@ public class ConstruirRestaurante {
         panel.add(campoApellidos);
         //Etiqueta NUM.EMPLEADO
         JLabel labelNumEmpleado = new JLabel("Num. Empleado");
-        labelNumEmpleado.setFont( new Font("TimesRoman",Font.BOLD,20));
+        labelNumEmpleado.setFont( new Font("TimesRoman", BOLD,20));
         labelNumEmpleado.setForeground(Color.white);
         labelNumEmpleado.setBounds(150,210,150,20);
         panel.add(labelNumEmpleado);
@@ -522,7 +519,7 @@ public class ConstruirRestaurante {
         panel.add(campoNumEmpleado);
         //Etiqueta ROL
         JLabel labelRol = new JLabel("Rol");
-        labelRol.setFont( new Font("TimesRoman",Font.BOLD,20));
+        labelRol.setFont( new Font("TimesRoman", BOLD,20));
         labelRol.setForeground(Color.white);
         labelRol.setBounds(150,230,60,20);
         panel.add(labelRol);
@@ -582,7 +579,7 @@ public class ConstruirRestaurante {
         panel.setLayout(null);
         //Etiqueta ID
         JLabel labelId = new JLabel("ID");
-        labelId.setFont( new Font("TimesRoman",Font.BOLD,20));
+        labelId.setFont( new Font("TimesRoman", BOLD,20));
         labelId.setForeground(Color.white);
         labelId.setBounds(150,150,60,20);
         panel.add(labelId);
@@ -592,7 +589,7 @@ public class ConstruirRestaurante {
         panel.add(campoId);
         //Etiqueta Codigo
         JLabel labelCodigo = new JLabel("CODIGO");
-        labelCodigo.setFont( new Font("TimesRoman",Font.BOLD,20));
+        labelCodigo.setFont( new Font("TimesRoman", BOLD,20));
         labelCodigo.setForeground(Color.white);
         labelCodigo.setBounds(250,150,100,20);
         panel.add(labelCodigo);
@@ -603,7 +600,7 @@ public class ConstruirRestaurante {
 
         //Etiqueta Tipo Producto
         JLabel labelTipoProducto = new JLabel("Tipo de Producto");
-        labelTipoProducto.setFont( new Font("TimesRoman",Font.BOLD,20));
+        labelTipoProducto.setFont( new Font("TimesRoman", BOLD,20));
         labelTipoProducto.setForeground(Color.white);
         labelTipoProducto.setBounds(150,200,200,20);
         panel.add(labelTipoProducto);
@@ -620,7 +617,7 @@ public class ConstruirRestaurante {
 
         //Etiqueta Precio
         JLabel labelPrecio = new JLabel("Precio");
-        labelPrecio.setFont( new Font("TimesRoman",Font.BOLD,20));
+        labelPrecio.setFont( new Font("TimesRoman", BOLD,20));
         labelPrecio.setForeground(Color.white);
         labelPrecio.setBounds(150,250,100,20);
         panel.add(labelPrecio);
@@ -631,7 +628,7 @@ public class ConstruirRestaurante {
 
         //Etiqueta DESCRIPCION
         JLabel labelDescripcion = new JLabel("Descripcion");
-        labelDescripcion.setFont( new Font("TimesRoman",Font.BOLD,20));
+        labelDescripcion.setFont( new Font("TimesRoman", BOLD,20));
         labelDescripcion.setForeground(Color.white);
         labelDescripcion.setBounds(150,270,130,20);
         panel.add(labelDescripcion);
@@ -724,18 +721,11 @@ public class ConstruirRestaurante {
             }
         };
         aforo.addActionListener(oyenteAforo);
-        aforo.setBorderPainted(true);
-        aforo.setFocusPainted(true);
-        aforo.setContentAreaFilled(true);
-        aforo.setBorder(BorderFactory.createMatteBorder(
-                1, 1, 1, 1, Color.darkGray));
-        aforo.setBackground(Color.WHITE);
         String ruta6 = new File("").getAbsolutePath() + "\\src\\main\\imagenes\\crowd.png" ;
         ImageIcon imagen6 = new ImageIcon(ruta6);
         Image imagenLimitadaTamanyo = imagen6.getImage().getScaledInstance(60, 60,  java.awt.Image.SCALE_SMOOTH);
         imagen6.setImage(imagenLimitadaTamanyo);
         aforo.setIcon(imagen6);
-        panel.add(aforo);
 
         //boton de pedidos
         JButton pedidos = new JButton("Pedidos");
@@ -747,18 +737,11 @@ public class ConstruirRestaurante {
             }
         };
         pedidos.addActionListener(oyentepedidos);
-        pedidos.setBorderPainted(true);
-        pedidos.setFocusPainted(true);
-        pedidos.setContentAreaFilled(true);
-        pedidos.setBorder(BorderFactory.createMatteBorder(
-                1, 1, 1, 1, Color.darkGray));
-        pedidos.setBackground(Color.WHITE);
         String ruta3 = new File("").getAbsolutePath() + "\\src\\main\\imagenes\\products.png" ;
         ImageIcon imagen3 = new ImageIcon(ruta3);
         Image imagenLimitadaTamanyo3 = imagen3.getImage().getScaledInstance(60, 60,  java.awt.Image.SCALE_SMOOTH);
         imagen3.setImage(imagenLimitadaTamanyo3);
         pedidos.setIcon(imagen3);
-        panel.add(pedidos);
 
         //boton de cuentas
         JButton cuentas = new JButton("Cuentas");
@@ -770,18 +753,18 @@ public class ConstruirRestaurante {
             }
         };
         cuentas.addActionListener(oyentecuentas);
-        cuentas.setBorderPainted(true);
-        cuentas.setFocusPainted(true);
-        cuentas.setContentAreaFilled(true);
-        cuentas.setBorder(BorderFactory.createMatteBorder(
-                1, 1, 1, 1, Color.darkGray));
-        cuentas.setBackground(Color.WHITE);
         String ruta4 = new File("").getAbsolutePath() + "\\src\\main\\imagenes\\bill.png" ;
         ImageIcon imagen4 = new ImageIcon(ruta4);
         Image imagenLimitadaTamanyo4 = imagen4.getImage().getScaledInstance(60, 60,  java.awt.Image.SCALE_SMOOTH);
         imagen4.setImage(imagenLimitadaTamanyo4);
         cuentas.setIcon(imagen4);
-        panel.add(cuentas);
+
+        ArrayList<JButton> camarero = new ArrayList<>();
+        camarero.add(aforo);
+        camarero.add(pedidos);
+        camarero.add(cuentas);
+
+        plantillaboton(camarero, panel);
         //boton atras
         botonAtras();
     }
@@ -828,7 +811,7 @@ public class ConstruirRestaurante {
         panel.setLayout(null);
         //Label Mesa
         JLabel labelMesa = new JLabel("Mesa:");
-        labelMesa.setFont( new Font("TimesRoman",Font.BOLD,20));
+        labelMesa.setFont( new Font("TimesRoman", BOLD,20));
         labelMesa.setForeground(Color.white);
         labelMesa.setBounds(100,150,70,20);
         panel.add(labelMesa);
@@ -839,7 +822,7 @@ public class ConstruirRestaurante {
 
         //Label Camarero
         JLabel labelCamarero = new JLabel("Camarero:");
-        labelCamarero.setFont( new Font("TimesRoman",Font.BOLD,20));
+        labelCamarero.setFont( new Font("TimesRoman", BOLD,20));
         labelCamarero.setForeground(Color.white);
         labelCamarero.setBounds(250,150,100,20);
         panel.add(labelCamarero);
@@ -850,7 +833,7 @@ public class ConstruirRestaurante {
 
         //Label Producto
         JLabel labelProducto = new JLabel("Producto:");
-        labelProducto.setFont( new Font("TimesRoman",Font.BOLD,20));
+        labelProducto.setFont( new Font("TimesRoman", BOLD,20));
         labelProducto.setForeground(Color.white);
         labelProducto.setBounds(100,200,100,20);
         panel.add(labelProducto);
@@ -861,7 +844,7 @@ public class ConstruirRestaurante {
 
         //Label Cantidad
         JLabel labelCantidad = new JLabel("Cantidad:");
-        labelCantidad.setFont( new Font("TimesRoman",Font.BOLD,20));
+        labelCantidad.setFont( new Font("TimesRoman", BOLD,20));
         labelCantidad.setForeground(Color.white);
         labelCantidad.setBounds(260,200,100,20);
         panel.add(labelCantidad);
@@ -908,6 +891,7 @@ public class ConstruirRestaurante {
         JButton verComandas = new JButton("Comandas");
         verComandas.setBounds(300,300,100,100);
         panel.add(verComandas);
+
 
         //boton atras
         botonAtras();
@@ -980,7 +964,7 @@ public class ConstruirRestaurante {
     //metodo jlabel
 
     public JLabel etiqueta (String texto) {
-        Font prueba = new Font("TimesRoman", Font.BOLD, 12);
+        Font prueba = new Font("TimesRoman", BOLD, 12);
         JLabel epico = new JLabel(texto) {
             @Override
             public void setFont(Font font) {
@@ -1000,6 +984,22 @@ public class ConstruirRestaurante {
             }
         };
         return epico;
+    }
+
+    //metodo plantilla botones
+
+    public void plantillaboton (ArrayList<JButton> listaboton, JPanel pantalla){
+
+        for (JButton x: listaboton){
+            x.setFocusPainted(true);
+            x.setContentAreaFilled(true);
+            x.setBorder(BorderFactory.createMatteBorder(
+                    1, 1, 1, 1, Color.darkGray));
+            x.setBackground(Color.WHITE);
+            x.setFocusPainted(true);
+            pantalla.add(x);
+        }
+
     }
 
 
