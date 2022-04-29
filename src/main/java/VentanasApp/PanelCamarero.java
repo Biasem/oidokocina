@@ -11,10 +11,17 @@ import java.util.List;
 
 
 public class PanelCamarero extends JPanel {
+    //BORRAR CUANDO ESTE IMPLEMENTADO LA BBDD DE MESAS
     private static List<Mesa> listaMesas = new ArrayList<>();
+    static Mesa mesa1 = new Mesa(1,1,0,false);
+    static Mesa mesa2 = new Mesa(2,2,0,true);
+//-----------------------------------------------------------------------------------------------
 
     static void panelCamarero(JPanel panel){
-       // urlimg = new ImageIcon(geturlimg()).getImage();
+    //BORRAR CUANDO ESTE IMPLEMENTADO LA BBDD DE MESAS
+        listaMesas.add(mesa1);
+        listaMesas.add(mesa2);
+        //-------------------------------------------------------
         ConstruirRestaurante.RestaurarPanel(panel);
         panel.setLayout(null);
 
@@ -92,8 +99,6 @@ public class PanelCamarero extends JPanel {
     // subpanel de camarero AFORO
     private static void panelAforo(JPanel panel){
         Font fuente = new Font("TimesRoman",Font.BOLD,20);
-
-        //urlimg = new ImageIcon(geturlimg()).getImage();
         ConstruirRestaurante.RestaurarPanel(panel);
         panel.setLayout(null);
 
@@ -140,8 +145,6 @@ public class PanelCamarero extends JPanel {
             JButton bocon = new JButton("Ocupar mesa");
             bocon.setEnabled(true);
             panel2.add(bocon);
-            System.out.println(bocon.getName());
-
         }
         panel2.setOpaque(false);
         JScrollPane scrollPane = new JScrollPane(panel2);
@@ -187,7 +190,6 @@ public class PanelCamarero extends JPanel {
     }
     // subpanel de camarero PEDIDOS
     private static void panelPedidos(JPanel panel){
-        //urlimg = new ImageIcon(geturlimg()).getImage();
         ConstruirRestaurante.RestaurarPanel(panel);
         panel.setLayout(null);
         //Label Mesa
