@@ -13,12 +13,11 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class VentanaCliente extends JPanel {
+public class PanelCliente extends JPanel {
 
 
     public static JPanel panelCliente(JPanel panel){
         ConstruirRestaurante.RestaurarPanel(panel);
-        // Image urlimg = new ImageIcon(geturlimg()).getImage();
         panel.setLayout(null);
         JButton vercarta = new JButton();
         vercarta.setBounds(400,200,400,400);
