@@ -11,12 +11,7 @@ public class PanelCocinero extends JPanel {
         //Boton Comandas
         JButton verComandas = new JButton("Comandas");
         verComandas.setBounds(300,300,100,100);
-        ActionListener oyenteComandas = new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                panelComandas(panel);
-            }
-        };
+        ActionListener oyenteComandas = e -> panelComandas(panel);
         verComandas.addActionListener(oyenteComandas);
         panel.add(verComandas);
         //boton atras
@@ -92,12 +87,7 @@ public class PanelCocinero extends JPanel {
         JButton atras = new JButton("atras");
         atras.setBounds(0,0,100,50);
         panel.add(atras);
-        ActionListener oyenteAtras = new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                panelCocinero(panel);
-            }
-        };
+        ActionListener oyenteAtras = e -> panelCocinero(panel);
         atras.addActionListener(oyenteAtras);
     }
 

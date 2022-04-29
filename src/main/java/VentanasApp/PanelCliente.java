@@ -6,7 +6,6 @@ import UtilidadesBBDD.ProductoBD;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.util.Comparator;
@@ -16,7 +15,7 @@ import java.util.stream.Collectors;
 public class PanelCliente extends JPanel {
 
 
-    public static JPanel panelCliente(JPanel panel){
+    public static void panelCliente(JPanel panel){
         PanelPrincipal.RestaurarPanel(panel);
         panel.setLayout(null);
         JButton vercarta = new JButton();
@@ -26,12 +25,9 @@ public class PanelCliente extends JPanel {
         Image imagenLimitadaTamanyo = imagen.getImage().getScaledInstance(200, 200,  java.awt.Image.SCALE_SMOOTH);
         imagen.setImage(imagenLimitadaTamanyo);
         vercarta.setIcon(imagen);
-        ActionListener oyenteCarta = new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                PanelPrincipal.RestaurarPanel(panel);
-                verCarta(panel);
-            }
+        ActionListener oyenteCarta = e -> {
+            PanelPrincipal.RestaurarPanel(panel);
+            verCarta(panel);
         };
         vercarta.addActionListener(oyenteCarta);
         vercarta.setBorderPainted(true);
@@ -52,19 +48,16 @@ public class PanelCliente extends JPanel {
         panel.add(vercarta);
         PanelPrincipal.botonAtras();
 
-        return panel;
+
     }
-    public static JPanel verCarta(JPanel panel){
+    public static void verCarta(JPanel panel){
 
         JButton atras = new JButton("atras");
         atras.setBounds(0,0,100,50);
         panel.add(atras);
-        ActionListener oyenteAtras = new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-            PanelPrincipal.RestaurarPanel(panel);
-                panelCliente(panel);
-            }
+        ActionListener oyenteAtras = e -> {
+        PanelPrincipal.RestaurarPanel(panel);
+            panelCliente(panel);
         };
         atras.addActionListener(oyenteAtras);
         //panel donde van los productos
@@ -74,7 +67,7 @@ public class PanelCliente extends JPanel {
                 !p.getTipoProducto().equals(TipoProducto.POSTRES)&&
                 !p.getTipoProducto().equals(TipoProducto.ESPECIALIDADES)).collect(Collectors.toList());
         JPanel panel2 = new JPanel();
-        panel2.setLayout(new GridLayout(lista.stream().map(p->p.getDescripcion()).distinct().collect(Collectors.toList()).size(), 4, 5, 2));
+        panel2.setLayout(new GridLayout((int) lista.stream().map(Producto::getDescripcion).distinct().count(), 4, 5, 2));
         //productos en botones para poner bonico
         Producto np = new Producto();
         np = lista.get(0);
@@ -147,7 +140,7 @@ public class PanelCliente extends JPanel {
         scrollPane.setOpaque(false);
         scrollPane.getViewport().setOpaque(false);
         panel.add(scrollPane);
-        return panel;
+
 
     }
 

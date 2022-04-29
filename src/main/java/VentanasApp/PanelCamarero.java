@@ -12,28 +12,19 @@ import java.util.List;
 
 public class PanelCamarero extends JPanel {
     //BORRAR CUANDO ESTE IMPLEMENTADO LA BBDD DE MESAS
-    private static List<Mesa> listaMesas = new ArrayList<>();
     static Mesa mesa1 = new Mesa(1,1,0,false);
     static Mesa mesa2 = new Mesa(2,2,0,true);
+    static List<Mesa> listaMesas = new ArrayList<>();
 //-----------------------------------------------------------------------------------------------
 
     static void panelCamarero(JPanel panel){
-    //BORRAR CUANDO ESTE IMPLEMENTADO LA BBDD DE MESAS
-        listaMesas.add(mesa1);
-        listaMesas.add(mesa2);
-        //-------------------------------------------------------
         PanelPrincipal.RestaurarPanel(panel);
         panel.setLayout(null);
 
         //boton de aforo
         JButton aforo = new JButton("Aforo");
         aforo.setBounds(230, 500, 250, 100);
-        ActionListener oyenteAforo = new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                panelAforo(panel);
-            }
-        };
+        ActionListener oyenteAforo = e -> panelAforo(panel);
         aforo.addActionListener(oyenteAforo);
         aforo.setBorderPainted(true);
         aforo.setFocusPainted(true);
@@ -51,12 +42,7 @@ public class PanelCamarero extends JPanel {
         //boton de pedidos
         JButton pedidos = new JButton("Pedidos");
         pedidos.setBounds(730, 500, 250, 100);
-        ActionListener oyentepedidos = new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                panelPedidos(panel);
-            }
-        };
+        ActionListener oyentepedidos = e -> panelPedidos(panel);
         pedidos.addActionListener(oyentepedidos);
         pedidos.setBorderPainted(true);
         pedidos.setFocusPainted(true);
@@ -74,12 +60,7 @@ public class PanelCamarero extends JPanel {
         //boton de cuentas
         JButton cuentas = new JButton("Cuentas");
         cuentas.setBounds(480, 500, 250, 100);
-        ActionListener oyentecuentas = new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                panelCuentas(panel);
-            }
-        };
+        ActionListener oyentecuentas = e -> panelCuentas(panel);
         cuentas.addActionListener(oyentecuentas);
         cuentas.setBorderPainted(true);
         cuentas.setFocusPainted(true);
@@ -98,6 +79,11 @@ public class PanelCamarero extends JPanel {
     }
     // subpanel de camarero AFORO
     private static void panelAforo(JPanel panel){
+    //BORRAR CUANDO ESTE IMPLEMENTADA LA BBDD
+        listaMesas.removeAll(listaMesas);
+        listaMesas.add(mesa1);
+        listaMesas.add(mesa2);
+    //---------------------------------------------------------------------
         Font fuente = new Font("TimesRoman",Font.BOLD,20);
         PanelPrincipal.RestaurarPanel(panel);
         panel.setLayout(null);
@@ -127,7 +113,7 @@ public class PanelCamarero extends JPanel {
                 }
                 @Override
                 public void setForeground(Color bg) {
-                    if(m.isOcupada()==false){
+                    if(!m.isOcupada()){
                         super.setForeground(Color.green);
                     }else{
                         super.setForeground(Color.red);
@@ -135,7 +121,7 @@ public class PanelCamarero extends JPanel {
                 }
                 @Override
                 public void setText(String text) {
-                    if(m.isOcupada()==false){
+                    if(!m.isOcupada()){
                         super.setText("Libre");
                     }else{
                         super.setText("Ocupada");
