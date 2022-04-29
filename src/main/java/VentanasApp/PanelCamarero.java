@@ -80,9 +80,10 @@ public class PanelCamarero extends JPanel {
     // subpanel de camarero AFORO
     private static void panelAforo(JPanel panel){
     //BORRAR CUANDO ESTE IMPLEMENTADA LA BBDD
-        listaMesas.removeAll(listaMesas);
-        listaMesas.add(mesa1);
-        listaMesas.add(mesa2);
+        if (listaMesas.isEmpty()){
+            listaMesas.add(mesa1);
+            listaMesas.add(mesa2);
+        }
     //---------------------------------------------------------------------
         Font fuente = new Font("TimesRoman",Font.BOLD,20);
         PanelPrincipal.RestaurarPanel(panel);
@@ -128,9 +129,9 @@ public class PanelCamarero extends JPanel {
                     }
                 }
             });
-            JButton bocon = new JButton("Ocupar mesa");
-            bocon.setEnabled(true);
-            panel2.add(bocon);
+            JButton boton = new JButton("Ocupar mesa");
+            boton.setEnabled(true);
+            panel2.add(boton);
         }
         panel2.setOpaque(false);
         JScrollPane scrollPane = new JScrollPane(panel2);
