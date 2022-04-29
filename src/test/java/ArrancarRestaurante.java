@@ -1,3 +1,5 @@
+import VentanasApp.ConstruirRestaurante;
+
 public class ArrancarRestaurante {
     //
     public static void main(String[] args) {

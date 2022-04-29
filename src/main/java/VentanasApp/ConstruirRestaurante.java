@@ -1,9 +1,13 @@
+package VentanasApp;
+
 import Modelos.Mesa;
 import Modelos.Producto;
 import Modelos.Rol;
 import Modelos.TipoProducto;
 import UtilidadesBBDD.EmpleadoBD;
 import UtilidadesBBDD.ProductoBD;
+import VentanasApp.VentanaCliente;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -25,17 +29,17 @@ import javax.swing.JFrame;
 
 
 public class ConstruirRestaurante {
-    private Image urlimg = new ImageIcon(geturlimg()).getImage();
+    private static Image urlimg = new ImageIcon(geturlimg()).getImage();
     private JFrame ventana;
-    private JPanel panel;
-    private JButton camarero, admin, cliente, cocinero;
-    private List<Mesa> listaMesas = new ArrayList<>();
+    private static JPanel panel;
+    private static JButton camarero;
+    private static JButton admin;
+    private static JButton cliente;
+    private static JButton cocinero;
+    private static List<Mesa> listaMesas = new ArrayList<>();
 
-
-
-    ConstruirRestaurante(){
+    public ConstruirRestaurante(){
         ConstruirVentana();
-
     }
 
     private void ConstruirVentana(){                     //se construye la ventana y panel principal
@@ -60,7 +64,7 @@ public class ConstruirRestaurante {
                 super.paint(g);
             }
         };
-        PanelFondo();
+        PanelFondo(panel);
         ventana.setContentPane(panel);
         ventana.setVisible(true);
     }
@@ -70,16 +74,16 @@ public class ConstruirRestaurante {
         }
     }
 
-    private void RestaurarPanel()   //metodo para inicializar paneles
+    public static void RestaurarPanel(JPanel panel)   //metodo para inicializar paneles
     {
         panel.removeAll();
         panel.repaint();
         panel.revalidate();
     }
 
-    private void PanelFondo()   //panel principal de bienvenida
+    private static void PanelFondo(JPanel panel)   //panel principal de bienvenida
     {
-        RestaurarPanel();
+        RestaurarPanel(panel);
         panel.setOpaque(false);
 
         /// Botón cocinero
@@ -136,7 +140,7 @@ public class ConstruirRestaurante {
         ActionListener oyenteCliente = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                panelcliente();
+                VentanaCliente.panelCliente(panel);
             }
         };
         cliente.addActionListener(oyenteCliente);
@@ -201,7 +205,7 @@ public class ConstruirRestaurante {
         return ruta  + "\\src\\main\\imagenes\\menuprincipal.jpg";
     }
     // Panel donde mostramos la carta, se puede hacer modo pestañas
-    private void verCarta(){
+   /* private void verCarta(){
 
         JButton atras = new JButton("atras");
         atras.setBounds(0,0,100,50);
@@ -294,8 +298,8 @@ public class ConstruirRestaurante {
         scrollPane.getViewport().setOpaque(false);
         panel.add(scrollPane);
 
-    }
-
+    }*/
+/*
     // Panel cliente
     private void panelcliente (){
         urlimg = new ImageIcon(geturlimg()).getImage();
@@ -333,12 +337,12 @@ public class ConstruirRestaurante {
 
         panel.add(vercarta);
         botonAtras();
-    }
+    }*/
 
     //panel administrador y subpaneles a continuacion
-    private void panelAdministrador (){
+    private static void panelAdministrador(){
         urlimg = new ImageIcon(geturlimg()).getImage();
-        RestaurarPanel();
+        RestaurarPanel(panel);
         panel.setLayout(null);
         //boton de Mesas
         JButton mesas = new JButton("Mesas");
@@ -409,13 +413,13 @@ public class ConstruirRestaurante {
         productos.setIcon(imagen2);
         panel.add(productos);
         //boton atras
-        botonAtras();
+        botonAtras(panel);
     }
 
     //Subpaneles de administrador  MESAS
-    private void panelMesa(){
+    private static void panelMesa(){
         urlimg = new ImageIcon(geturlimg()).getImage();
-        RestaurarPanel();
+        RestaurarPanel(panel);
         panel.setLayout(null);
 
         //Etiqueta ID
@@ -481,9 +485,9 @@ public class ConstruirRestaurante {
         botonAtrasAdministrador();
     }
     //Subpaneles de administrador  EMPLEADOS
-    private void panelEmpleados(){
+    private static void panelEmpleados(){
         urlimg = new ImageIcon(geturlimg()).getImage();
-        RestaurarPanel();
+        RestaurarPanel(panel);
         panel.setLayout(null);
         //Etiqueta ID
         JLabel labelId = new JLabel("ID");
@@ -581,9 +585,9 @@ public class ConstruirRestaurante {
         botonAtrasAdministrador();
     }
     //Subpaneles de administrador  PRODUCTOS
-    private void panelProductos(){
+    private static void panelProductos(){
         urlimg = new ImageIcon(geturlimg()).getImage();
-        RestaurarPanel();
+        RestaurarPanel(panel);
         panel.setLayout(null);
         //Etiqueta ID
         JLabel labelId = new JLabel("ID");
@@ -714,9 +718,9 @@ public class ConstruirRestaurante {
     }
 
     //panel Camarero y subpaneles a continuacion
-    private void panelCamarero (){
+    private static void panelCamarero(){
         urlimg = new ImageIcon(geturlimg()).getImage();
-        RestaurarPanel();
+        RestaurarPanel(panel);
         panel.setLayout(null);
 
         //boton de aforo
@@ -788,14 +792,14 @@ public class ConstruirRestaurante {
         cuentas.setIcon(imagen4);
         panel.add(cuentas);
         //boton atras
-        botonAtras();
+        botonAtras(panel);
     }
     // subpanel de camarero AFORO
-    private void panelAforo(){
+    private static void panelAforo(){
         Font fuente = new Font("TimesRoman",Font.BOLD,20);
 
         urlimg = new ImageIcon(geturlimg()).getImage();
-        RestaurarPanel();
+        RestaurarPanel(panel);
         panel.setLayout(null);
 
         JPanel panel2 = new JPanel();
@@ -857,9 +861,9 @@ public class ConstruirRestaurante {
         botonAtrasCamarero();
     }
     // subpanel de camarero CUENTAS
-    private void panelCuentas(){
+    private static void panelCuentas(){
         urlimg = new ImageIcon(geturlimg()).getImage();
-        RestaurarPanel();
+        RestaurarPanel(panel);
         panel.setLayout(null);
 
         JPanel panel2 = new JPanel();
@@ -887,9 +891,9 @@ public class ConstruirRestaurante {
         botonAtrasCamarero();
     }
     // subpanel de camarero PEDIDOS
-    private void panelPedidos(){
+    private static void panelPedidos(){
         urlimg = new ImageIcon(geturlimg()).getImage();
-        RestaurarPanel();
+        RestaurarPanel(panel);
         panel.setLayout(null);
         //Label Mesa
         JLabel labelMesa = new JLabel("Mesa:");
@@ -963,9 +967,9 @@ public class ConstruirRestaurante {
     }
 
     //panel de COCINERO
-    private void panelCocinero (){
+    private static void panelCocinero(){
         urlimg = new ImageIcon(geturlimg()).getImage();
-        RestaurarPanel();
+        RestaurarPanel(panel);
         panel.setLayout(null);
         //Boton Comandas
         JButton verComandas = new JButton("Comandas");
@@ -979,11 +983,11 @@ public class ConstruirRestaurante {
         verComandas.addActionListener(oyenteComandas);
         panel.add(verComandas);
         //boton atras
-        botonAtras();
+        botonAtras(panel);
     }
-    private void panelComandas (){
+    private static void panelComandas(){
         urlimg = new ImageIcon(geturlimg()).getImage();
-        RestaurarPanel();
+        RestaurarPanel(panel);
         panel.setLayout(null);
 
 
@@ -1001,7 +1005,7 @@ public class ConstruirRestaurante {
     }
 
     // metodos para botones estándar
-    public void botonAtras(){
+    public static void botonAtras(JPanel panel){
         JButton atras = new JButton();
         atras.setBounds(10,10,40,40);
         String ruta = new File("").getAbsolutePath() + "\\src\\main\\imagenes\\atras.png" ;
@@ -1016,12 +1020,12 @@ public class ConstruirRestaurante {
         ActionListener oyenteAtras = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                PanelFondo();
+                PanelFondo(panel);
             }
         };
         atras.addActionListener(oyenteAtras);
     }
-    public void botonAtrasCamarero(){
+    public static void botonAtrasCamarero(){
         JButton atras = new JButton();
         atras.setBounds(10,10,40,40);
         atras.setOpaque(false);
@@ -1042,7 +1046,7 @@ public class ConstruirRestaurante {
         };
         atras.addActionListener(oyenteAtras);
     }
-    public void botonAtrasAdministrador(){
+    public static void botonAtrasAdministrador(){
         JButton atras = new JButton();
         atras.setBounds(10,10,40,40);
         atras.setOpaque(false);
