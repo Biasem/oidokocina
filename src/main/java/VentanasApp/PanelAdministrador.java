@@ -1,5 +1,6 @@
 package VentanasApp;
 
+import Modelos.Empleado;
 import Modelos.Producto;
 import Modelos.Rol;
 import Modelos.TipoProducto;
@@ -236,11 +237,12 @@ public class PanelAdministrador extends JPanel {
         ActionListener oyenteBuscar = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Producto nuevoProducto = new Producto();
-                campoNombre.setText(EmpleadoBD.obtenerPorId(Integer.valueOf(campoId.getText())).getNombre());
-                campoApellidos.setText(EmpleadoBD.obtenerPorId(Integer.valueOf(campoId.getText())).getApellidos());
-                campoNumEmpleado.setText(EmpleadoBD.obtenerPorId(Integer.valueOf(campoId.getText())).getNum_empleado().toString());
-                comboRol.setSelectedItem(EmpleadoBD.obtenerPorId(Integer.parseInt(campoId.getText())).getRol());
+                Empleado empleado = new Empleado();
+                empleado = EmpleadoBD.obtenerPorId(Integer.valueOf(campoId.getText()));
+                campoNombre.setText(empleado.getNombre());
+                campoApellidos.setText(empleado.getApellidos());
+                campoNumEmpleado.setText(empleado.getNum_empleado().toString());
+                comboRol.setSelectedItem(empleado.getRol());
             }
         };
         botonBuscar.addActionListener(oyenteBuscar);
@@ -345,10 +347,11 @@ public class PanelAdministrador extends JPanel {
         ActionListener oyenteBuscar = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {//cambiar por una llamada a la bbdd creando un nuevo producto y acceder a este producto
-                Producto nuevoProducto = new Producto();
-                campoDescripcion.setText(ProductoBD.obtenerPorId(Integer.valueOf(campoId.getText())).getDescripcion());
-                campoPrecio.setText(ProductoBD.obtenerPorId(Integer.valueOf(campoId.getText())).getPrecio().toString());
-                comboTipoProducto.setSelectedItem(ProductoBD.obtenerPorId(Integer.parseInt(campoId.getText())).getTipoProducto());
+                Producto producto = new Producto();
+                producto = ProductoBD.obtenerPorId(Integer.valueOf(campoId.getText()));
+                campoDescripcion.setText(producto.getDescripcion());
+                campoPrecio.setText(producto.getPrecio().toString());
+                comboTipoProducto.setSelectedItem(producto.getTipoProducto());
             }
         };
         botonBuscar.addActionListener(oyenteBuscar);
