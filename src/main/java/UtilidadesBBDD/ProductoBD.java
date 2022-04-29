@@ -80,7 +80,6 @@ public class ProductoBD extends UtilidadesBD{
         }
     }
 
-
     public static void crearProducto(Producto producto){
         Connection con = conectarConBD();
 
@@ -105,6 +104,7 @@ public class ProductoBD extends UtilidadesBD{
             cerrarConexion(con);
         }
     }
+
 
 
     public static void actualizarProducto(Producto producto){

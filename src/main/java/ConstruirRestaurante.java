@@ -1,7 +1,9 @@
+import Modelos.Mesa;
 import Modelos.Producto;
 import Modelos.Rol;
 import Modelos.TipoProducto;
 import UtilidadesBBDD.EmpleadoBD;
+import UtilidadesBBDD.MesaBD;
 import UtilidadesBBDD.ProductoBD;
 import javax.swing.*;
 import java.awt.*;
@@ -454,6 +456,19 @@ public class ConstruirRestaurante {
         //Boton Buscar MESA
         JButton botonBuscar = new JButton("Buscar");
         botonBuscar.setBounds(300,600,100,50);
+        ActionListener oyenteBuscar = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Mesa nuevaMesa = new Mesa();
+                //Obtenemos una mesa de la BD y con ello su num_mesa y su num_comensales
+                nuevaMesa = MesaBD.obtenerPorId(Integer.valueOf(campoId.getText()));
+
+                campoNumMesa.setText(String.valueOf(nuevaMesa.getNum_Mesa()));
+                campoNumComensales.setText(String.valueOf(nuevaMesa.getNum_Comensales()));
+            }
+        };
+        botonBuscar.addActionListener(oyenteBuscar);
+
         panel.add(botonBuscar);
         //Boton Modificar MESA
         JButton botonModificar = new JButton("MODIFICAR");
