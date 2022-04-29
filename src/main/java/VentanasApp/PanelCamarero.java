@@ -160,7 +160,6 @@ public class PanelCamarero extends JPanel {
     }
     // subpanel de camarero CUENTAS
     private static void panelCuentas(JPanel panel){
-        //urlimg = new ImageIcon(geturlimg()).getImage();
         PanelPrincipal.RestaurarPanel(panel);
         panel.setLayout(null);
 
@@ -181,9 +180,6 @@ public class PanelCamarero extends JPanel {
         scrollPane.setOpaque(false);
         scrollPane.getViewport().setOpaque(false);
         panel.add(scrollPane);
-
-
-
 
         //boton Atras hacia panel camarero
         PanelPrincipal.botonAtrasCamarero();
