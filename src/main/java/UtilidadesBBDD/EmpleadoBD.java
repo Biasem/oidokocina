@@ -85,7 +85,7 @@ public class EmpleadoBD extends UtilidadesBD {
 
         try {
             PreparedStatement update = con.prepareStatement("update empleado " +
-                    "set codigo_empleado = ? , nombre = ? , apellidos = ? , tipo_empledado = ?" +
+                    "set num_empleado = ? , nombre = ? , apellidos = ? , rol = ?" +
                     "where id = ? ");
 
             update.setInt(1,empleado.getNum_empleado());

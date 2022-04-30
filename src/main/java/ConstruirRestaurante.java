@@ -1,3 +1,4 @@
+import Modelos.Empleado;
 import Modelos.Producto;
 import Modelos.Rol;
 import Modelos.TipoProducto;
@@ -323,22 +324,13 @@ public class ConstruirRestaurante {
             }
         };
         vercarta.addActionListener(oyenteCarta);
-        vercarta.setBorderPainted(true);
-        vercarta.setFocusPainted(true);
-        vercarta.setContentAreaFilled(true);
-        vercarta.setBorder(BorderFactory.createMatteBorder(
-                1, 1, 1, 1, Color.darkGray));
-        vercarta.setBackground(Color.WHITE);
 
+        ArrayList<JButton> carta = new ArrayList<>();
 
-        vercarta.setBorderPainted(true);
-        vercarta.setFocusPainted(true);
-        vercarta.setContentAreaFilled(true);
-        vercarta.setBorder(BorderFactory.createMatteBorder(
-                1, 1, 1, 1, Color.darkGray));
-        vercarta.setBackground(Color.WHITE);
+        carta.add(vercarta);
 
-        panel.add(vercarta);
+        plantillaboton(carta, panel);
+
         botonAtras();
     }
 
@@ -532,22 +524,31 @@ public class ConstruirRestaurante {
         comboRol.addItem(Rol.ADMINISTRADOR);
         panel.add(comboRol);
 
+        ArrayList<JButton> empleados = new ArrayList<>();
+
         //Boton Crear EMPLEADO
-        JButton botonCrear = new JButton("CREAR");
-        botonCrear.setBounds(200,600,100,50);
+        JButton botonCrear = new JButton("Crear");
+        botonCrear.setBounds(200,550,200,100);
         ActionListener oyenteCrear = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Producto nuevoProducto = new Producto();
+                Empleado nuevo = new Empleado();
+
+                nuevo.setId(Integer.parseInt(campoId.getText()));
+                nuevo.setNombre(campoNombre.getText());
+                nuevo.setApellidos(campoApellidos.getText());
+                nuevo.setNum_empleado(Integer.parseInt(campoNumEmpleado.getText()));
+                nuevo.setRol(Rol.valueOf(comboRol.getSelectedItem().toString()));
+                EmpleadoBD.crearEmpleado(nuevo);
 
             }
         };
         botonCrear.addActionListener(oyenteCrear);
+        empleados.add(botonCrear);
 
-        panel.add(botonCrear);
         //Boton Buscar EMPLEADO
         JButton botonBuscar = new JButton("Buscar");
-        botonBuscar.setBounds(300,600,100,50);
+        botonBuscar.setBounds(400,550,200,100);
         ActionListener oyenteBuscar = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -559,16 +560,19 @@ public class ConstruirRestaurante {
             }
         };
         botonBuscar.addActionListener(oyenteBuscar);
+        empleados.add(botonBuscar);
 
-        panel.add(botonBuscar);
         //Boton Modificar EMPLEADO
-        JButton botonModificar = new JButton("MODIFICAR");
-        botonModificar.setBounds(400,600,110,50);
-        panel.add(botonModificar);
+        JButton botonModificar = new JButton("Modificar");
+        botonModificar.setBounds(600,550,200,100);
+        empleados.add(botonModificar);
+
         //Boton Eliminar EMPLEADO
-        JButton botonEliminar = new JButton("ELIMINAR");
-        botonEliminar.setBounds(510,600,100,50);
-        panel.add(botonEliminar);
+        JButton botonEliminar = new JButton("Eliminar");
+        botonEliminar.setBounds(800,550,200,100);
+        empleados.add(botonEliminar);
+
+        plantillaboton(empleados, panel);
         //boton Atras hacia panel camarero
         botonAtrasAdministrador();
     }
@@ -637,9 +641,11 @@ public class ConstruirRestaurante {
         campoDescripcion.setBounds(270,270,200,20);
         panel.add(campoDescripcion);
 
+        ArrayList<JButton> producto = new ArrayList<>();
+
         //Boton Crear Producto
-        JButton botonCrear = new JButton("CREAR");
-        botonCrear.setBounds(200,600,100,50);
+        JButton botonCrear = new JButton("Crear");
+        botonCrear.setBounds(200,550,200,100);
         ActionListener oyenteCrear = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -652,11 +658,12 @@ public class ConstruirRestaurante {
             }
         };
         botonCrear.addActionListener(oyenteCrear);
-        panel.add(botonCrear);
+        producto.add(botonCrear);
+
 
         //Boton Buscar Producto
         JButton botonBuscar = new JButton("Buscar");
-        botonBuscar.setBounds(300,600,100,50);
+        botonBuscar.setBounds(400,550,200,100);
         ActionListener oyenteBuscar = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -667,11 +674,11 @@ public class ConstruirRestaurante {
             }
         };
         botonBuscar.addActionListener(oyenteBuscar);
-        panel.add(botonBuscar);
+        producto.add(botonBuscar);
 
         //Boton Modificar Producto
-        JButton botonModificar = new JButton("MODIFICAR");
-        botonModificar.setBounds(400,600,110,50);
+        JButton botonModificar = new JButton("Modificar");
+        botonModificar.setBounds(600,550,200,100);
         ActionListener oyenteModificar = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -685,10 +692,11 @@ public class ConstruirRestaurante {
             }
         };
         botonModificar.addActionListener(oyenteModificar);
-        panel.add(botonModificar);
+        producto.add(botonModificar);
+
         //Boton Eliminar Producto
-        JButton botonEliminar = new JButton("ELIMINAR");
-        botonEliminar.setBounds(510,600,100,50);
+        JButton botonEliminar = new JButton("Eliminar");
+        botonEliminar.setBounds(800,550,200,100);
         ActionListener oyenteEliminar = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -699,7 +707,11 @@ public class ConstruirRestaurante {
             }
         };
         botonEliminar.addActionListener(oyenteEliminar);
-        panel.add(botonEliminar);
+        producto.add(botonEliminar);
+
+        plantillaboton(producto, panel);
+
+
 
         //boton Atras hacia panel camarero
         botonAtrasAdministrador();
@@ -1001,6 +1013,5 @@ public class ConstruirRestaurante {
         }
 
     }
-
 
 }
