@@ -902,7 +902,12 @@ public class ConstruirRestaurante {
         //Boton Comandas
         JButton verComandas = new JButton("Comandas");
         verComandas.setBounds(300,300,100,100);
-        panel.add(verComandas);
+
+
+        ArrayList<JButton> cocinero = new ArrayList<>();
+        cocinero.add(verComandas);
+
+        plantillaboton(cocinero, panel);
 
 
         //boton atras
