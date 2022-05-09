@@ -565,11 +565,35 @@ public class ConstruirRestaurante {
         //Boton Modificar EMPLEADO
         JButton botonModificar = new JButton("Modificar");
         botonModificar.setBounds(600,550,200,100);
+        ActionListener oyenteModificar = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Empleado nuevo = new Empleado();
+                nuevo.setId(Integer.parseInt(campoId.getText()));
+                nuevo.setNombre(campoNombre.getText());
+                nuevo.setApellidos(campoApellidos.getText());
+                nuevo.setNum_empleado(Integer.parseInt(campoNumEmpleado.getText()));
+                nuevo.setRol(Rol.valueOf(comboRol.getSelectedItem().toString()));
+                EmpleadoBD.actualizarEmpleado(nuevo);
+
+            }
+        };
+        botonModificar.addActionListener(oyenteModificar);
         empleados.add(botonModificar);
 
         //Boton Eliminar EMPLEADO
         JButton botonEliminar = new JButton("Eliminar");
         botonEliminar.setBounds(800,550,200,100);
+        ActionListener oyenteEliminar = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Empleado nuevo = new Empleado();
+
+                nuevo.setId(Integer.valueOf(campoId.getText())); //filtrar las letras
+                EmpleadoBD.eliminarEmpleado(nuevo);
+            }
+        };
+        botonEliminar.addActionListener(oyenteEliminar);
         empleados.add(botonEliminar);
 
         plantillaboton(empleados, panel);
