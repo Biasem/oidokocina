@@ -41,15 +41,12 @@ create table linea_comanda(
 	id int(10) not null auto_increment,
 	id_empleadoo int(10) not null,
 	id_factura int(10) not null,
+	id_producto int(10) not null,
+	cantidad int(3) not null,
+	cantidad_cocinada int(3) not null,
 	primary key(id),
+	constraint id_producto_fk foreign key (id_producto) references producto(id),
 	constraint id_empleadoo_fk foreign key (id_empleadoo) references empleado(id),
 	constraint id_factura_fk foreign key (id_factura) references factura(id)
 );
 
-create table linea_comanda_producto(
-	id_producto int(10) not null,
-	id_linea_comanda int(10) not null,
-	cantidad int(2) not null,
-	constraint id_producto_fk foreign key (id_producto) references producto(id),
-	constraint id_linea_comanda_fk foreign key (id_linea_comanda) references linea_comanda(id)
-);
