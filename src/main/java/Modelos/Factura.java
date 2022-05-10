@@ -11,7 +11,6 @@ public class Factura {
 
     public Factura(int id, int id_mesa, LocalDate fecha, Double total) {
         this.id = id;
-        this.id_mesa = id_mesa;
         this.fecha = fecha;
         this.total = total;
     }
@@ -24,14 +23,6 @@ public class Factura {
 
     public void setId(int id) {
         this.id = id;
-    }
-
-    public int getId_mesa() {
-        return id_mesa;
-    }
-
-    public void setId_mesa(int id_mesa) {
-        this.id_mesa = id_mesa;
     }
 
     public LocalDate getFecha() {
@@ -63,19 +54,18 @@ public class Factura {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Factura factura = (Factura) o;
-        return id == factura.id && id_mesa == factura.id_mesa && pagado == factura.pagado && Objects.equals(fecha, factura.fecha) && Objects.equals(total, factura.total);
+        return id == factura.id && pagado == factura.pagado && Objects.equals(fecha, factura.fecha) && Objects.equals(total, factura.total);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, id_mesa, fecha, total, pagado);
+        return Objects.hash(id, fecha, total, pagado);
     }
 
     @Override
     public String toString() {
         return "Factura{" +
                 "id=" + id +
-                ", id_mesa=" + id_mesa +
                 ", fecha=" + fecha +
                 ", total=" + total +
                 ", pagado=" + pagado +

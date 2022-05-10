@@ -12,7 +12,6 @@ import java.awt.*;
 import java.awt.event.*;
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -23,6 +22,7 @@ public class PanelCamarero extends JPanel {
     static Mesa mesa2 = new Mesa(2,2,0,false);
     static List<Mesa> listaMesas = new ArrayList<>();
     static List<Producto> listaProductos = new ArrayList<>();
+    static List<LineaComanda> listaComandas = new ArrayList<>();
 //-----------------------------------------------------------------------------------------------
 
     static void panelCamarero(JPanel panel){
@@ -34,6 +34,7 @@ public class PanelCamarero extends JPanel {
         if (listaProductos.isEmpty()) listaProductos = ProductoBD.obtenerTodosProductos().stream().collect(Collectors.toList());
 
         //---------------------------------------------------------------------
+
         PanelPrincipal.RestaurarPanel(panel);
         panel.setLayout(null);
 
@@ -199,7 +200,7 @@ public class PanelCamarero extends JPanel {
     private static void panelPedidos(JPanel panel){
         PanelPrincipal.RestaurarPanel(panel);
         panel.setLayout(null);
-        List<LineaComanda> listaComandas = new ArrayList<>();
+
 
         //Label Mesa
         JLabel labelMesa = new JLabel("Mesa:");
@@ -291,9 +292,8 @@ public class PanelCamarero extends JPanel {
                     nuevaLineaComanda.setIdFactura(0);
                     nuevaLineaComanda.setCantidadCocinada(0);
                     listaComandas.add(nuevaLineaComanda);
+                    panelPedidos(panel);
                 }
-
-
             }
         };
         aniadirProducto.addActionListener(accionAniadirProducto);
@@ -305,17 +305,24 @@ public class PanelCamarero extends JPanel {
         panel.add(enviarComanda);
 
         JPanel panel2 = new JPanel();
-        panel2.setLayout(new GridLayout(20, 3, 20, 20));
+        panel2.setLayout(null);
         //productos en botones para poner bonico
 
         panel2.setOpaque(false);
         JScrollPane scrollPane = new JScrollPane(panel2);
+        int bajadaLabel = 0;
         for(LineaComanda lc:listaComandas){
+            JLabel labelProducto2 = new JLabel(listaProductos.stream().filter(p->p.getId()== lc.getIdProducto()).collect(Collectors.toList()).get(0).getDescripcion());
+            labelProducto2.setBounds(0,15*bajadaLabel,250,20);
+            panel2.add(labelProducto2);
+            JLabel labelTipoProducto2 = new JLabel(listaProductos.stream().filter(p->p.getId()== lc.getIdProducto()).collect(Collectors.toList()).get(0).getTipoProducto().toString());
+            labelTipoProducto2.setBounds(250,15*bajadaLabel,250,20);
+            panel2.add(labelTipoProducto2);
+            JLabel labelCantidad2 = new JLabel(""+lc.getCantidadProducto());
+            labelCantidad2.setBounds(350,15*bajadaLabel,50,20);
+            panel2.add(labelCantidad2);
+            bajadaLabel++;
         }
-
-
-
-
         scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
         scrollPane.setBounds(400, 0, 780, 500);// aqui se puede ajustar los parametros del scrool
