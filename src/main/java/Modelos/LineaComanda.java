@@ -7,19 +7,21 @@ public class LineaComanda {
     private int idEmpleado;
     private int idFactura;
     private int idProducto;
+    private int id_mesa;
     private int cantidadProducto;
     private int cantidadCocinada;
 
-    public LineaComanda(int id, int idEmpleado, int idFactura, int idProducto, int cantidadProducto, int cantidadCocinada) {
+    public LineaComanda(){}
+
+    public LineaComanda(int id, int idEmpleado, int idFactura, int idProducto, int id_mesa, int cantidadProducto, int cantidadCocinada) {
         this.id = id;
         this.idEmpleado = idEmpleado;
         this.idFactura = idFactura;
         this.idProducto = idProducto;
+        this.id_mesa = id_mesa;
         this.cantidadProducto = cantidadProducto;
         this.cantidadCocinada = cantidadCocinada;
     }
-
-    public LineaComanda(){}
 
     public int getId() {
         return id;
@@ -53,6 +55,14 @@ public class LineaComanda {
         this.idProducto = idProducto;
     }
 
+    public int getId_mesa() {
+        return id_mesa;
+    }
+
+    public void setId_mesa(int id_mesa) {
+        this.id_mesa = id_mesa;
+    }
+
     public int getCantidadProducto() {
         return cantidadProducto;
     }
@@ -74,12 +84,12 @@ public class LineaComanda {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         LineaComanda that = (LineaComanda) o;
-        return id == that.id && idEmpleado == that.idEmpleado && idFactura == that.idFactura && idProducto == that.idProducto && cantidadProducto == that.cantidadProducto && cantidadCocinada == that.cantidadCocinada;
+        return id == that.id && idEmpleado == that.idEmpleado && idFactura == that.idFactura && idProducto == that.idProducto && id_mesa == that.id_mesa && cantidadProducto == that.cantidadProducto && cantidadCocinada == that.cantidadCocinada;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, idEmpleado, idFactura, idProducto, cantidadProducto, cantidadCocinada);
+        return Objects.hash(id, idEmpleado, idFactura, idProducto, id_mesa, cantidadProducto, cantidadCocinada);
     }
 
     @Override
@@ -89,6 +99,7 @@ public class LineaComanda {
                 ", idEmpleado=" + idEmpleado +
                 ", idFactura=" + idFactura +
                 ", idProducto=" + idProducto +
+                ", id_mesa=" + id_mesa +
                 ", cantidadProducto=" + cantidadProducto +
                 ", cantidadCocinada=" + cantidadCocinada +
                 '}';

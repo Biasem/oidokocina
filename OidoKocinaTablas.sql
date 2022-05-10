@@ -32,6 +32,7 @@ create table factura(
 	id int(10) not null auto_increment,
 	fecha date not null,
 	total double not null,
+	pagado bool not null default 0,
 	id_mesaa int(10) not null,
 	primary key (id),
 	constraint id_mesaa_fk foreign key (id_mesaa) references mesa(id)

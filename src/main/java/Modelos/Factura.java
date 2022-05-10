@@ -5,9 +5,9 @@ import java.util.Objects;
 
 public class Factura {
     private int id;
-    private int id_mesa;
     private LocalDate fecha;
     private Double total;
+    private boolean pagado;
 
     public Factura(int id, int id_mesa, LocalDate fecha, Double total) {
         this.id = id;
@@ -50,17 +50,25 @@ public class Factura {
         this.total = total;
     }
 
+    public boolean isPagado() {
+        return pagado;
+    }
+
+    public void setPagado(boolean pagado) {
+        this.pagado = pagado;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Factura factura = (Factura) o;
-        return id == factura.id && id_mesa == factura.id_mesa && Objects.equals(fecha, factura.fecha) && Objects.equals(total, factura.total);
+        return id == factura.id && id_mesa == factura.id_mesa && pagado == factura.pagado && Objects.equals(fecha, factura.fecha) && Objects.equals(total, factura.total);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, id_mesa, fecha, total);
+        return Objects.hash(id, id_mesa, fecha, total, pagado);
     }
 
     @Override
@@ -70,6 +78,7 @@ public class Factura {
                 ", id_mesa=" + id_mesa +
                 ", fecha=" + fecha +
                 ", total=" + total +
+                ", pagado=" + pagado +
                 '}';
     }
 }
