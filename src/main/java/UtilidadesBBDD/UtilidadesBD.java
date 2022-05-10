@@ -21,7 +21,6 @@ public class UtilidadesBD {
         return conexion;
     }
 
-
     protected static void cerrarConexion(Connection con) {
         try {
             // Cerramos conexiones
@@ -33,9 +32,4 @@ public class UtilidadesBD {
                     + e.toString());
         }
     }
-
-
-
-
-
 }
