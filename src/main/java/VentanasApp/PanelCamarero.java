@@ -13,7 +13,7 @@ import java.util.List;
 public class PanelCamarero extends JPanel {
     //BORRAR CUANDO ESTE IMPLEMENTADO LA BBDD DE MESAS
     static Mesa mesa1 = new Mesa(1,1,0,false);
-    static Mesa mesa2 = new Mesa(2,2,0,true);
+    static Mesa mesa2 = new Mesa(2,2,0,false);
     static List<Mesa> listaMesas = new ArrayList<>();
 //-----------------------------------------------------------------------------------------------
 
@@ -130,7 +130,20 @@ public class PanelCamarero extends JPanel {
                 }
             });
             JButton botonOcuparMesa = new JButton("Ocupar mesa");
-            botonOcuparMesa.setEnabled(true);
+            botonOcuparMesa.setName(""+m.getNum_Mesa());
+            ActionListener accionOcuparMesa = new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    for (Mesa j:listaMesas){
+                        if (j.getNum_Mesa()==Integer.valueOf(botonOcuparMesa.getName())){
+                            j.setOcupada(true);
+                            panelAforo(panel);
+                        }
+                    }
+                }
+            };
+            botonOcuparMesa.addActionListener(accionOcuparMesa);
+            if(m.isOcupada())botonOcuparMesa.setEnabled(false);
             panel2.add(botonOcuparMesa);
         }
         panel2.setOpaque(false);
