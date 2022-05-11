@@ -1,7 +1,9 @@
+import VentanasApp.PanelPrincipal;
+
 public class ArrancarRestaurante {
     //
     public static void main(String[] args) {
-        ConstruirRestaurante cr = new ConstruirRestaurante();
+        PanelPrincipal cr = new PanelPrincipal();
 
     }
 }
