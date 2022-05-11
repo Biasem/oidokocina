@@ -57,13 +57,13 @@ public class EmpleadoBD extends UtilidadesBD {
         Connection con = conectarConBD();
 
         try {
-            PreparedStatement insert = con.prepareStatement("insert into empleado (id, codigo_empleado, nombre, apellidos, tipo_empleado)" +
+            PreparedStatement insert = con.prepareStatement("insert into empleado (id, nombre, apellidos, Num_empleado, Rol)" +
                     "values(?,?,?,?,?)");
 
             insert.setInt(1, empleado.getId());
-            insert.setInt(2,empleado.getNum_empleado());
-            insert.setString(3,empleado.getNombre());
-            insert.setString(4, empleado.getApellidos());
+            insert.setString(2,empleado.getNombre());
+            insert.setString(3, empleado.getApellidos());
+            insert.setInt(4,empleado.getNum_empleado());
             insert.setInt(5, empleado.getRol().ordinal());
 
             //Ejecución del insert
@@ -84,8 +84,9 @@ public class EmpleadoBD extends UtilidadesBD {
         Connection con = conectarConBD();
 
         try {
+
             PreparedStatement update = con.prepareStatement("update empleado " +
-                    "set codigo_empleado = ? , nombre = ? , apellidos = ? , tipo_empledado = ?" +
+                    "set num_empleado = ? , nombre = ? , apellidos = ? , rol = ? " +
                     "where id = ? ");
 
             update.setInt(1,empleado.getNum_empleado());

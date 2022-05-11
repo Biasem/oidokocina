@@ -3,14 +3,20 @@ package VentanasApp;
 import Modelos.Producto;
 import Modelos.TipoProducto;
 import UtilidadesBBDD.ProductoBD;
+import metodos.metodos;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import static java.awt.Font.BOLD;
+import static metodos.metodos.etiqueta;
 
 public class PanelCliente extends JPanel {
 
@@ -30,14 +36,6 @@ public class PanelCliente extends JPanel {
             verCarta(panel);
         };
         vercarta.addActionListener(oyenteCarta);
-        vercarta.setBorderPainted(true);
-        vercarta.setFocusPainted(true);
-        vercarta.setContentAreaFilled(true);
-        vercarta.setBorder(BorderFactory.createMatteBorder(
-                1, 1, 1, 1, Color.darkGray));
-        vercarta.setBackground(Color.WHITE);
-
-
         vercarta.setBorderPainted(true);
         vercarta.setFocusPainted(true);
         vercarta.setContentAreaFilled(true);
@@ -67,29 +65,68 @@ public class PanelCliente extends JPanel {
                 !p.getTipoProducto().equals(TipoProducto.POSTRES)&&
                 !p.getTipoProducto().equals(TipoProducto.ESPECIALIDADES)).collect(Collectors.toList());
         JPanel panel2 = new JPanel();
-        panel2.setLayout(new GridLayout((int) lista.stream().map(Producto::getDescripcion).distinct().count(), 4, 5, 2));
+        panel2.setLayout(new GridLayout(lista.stream().map(p->p.getDescripcion()).distinct().collect(Collectors.toList()).size(), 4, 5, 2));
+
         //productos en botones para poner bonico
         Producto np = new Producto();
         np = lista.get(0);
 
+        //Etiquetas de las reciones
+
+        JLabel tapa = new JLabel();
+        JLabel media = new JLabel();
+        JLabel racion = new JLabel();
+
+        tapa.setText("Tapa");
+        media.setText("Media");
+        racion.setText("Ración");
+
+        ArrayList<JLabel> texto = new ArrayList<>();
+        texto.add(tapa);
+        texto.add(media);
+        texto.add(racion);
+
+
+
+
+        for (JLabel x: texto){
+            x.setFont( new Font("TimesRoman", BOLD,15));
+            x.setForeground(Color.BLACK);
+            x.setOpaque(true);
+            if (x == tapa){
+                x.setBounds(325, 20, 260, 30);
+            }
+            if (x == media){
+                x.setBounds(585, 20, 280, 30);
+            }
+            if (x == racion){
+                x.setBounds(865, 20, 285, 30);
+            }
+
+        }
+
+        panel.add(tapa);
+        panel.add(media);
+        panel.add(racion);
+
         for (Producto p:lista){
             if(p.equals(np)){// primera iteracion del bucle
                 if(p.getTipoProducto().equals(TipoProducto.TAPA)){
-                    panel2.add(new JButton(p.getDescripcion()));
-                    panel2.add(new JButton(p.getPrecio().toString()));
+                    panel2.add(etiqueta(p.getDescripcion()));
+                    panel2.add(etiqueta(p.getPrecio().toString()));
                     np=p;
                 }
                 if(p.getTipoProducto().equals(TipoProducto.MEDIA)){
-                    panel2.add(new JButton(p.getDescripcion()));
-                    panel2.add(new JButton(""));
-                    panel2.add(new JButton(p.getPrecio().toString()));
+                    panel2.add(etiqueta(p.getDescripcion()));
+                    panel2.add(etiqueta(""));
+                    panel2.add(etiqueta(p.getPrecio().toString()));
                     np=p;
                 }
                 if(p.getTipoProducto().equals(TipoProducto.RACION)){
-                    panel2.add(new JButton(p.getDescripcion()));
-                    panel2.add(new JButton(""));
-                    panel2.add(new JButton(""));
-                    panel2.add(new JButton(p.getPrecio().toString()));
+                    panel2.add(etiqueta(p.getDescripcion()));
+                    panel2.add(etiqueta(""));
+                    panel2.add(etiqueta(""));
+                    panel2.add(etiqueta(p.getPrecio().toString()));
                     np=p;
                 }
             }
@@ -98,45 +135,45 @@ public class PanelCliente extends JPanel {
             else if (!p.getDescripcion().equals(np.getDescripcion())){
                 //relleno del anterior segun sea tapa o media
                 if(np.getTipoProducto().equals(TipoProducto.TAPA)){
-                    panel2.add(new JButton(""));
-                    panel2.add(new JButton(""));
+                    panel2.add(etiqueta(""));
+                    panel2.add(etiqueta(""));
                 }
                 if(np.getTipoProducto().equals(TipoProducto.MEDIA)){
-                    panel2.add(new JButton(""));
+                    panel2.add(etiqueta(""));
                 }
                 //segun el siguiente producto, procedemos a su inicio y prodecemos al avance de la variable auxiliar
                 if(p.getTipoProducto().equals(TipoProducto.TAPA)){
-                    panel2.add(new JButton(p.getDescripcion()));
-                    panel2.add(new JButton(p.getPrecio().toString()));
+                    panel2.add(etiqueta(p.getDescripcion()));
+                    panel2.add(etiqueta(p.getPrecio().toString()));
                     np=p;
                 }
                 if(p.getTipoProducto().equals(TipoProducto.MEDIA)){
-                    panel2.add(new JButton(p.getDescripcion()));
-                    panel2.add(new JButton(""));
-                    panel2.add(new JButton(p.getPrecio().toString()));
+                    panel2.add(etiqueta(p.getDescripcion()));
+                    panel2.add(etiqueta(""));
+                    panel2.add(etiqueta(p.getPrecio().toString()));
                     np=p;
                 }
                 if(p.getTipoProducto().equals(TipoProducto.RACION)){
-                    panel2.add(new JButton(p.getDescripcion()));
-                    panel2.add(new JButton(""));
-                    panel2.add(new JButton(""));
-                    panel2.add(new JButton(p.getPrecio().toString()));
+                    panel2.add(etiqueta(p.getDescripcion()));
+                    panel2.add(etiqueta(""));
+                    panel2.add(etiqueta(""));
+                    panel2.add(etiqueta(p.getPrecio().toString()));
                     np=p;
                 }
             }
             //comparamos si el siguiente tiene la misma descripción solo obtenemos el precio
             else if(np.getDescripcion().equals(p.getDescripcion())){
-                panel2.add(new JButton(p.getPrecio().toString()));
+                panel2.add(etiqueta(p.getPrecio().toString()));
                 np=p;
             }
 
         }
 
-        panel2.setOpaque(false);
+        panel2.setOpaque(true);
+        panel2.setBackground(Color.WHITE);
         JScrollPane scrollPane = new JScrollPane(panel2);
-        scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
-        scrollPane.setBounds(0, 50, 780, 500);// aqui se puede ajustar los parametros del scrool
+        scrollPane.setBounds(50, 50, 1100, 620);// aqui se puede ajustar los parametros del scrool
         scrollPane.setOpaque(false);
         scrollPane.getViewport().setOpaque(false);
         panel.add(scrollPane);
