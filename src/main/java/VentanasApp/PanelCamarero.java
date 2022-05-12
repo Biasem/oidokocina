@@ -301,6 +301,15 @@ public class PanelCamarero extends JPanel {
 
         //Boton tramitar comanda
         JButton enviarComanda = new JButton("Enviar Comanda");
+        ActionListener accionEnviarComanda = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+            FacturaYComandaBD.guardarComanda(listaComandas);
+            listaComandas = new ArrayList<>();
+            panelPedidos(panel);
+            }
+        };
+        enviarComanda.addActionListener(accionEnviarComanda);
         enviarComanda.setBounds(600,500,300,50);
         panel.add(enviarComanda);
 
