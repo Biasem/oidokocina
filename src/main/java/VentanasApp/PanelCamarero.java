@@ -200,7 +200,6 @@ public class PanelCamarero extends JPanel {
         PanelPrincipal.RestaurarPanel(panel);
         panel.setLayout(null);
 
-
         //Label Mesa
         JLabel labelMesa = new JLabel("Mesa:");
         labelMesa.setFont( new Font("TimesRoman",Font.BOLD,20));
@@ -269,7 +268,6 @@ public class PanelCamarero extends JPanel {
         JTextField campoCantidad = new JTextField();
         campoCantidad.setBounds(150,250,50,20);
         panel.add(campoCantidad);
-
 
 
         //Boton añadir linea comanda
