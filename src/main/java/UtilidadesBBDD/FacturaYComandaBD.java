@@ -15,6 +15,10 @@ import static UtilidadesBBDD.UtilidadesBD.*;
 
 public class FacturaYComandaBD {
 
+    public static void crearFacturaMesa(int numMesa){
+
+    }
+
     public static boolean mesaOcupada(Integer numMesa){
         Connection con = conectarConBD();
         Producto producto = null;

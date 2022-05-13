@@ -147,6 +147,7 @@ public class PanelCamarero extends JPanel {
                     for (Mesa j:listaMesas){
                         if (j.getNum_Mesa()==Integer.valueOf(botonOcuparMesa.getName())){
                             MesaBD.ocuparMesa(j.getNum_Mesa());
+
                             panelAforo(panel);
                         }
                     }
