@@ -5,6 +5,7 @@ import Modelos.Mesa;
 import Modelos.Producto;
 import Modelos.TipoProducto;
 import UtilidadesBBDD.FacturaYComandaBD;
+import UtilidadesBBDD.MesaBD;
 import UtilidadesBBDD.ProductoBD;
 
 import javax.swing.*;
@@ -18,19 +19,14 @@ import java.util.stream.Collectors;
 
 public class PanelCamarero extends JPanel {
     //BORRAR CUANDO ESTE IMPLEMENTADO LA BBDD DE MESAS
-    static Mesa mesa1 = new Mesa(1,1,0,true);
-    static Mesa mesa2 = new Mesa(2,2,0,true);
-    static List<Mesa> listaMesas = new ArrayList<>();
+
     static List<Producto> listaProductos = new ArrayList<>();
     static List<LineaComanda> listaComandas = new ArrayList<>();
 //-----------------------------------------------------------------------------------------------
 
     static void panelCamarero(JPanel panel){
         //BORRAR CUANDO ESTE IMPLEMENTADA LA BBDD
-        if (listaMesas.isEmpty()){
-            listaMesas.add(mesa1);
-            listaMesas.add(mesa2);
-        }
+
         if (listaProductos.isEmpty()) listaProductos = ProductoBD.obtenerTodosProductos().stream().collect(Collectors.toList());
 
         //---------------------------------------------------------------------
@@ -96,6 +92,8 @@ public class PanelCamarero extends JPanel {
     }
     // subpanel de camarero AFORO
     private static void panelAforo(JPanel panel){
+        List<Mesa> listaMesas = new ArrayList<>();
+        listaMesas.addAll(MesaBD.obtenerTodasMesas());
 
         Font fuente = new Font("TimesRoman",Font.BOLD,20);
         PanelPrincipal.RestaurarPanel(panel);
@@ -148,7 +146,8 @@ public class PanelCamarero extends JPanel {
                 public void actionPerformed(ActionEvent e) {
                     for (Mesa j:listaMesas){
                         if (j.getNum_Mesa()==Integer.valueOf(botonOcuparMesa.getName())){
-                            j.setOcupada(true);
+                            MesaBD.ocuparMesa(j.getNum_Mesa());
+
                             panelAforo(panel);
                         }
                     }
@@ -256,8 +255,6 @@ public class PanelCamarero extends JPanel {
             for (Producto p:listaProductos.stream().filter(p->p.getTipoProducto().
                     equals(TipoProducto.valueOf(comboTipoProducto.getSelectedItem().toString()))).collect(Collectors.toList())){
                 comboProducto.addItem(p.getDescripcion());
-
-
             }
         };
         comboTipoProducto.addActionListener(accionComboTipoProducto);
