@@ -59,9 +59,23 @@ public class metodos {
             x.setBorder(BorderFactory.createMatteBorder(
                     1, 1, 1, 1, Color.darkGray));
             x.setBackground(Color.WHITE);
-            x.setFocusPainted(true);
             pantalla.add(x);
         }
 
+    }
+
+    public static void plantillatexto(JLabel texto){
+        texto.setFont( new Font("TimesRoman", BOLD,15));
+        texto.setForeground(Color.BLACK);
+        texto.setOpaque(true);
+    }
+
+    public static void plantillabotoncocinero (JButton x){
+        x.setFocusPainted(true);
+        x.setContentAreaFilled(true);
+        x.setBorder(BorderFactory.createMatteBorder(
+                1, 1, 1, 1, Color.darkGray));
+        x.setBackground(Color.LIGHT_GRAY);
+        x.setMaximumSize(new Dimension(20,10));
     }
 }

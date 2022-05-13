@@ -9,11 +9,47 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import static UtilidadesBBDD.UtilidadesBD.*;
 
 public class FacturaYComandaBD {
+
+    public static List<LineaComanda> ObtenerComandas() {
+        List<LineaComanda> comandas = new ArrayList<>();
+        Connection con = conectarConBD();
+        LineaComanda linea_comanda;
+
+        try {
+            PreparedStatement query = con.prepareStatement("SELECT * FROM linea_comanda  ");
+            ResultSet rs = query.executeQuery();
+
+            //Recorremos los datos
+            while (rs.next()) {
+
+
+                LineaComanda comida = new LineaComanda(rs.getInt("id"),
+                        rs.getInt("id_empleado"),
+                        rs.getInt("id_factura"),
+                        rs.getInt("id_producto"),
+                        rs.getInt("id_mesa"),
+                        rs.getInt("cantidad"),
+                        rs.getInt("cantidad_cocinada"));
+
+                        comandas.add(comida);
+            }
+
+        } catch (SQLException sqle) {
+            System.out.println("Error en la ejecución:"
+                    + sqle.getErrorCode() + " " + sqle.getMessage());
+
+        } finally {
+            cerrarConexion(con);
+        }
+        return comandas;
+    }
+
 
     public static boolean mesaOcupada(Integer numMesa){
         Connection con = conectarConBD();
