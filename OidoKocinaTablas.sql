@@ -52,7 +52,7 @@ create table linea_comanda(
 	cantidad_cocinada int(3) not null,
 	primary key(id),
 	constraint id_producto_fk foreign key (id_producto) references producto(id),
-	constraint id_empleadoo_fk foreign key (id_empleadoo) references empleado(id),
+	constraint id_empleado_fk foreign key (id_empleadoo) references empleado(id),
 	constraint id_factura_fk foreign key (id_factura) references factura(id),
 	constraint id_mesaa_fk foreign key (id_mesaa) references mesa(id)
 );
