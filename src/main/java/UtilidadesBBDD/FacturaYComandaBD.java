@@ -5,10 +5,9 @@ import Modelos.Mesa;
 import Modelos.Producto;
 import Modelos.TipoProducto;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import static UtilidadesBBDD.UtilidadesBD.*;
@@ -16,7 +15,26 @@ import static UtilidadesBBDD.UtilidadesBD.*;
 public class FacturaYComandaBD {
 
     public static void crearFacturaMesa(int numMesa){
+        Connection con = conectarConBD();
 
+        try {
+            PreparedStatement insert = con.prepareStatement("insert into factura (fecha,total,pagado,id_mesa)" +
+                    "values(?,?,?,?)");
+
+            insert.setDate(1, Date.valueOf(LocalDate.now()));
+            insert.setDouble(2, 0.0);
+            insert.setInt(3, 0);
+            insert.setInt(4, numMesa);
+            //Ejecución del insert
+            insert.executeUpdate();
+
+        } catch (SQLException sqle) {
+            System.out.println("Error en la ejecución:"
+                    + sqle.getErrorCode() + " " + sqle.getMessage());
+
+        } finally {
+            cerrarConexion(con);
+        }
     }
 
     public static boolean mesaOcupada(Integer numMesa){
@@ -53,12 +71,22 @@ public class FacturaYComandaBD {
         Connection con = conectarConBD();
 
         try {
+            PreparedStatement query = con.prepareStatement("select id from factura where id_mesa = ? and pagado = 0  ");
+            query.setInt(1, listaLineaComanda.get(0).getId_mesa());
+            ResultSet rs = query.executeQuery();
+            int idFactura = 0;
+            while (rs.next()) {
+                idFactura =  rs.getInt("id");
+
+            }
+
         for(LineaComanda comanda:listaLineaComanda) {
             PreparedStatement insert = con.prepareStatement("insert into linea_comanda (id_empleado,id_factura,id_producto,id_mesa,cantidad,cantidad_cocinada)" +
                     "values(?,?,?,?,?,?)");
 
             insert.setInt(1, comanda.getIdEmpleado());
-            insert.setInt(2, comanda.getIdFactura());
+           
+            insert.setInt(2, idFactura);
             insert.setInt(3, comanda.getIdProducto());
             insert.setInt(4, comanda.getId_mesa());
             insert.setInt(5, comanda.getCantidadProducto());
@@ -77,8 +105,6 @@ public class FacturaYComandaBD {
         } finally {
             cerrarConexion(con);
         }
-
-
     }
 
 

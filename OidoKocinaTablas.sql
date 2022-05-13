@@ -38,7 +38,8 @@ create table factura(
 	fecha date not null,
 	total double not null,
 	pagado bool not null default 0,
-	id_mesaa int(10) not null,
+	id_mesa int(10) not null,
+	constraint id_mesaa_fk1 foreign key (id_mesa) references mesa(id)
 	primary key (id)
 );
 
@@ -51,9 +52,9 @@ create table linea_comanda(
 	cantidad int(3) not null,
 	cantidad_cocinada int(3) not null,
 	primary key(id),
-	constraint id_producto_fk foreign key (id_producto) references producto(id),
-	constraint id_empleadoo_fk foreign key (id_empleadoo) references empleado(id),
-	constraint id_factura_fk foreign key (id_factura) references factura(id),
-	constraint id_mesaa_fk foreign key (id_mesaa) references mesa(id)
+	constraint id_producto_fk1 foreign key (id_producto) references producto(id),
+	constraint id_empleadoo_fk1 foreign key (id_empleado) references empleado(id),
+	constraint id_factura_fk1 foreign key (id_factura) references factura(id),
+	constraint id_mesaa_fk1 foreign key (id_mesa) references mesa(id)
 );
 
