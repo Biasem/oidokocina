@@ -1,6 +1,11 @@
 package VentanasApp;
 
+import Modelos.LineaComanda;
 import Modelos.Mesa;
+import Modelos.Producto;
+import Modelos.TipoProducto;
+import UtilidadesBBDD.FacturaYComandaBD;
+import UtilidadesBBDD.ProductoBD;
 
 import javax.swing.*;
 import java.awt.*;
@@ -8,32 +13,35 @@ import java.awt.event.*;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 public class PanelCamarero extends JPanel {
     //BORRAR CUANDO ESTE IMPLEMENTADO LA BBDD DE MESAS
-    private static List<Mesa> listaMesas = new ArrayList<>();
     static Mesa mesa1 = new Mesa(1,1,0,false);
-    static Mesa mesa2 = new Mesa(2,2,0,true);
+    static Mesa mesa2 = new Mesa(2,2,0,false);
+    static List<Mesa> listaMesas = new ArrayList<>();
+    static List<Producto> listaProductos = new ArrayList<>();
+    static List<LineaComanda> listaComandas = new ArrayList<>();
 //-----------------------------------------------------------------------------------------------
 
     static void panelCamarero(JPanel panel){
-    //BORRAR CUANDO ESTE IMPLEMENTADO LA BBDD DE MESAS
-        listaMesas.add(mesa1);
-        listaMesas.add(mesa2);
-        //-------------------------------------------------------
+        //BORRAR CUANDO ESTE IMPLEMENTADA LA BBDD
+        if (listaMesas.isEmpty()){
+            listaMesas.add(mesa1);
+            listaMesas.add(mesa2);
+        }
+        if (listaProductos.isEmpty()) listaProductos = ProductoBD.obtenerTodosProductos().stream().collect(Collectors.toList());
+
+        //---------------------------------------------------------------------
+
         PanelPrincipal.RestaurarPanel(panel);
         panel.setLayout(null);
 
         //boton de aforo
         JButton aforo = new JButton("Aforo");
         aforo.setBounds(230, 500, 250, 100);
-        ActionListener oyenteAforo = new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                panelAforo(panel);
-            }
-        };
+        ActionListener oyenteAforo = e -> panelAforo(panel);
         aforo.addActionListener(oyenteAforo);
         aforo.setBorderPainted(true);
         aforo.setFocusPainted(true);
@@ -51,12 +59,7 @@ public class PanelCamarero extends JPanel {
         //boton de pedidos
         JButton pedidos = new JButton("Pedidos");
         pedidos.setBounds(730, 500, 250, 100);
-        ActionListener oyentepedidos = new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                panelPedidos(panel);
-            }
-        };
+        ActionListener oyentepedidos = e -> panelPedidos(panel);
         pedidos.addActionListener(oyentepedidos);
         pedidos.setBorderPainted(true);
         pedidos.setFocusPainted(true);
@@ -74,12 +77,7 @@ public class PanelCamarero extends JPanel {
         //boton de cuentas
         JButton cuentas = new JButton("Cuentas");
         cuentas.setBounds(480, 500, 250, 100);
-        ActionListener oyentecuentas = new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                panelCuentas(panel);
-            }
-        };
+        ActionListener oyentecuentas = e -> panelCuentas(panel);
         cuentas.addActionListener(oyentecuentas);
         cuentas.setBorderPainted(true);
         cuentas.setFocusPainted(true);
@@ -98,6 +96,7 @@ public class PanelCamarero extends JPanel {
     }
     // subpanel de camarero AFORO
     private static void panelAforo(JPanel panel){
+
         Font fuente = new Font("TimesRoman",Font.BOLD,20);
         PanelPrincipal.RestaurarPanel(panel);
         panel.setLayout(null);
@@ -127,7 +126,7 @@ public class PanelCamarero extends JPanel {
                 }
                 @Override
                 public void setForeground(Color bg) {
-                    if(m.isOcupada()==false){
+                    if(!m.isOcupada()){
                         super.setForeground(Color.green);
                     }else{
                         super.setForeground(Color.red);
@@ -135,16 +134,29 @@ public class PanelCamarero extends JPanel {
                 }
                 @Override
                 public void setText(String text) {
-                    if(m.isOcupada()==false){
+                    if(!m.isOcupada()){
                         super.setText("Libre");
                     }else{
                         super.setText("Ocupada");
                     }
                 }
             });
-            JButton bocon = new JButton("Ocupar mesa");
-            bocon.setEnabled(true);
-            panel2.add(bocon);
+            JButton botonOcuparMesa = new JButton("Ocupar mesa");
+            botonOcuparMesa.setName(""+m.getNum_Mesa());
+            ActionListener accionOcuparMesa = new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    for (Mesa j:listaMesas){
+                        if (j.getNum_Mesa()==Integer.valueOf(botonOcuparMesa.getName())){
+                            j.setOcupada(true);
+                            panelAforo(panel);
+                        }
+                    }
+                }
+            };
+            botonOcuparMesa.addActionListener(accionOcuparMesa);
+            if(m.isOcupada())botonOcuparMesa.setEnabled(false);
+            panel2.add(botonOcuparMesa);
         }
         panel2.setOpaque(false);
         JScrollPane scrollPane = new JScrollPane(panel2);
@@ -160,7 +172,6 @@ public class PanelCamarero extends JPanel {
     }
     // subpanel de camarero CUENTAS
     private static void panelCuentas(JPanel panel){
-        //urlimg = new ImageIcon(geturlimg()).getImage();
         PanelPrincipal.RestaurarPanel(panel);
         panel.setLayout(null);
 
@@ -182,9 +193,6 @@ public class PanelCamarero extends JPanel {
         scrollPane.getViewport().setOpaque(false);
         panel.add(scrollPane);
 
-
-
-
         //boton Atras hacia panel camarero
         PanelPrincipal.botonAtrasCamarero();
     }
@@ -192,53 +200,103 @@ public class PanelCamarero extends JPanel {
     private static void panelPedidos(JPanel panel){
         PanelPrincipal.RestaurarPanel(panel);
         panel.setLayout(null);
+
+
         //Label Mesa
         JLabel labelMesa = new JLabel("Mesa:");
         labelMesa.setFont( new Font("TimesRoman",Font.BOLD,20));
         labelMesa.setForeground(Color.white);
-        labelMesa.setBounds(100,150,70,20);
+        labelMesa.setBounds(50,100,70,20);
         panel.add(labelMesa);
         //Campo Mesa
         JTextField campoMesa = new JTextField();
-        campoMesa.setBounds(160,150,50,20);
+        campoMesa.setBounds(110,100,50,20);
         panel.add(campoMesa);
 
         //Label Camarero
         JLabel labelCamarero = new JLabel("Camarero:");
         labelCamarero.setFont( new Font("TimesRoman",Font.BOLD,20));
         labelCamarero.setForeground(Color.white);
-        labelCamarero.setBounds(250,150,100,20);
+        labelCamarero.setBounds(250,100,100,20);
         panel.add(labelCamarero);
         //Campo Camarero
         JTextField campoCamarero = new JTextField();
-        campoCamarero.setBounds(350,150,50,20);
+        campoCamarero.setBounds(350,100,50,20);
         panel.add(campoCamarero);
 
         //Label Producto
         JLabel labelProducto = new JLabel("Producto:");
         labelProducto.setFont( new Font("TimesRoman",Font.BOLD,20));
         labelProducto.setForeground(Color.white);
-        labelProducto.setBounds(100,200,100,20);
+        labelProducto.setBounds(50,200,100,20);
         panel.add(labelProducto);
-        //Campo Producto
-        JTextField campoProducto = new JTextField();
-        campoProducto.setBounds(200,200,50,20);
-        panel.add(campoProducto);
+        //Combo Producto
+        JComboBox comboProducto = new JComboBox();
+        comboProducto.setBounds(150,200,250,20);
+        panel.add(comboProducto);
+
+        //Label Tipo Producto
+        JLabel labelTipoProducto = new JLabel("Tipo:");
+        labelTipoProducto.setFont( new Font("TimesRoman",Font.BOLD,20));
+        labelTipoProducto.setForeground(Color.white);
+        labelTipoProducto.setBounds(50,150,100,20);
+        panel.add(labelTipoProducto);
+        //Combo Tipo Producto
+        JComboBox comboTipoProducto = new JComboBox();
+        comboTipoProducto.setBounds(100,150,140,20);
+        comboTipoProducto.addItem(TipoProducto.TAPA);
+        comboTipoProducto.addItem(TipoProducto.MEDIA);
+        comboTipoProducto.addItem(TipoProducto.RACION);
+        comboTipoProducto.addItem(TipoProducto.ESPECIALIDADES);
+        comboTipoProducto.addItem(TipoProducto.BEBIDAS);
+        comboTipoProducto.addItem(TipoProducto.POSTRES);
+        panel.add(comboTipoProducto);
+        ActionListener accionComboTipoProducto = e -> {
+            comboProducto.removeAllItems();
+            for (Producto p:listaProductos.stream().filter(p->p.getTipoProducto().
+                    equals(TipoProducto.valueOf(comboTipoProducto.getSelectedItem().toString()))).collect(Collectors.toList())){
+                comboProducto.addItem(p.getDescripcion());
+            }
+        };
+        comboTipoProducto.addActionListener(accionComboTipoProducto);
 
         //Label Cantidad
         JLabel labelCantidad = new JLabel("Cantidad:");
         labelCantidad.setFont( new Font("TimesRoman",Font.BOLD,20));
         labelCantidad.setForeground(Color.white);
-        labelCantidad.setBounds(260,200,100,20);
+        labelCantidad.setBounds(50,250,100,20);
         panel.add(labelCantidad);
         //Campo Cantidad
         JTextField campoCantidad = new JTextField();
-        campoCantidad.setBounds(350,200,50,20);
+        campoCantidad.setBounds(150,250,50,20);
         panel.add(campoCantidad);
 
-        //Boton añadir producto a la comanda
+
+
+        //Boton añadir linea comanda
         JButton aniadirProducto = new JButton("Añadir");
-        aniadirProducto.setBounds(300,250,100,50);
+        aniadirProducto.setBounds(300,350,100,50);
+        ActionListener accionAniadirProducto = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                //Comprobamos la mesa
+                if(FacturaYComandaBD.mesaOcupada(Integer.valueOf(campoMesa.getText()))){
+                    LineaComanda nuevaLineaComanda = new LineaComanda();
+                    nuevaLineaComanda.setCantidadProducto(Integer.valueOf(campoCantidad.getText()));
+                    nuevaLineaComanda.setIdProducto(listaProductos.stream().
+                            filter(p -> p.getTipoProducto().equals(TipoProducto.valueOf(comboTipoProducto.getSelectedItem().toString()))&&
+                            p.getDescripcion().equals(comboProducto.getSelectedItem().toString())).collect(Collectors.toList()).get(0).getId());
+                    nuevaLineaComanda.setIdEmpleado(Integer.valueOf(campoCamarero.getText()));
+                    nuevaLineaComanda.setId_mesa(Integer.valueOf(campoMesa.getText()));
+                    nuevaLineaComanda.setId(0);
+                    nuevaLineaComanda.setIdFactura(0);
+                    nuevaLineaComanda.setCantidadCocinada(0);
+                    listaComandas.add(nuevaLineaComanda);
+                    panelPedidos(panel);
+                }
+            }
+        };
+        aniadirProducto.addActionListener(accionAniadirProducto);
         panel.add(aniadirProducto);
 
         //Boton tramitar comanda
@@ -247,11 +305,24 @@ public class PanelCamarero extends JPanel {
         panel.add(enviarComanda);
 
         JPanel panel2 = new JPanel();
-        panel2.setLayout(new GridLayout(20, 3, 20, 20));
+        panel2.setLayout(null);
         //productos en botones para poner bonico
 
         panel2.setOpaque(false);
         JScrollPane scrollPane = new JScrollPane(panel2);
+        int bajadaLabel = 0;
+        for(LineaComanda lc:listaComandas){
+            JLabel labelProducto2 = new JLabel(listaProductos.stream().filter(p->p.getId()== lc.getIdProducto()).collect(Collectors.toList()).get(0).getDescripcion());
+            labelProducto2.setBounds(0,15*bajadaLabel,250,20);
+            panel2.add(labelProducto2);
+            JLabel labelTipoProducto2 = new JLabel(listaProductos.stream().filter(p->p.getId()== lc.getIdProducto()).collect(Collectors.toList()).get(0).getTipoProducto().toString());
+            labelTipoProducto2.setBounds(250,15*bajadaLabel,250,20);
+            panel2.add(labelTipoProducto2);
+            JLabel labelCantidad2 = new JLabel(""+lc.getCantidadProducto());
+            labelCantidad2.setBounds(350,15*bajadaLabel,50,20);
+            panel2.add(labelCantidad2);
+            bajadaLabel++;
+        }
         scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
         scrollPane.setBounds(400, 0, 780, 500);// aqui se puede ajustar los parametros del scrool
