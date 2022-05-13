@@ -49,6 +49,7 @@ public class PanelCocinero extends JPanel {
 
         for (LineaComanda x: lista){
             final int[] numero = {0};
+            int id = x.getIdProducto();
 
             JLabel texto = new JLabel();
             texto.setText("" + x.getIdEmpleado() + "" + x.getIdProducto() + "Cantidad:" + x.getCantidadProducto() + "Cantidad cocinada:" + numero[0]);
@@ -59,13 +60,14 @@ public class PanelCocinero extends JPanel {
             ActionListener mesafuncion = new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    numero[0] = numero[0] + 1;
+                    if (id == x.getIdProducto()){
+                        numero[0] = numero[0] + 1;
 
-                    if (numero[0] >= x.getCantidadProducto()){
-                        mesa.setEnabled(false);
-                        texto.setText("Hecho");
+                        if (numero[0] >= x.getCantidadProducto()){
+                            mesa.setEnabled(false);
+                            texto.setText("Hecho");
+                        }
                     }
-
                 }
             };
             metodos.plantillabotoncocinero(mesa);
