@@ -254,6 +254,8 @@ public class PanelCamarero extends JPanel {
             for (Producto p:listaProductos.stream().filter(p->p.getTipoProducto().
                     equals(TipoProducto.valueOf(comboTipoProducto.getSelectedItem().toString()))).collect(Collectors.toList())){
                 comboProducto.addItem(p.getDescripcion());
+
+
             }
         };
         comboTipoProducto.addActionListener(accionComboTipoProducto);
