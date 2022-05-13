@@ -176,4 +176,4 @@ insert into empleado(nombre, apellidos, num_empleado, rol) values('Juanma', 'Cam
 
 insert into empleado(nombre, apellidos, num_empleado, rol) values('Ruben', 'Nieto Urena', 2, 1);
 
-insert into mesa(num_mesa,num_comensales,ocupada) values(1,1,1;)
+insert into mesa(num_mesa,num_comensales,ocupada) values(1,1,1);

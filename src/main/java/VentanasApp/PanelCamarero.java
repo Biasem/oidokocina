@@ -18,8 +18,8 @@ import java.util.stream.Collectors;
 
 public class PanelCamarero extends JPanel {
     //BORRAR CUANDO ESTE IMPLEMENTADO LA BBDD DE MESAS
-    static Mesa mesa1 = new Mesa(1,1,0,false);
-    static Mesa mesa2 = new Mesa(2,2,0,false);
+    static Mesa mesa1 = new Mesa(1,1,0,true);
+    static Mesa mesa2 = new Mesa(2,2,0,true);
     static List<Mesa> listaMesas = new ArrayList<>();
     static List<Producto> listaProductos = new ArrayList<>();
     static List<LineaComanda> listaComandas = new ArrayList<>();
@@ -301,6 +301,15 @@ public class PanelCamarero extends JPanel {
 
         //Boton tramitar comanda
         JButton enviarComanda = new JButton("Enviar Comanda");
+        ActionListener accionEnviarComanda = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+            FacturaYComandaBD.guardarComanda(listaComandas);
+            listaComandas = new ArrayList<>();
+            panelPedidos(panel);
+            }
+        };
+        enviarComanda.addActionListener(accionEnviarComanda);
         enviarComanda.setBounds(600,500,300,50);
         panel.add(enviarComanda);
 
