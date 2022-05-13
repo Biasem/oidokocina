@@ -47,7 +47,7 @@ create table linea_comanda(
 	id_empleado int(10) not null,
 	id_factura int(10) not null,
 	id_producto int(10) not null,
-	id_mesaa int(10) not null,
+	id_mesa int(10) not null,
 	cantidad int(3) not null,
 	cantidad_cocinada int(3) not null,
 	primary key(id),

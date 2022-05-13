@@ -50,7 +50,7 @@ public class FacturaYComandaBD {
 
         try {
         for(LineaComanda comanda:listaLineaComanda) {
-            PreparedStatement insert = con.prepareStatement("insert into lineacomanda (id_empleado,id_factura,id_producto,id_mesa,cantidad,cantidad_cocinada)" +
+            PreparedStatement insert = con.prepareStatement("insert into linea_comanda (id_empleado,id_factura,id_producto,id_mesa,cantidad,cantidad_cocinada)" +
                     "values(?,?,?,?,?,?)");
 
             insert.setInt(1, comanda.getIdEmpleado());
