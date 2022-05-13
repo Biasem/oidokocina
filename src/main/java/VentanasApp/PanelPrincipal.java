@@ -8,8 +8,10 @@ import java.io.File;
 import static javax.swing.WindowConstants.EXIT_ON_CLOSE;
 import java.awt.Color;
 import java.awt.Graphics;
+import java.util.ArrayList;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import metodos.metodos;
 
 
 public class PanelPrincipal {
@@ -109,46 +111,19 @@ public class PanelPrincipal {
 
         panel.setLayout(null);
 
+        ArrayList<JButton> principal = new ArrayList<>();
+        principal.add(cocinero);
+        principal.add(camarero);
+        principal.add(admin);
+        principal.add(cliente);
+
+        metodos.plantillaboton(principal, panel);
+
         cocinero.setBounds(860, 500, 250, 100);
         camarero.setBounds(610, 500, 250, 100);
         admin.setBounds(360, 500, 250, 100);
         cliente.setBounds(110, 500, 250, 100);
 
-        panel.add(cocinero);
-        panel.add(camarero);
-        panel.add(cliente);
-        panel.add(admin);
-
-
-        cocinero.setFocusPainted(true);
-        cocinero.setContentAreaFilled(true);
-        cocinero.setBorder(BorderFactory.createMatteBorder(
-                1, 1, 1, 1, Color.darkGray));
-        cocinero.setBackground(Color.WHITE);
-
-
-        camarero.setBorderPainted(true);
-        camarero.setFocusPainted(true);
-        camarero.setContentAreaFilled(true);
-        camarero.setBorder(BorderFactory.createMatteBorder(
-                1, 1, 1, 1, Color.darkGray));
-        camarero.setBackground(Color.WHITE);
-
-
-        admin.setBorderPainted(true);
-        admin.setFocusPainted(true);
-        admin.setContentAreaFilled(true);
-        admin.setBorder(BorderFactory.createMatteBorder(
-                1, 1, 1, 1, Color.darkGray));
-        admin.setBackground(Color.WHITE);
-
-
-        cliente.setBorderPainted(true);
-        cliente.setFocusPainted(true);
-        cliente.setContentAreaFilled(true);
-        cliente.setBorder(BorderFactory.createMatteBorder(
-                1, 1, 1, 1, Color.darkGray));
-        cliente.setBackground(Color.WHITE);
     }
 
 
@@ -156,46 +131,6 @@ public class PanelPrincipal {
         String ruta = new File("").getAbsolutePath();
         return ruta  + "\\src\\main\\imagenes\\menuprincipal.jpg";
     }
-/*
-    //panel de COCINERO
-    private static void panelCocinero(){
-        urlimg = new ImageIcon(geturlimg()).getImage();
-        RestaurarPanel(panel);
-        panel.setLayout(null);
-        //Boton Comandas
-        JButton verComandas = new JButton("Comandas");
-        verComandas.setBounds(300,300,100,100);
-        ActionListener oyenteComandas = new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                panelComandas();
-            }
-        };
-        verComandas.addActionListener(oyenteComandas);
-        panel.add(verComandas);
-        //boton atras
-        botonAtras(panel);
-    }
-    private static void panelComandas(){
-        urlimg = new ImageIcon(geturlimg()).getImage();
-        RestaurarPanel(panel);
-        panel.setLayout(null);
-
-
-        //boton atras
-        JButton atras = new JButton("atras");
-        atras.setBounds(0,0,100,50);
-        panel.add(atras);
-        ActionListener oyenteAtras = new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                panelCocinero();
-            }
-        };
-        atras.addActionListener(oyenteAtras);
-    }
-
- */
 
     // metodos para botones estándar
     public static void botonAtras(){
