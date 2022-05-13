@@ -8,8 +8,10 @@ import java.io.File;
 import static javax.swing.WindowConstants.EXIT_ON_CLOSE;
 import java.awt.Color;
 import java.awt.Graphics;
+import java.util.ArrayList;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import metodos.metodos;
 
 
 public class PanelPrincipal {
@@ -25,7 +27,7 @@ public class PanelPrincipal {
         ConstruirVentana();
     }
 
-    private void ConstruirVentana(){                     //se construye la ventana y panel principal
+    private void ConstruirVentana(){      //se construye la ventana y panel principal
 
         ventana = new JFrame("OidoKocina");
         ventana.setSize(1200,720);
@@ -44,7 +46,8 @@ public class PanelPrincipal {
         ventana.setVisible(true);
     }
 
-    public class seticonimg extends javax.swing.JFrame{
+    //para reemplazar la imagen de fondo
+    public static class seticonimg extends javax.swing.JFrame{
         public seticonimg() {
         }
     }
@@ -63,12 +66,7 @@ public class PanelPrincipal {
 
         /// Botón cocinero
         cocinero = new JButton("Cocinero");
-        ActionListener oyenteCocinero = new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                PanelCocinero.panelCocinero(panel);
-            }
-        };
+        ActionListener oyenteCocinero = e -> PanelCocinero.panelCocinero(panel);
         cocinero.addActionListener(oyenteCocinero);
         String ruta = new File("").getAbsolutePath() + "\\src\\main\\imagenes\\cocinero.png" ;
         ImageIcon imagen = new ImageIcon(ruta);
@@ -80,12 +78,7 @@ public class PanelPrincipal {
 
         /// Botón camarero
         camarero = new JButton("Camarero");
-        ActionListener oyenteCamarero = new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                PanelCamarero.panelCamarero(panel);
-            }
-        };
+        ActionListener oyenteCamarero = e -> PanelCamarero.panelCamarero(panel);
         camarero.addActionListener(oyenteCamarero);
         ruta = new File("").getAbsolutePath() + "\\src\\main\\imagenes\\camarero.png" ;
         imagen = new ImageIcon(ruta);
@@ -97,12 +90,7 @@ public class PanelPrincipal {
         /// Botón admin
 
         admin = new JButton("Administrador");
-        ActionListener oyenteAdmin = new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                PanelAdministrador.panelAdministrador(panel);
-            }
-        };
+        ActionListener oyenteAdmin = e -> PanelAdministrador.panelAdministrador(panel);
         admin.addActionListener(oyenteAdmin);
         ruta = new File("").getAbsolutePath() + "\\src\\main\\imagenes\\apoyo.png" ;
         imagen = new ImageIcon(ruta);
@@ -112,12 +100,7 @@ public class PanelPrincipal {
         /// Botón cliente
 
         cliente = new JButton("Cliente");
-        ActionListener oyenteCliente = new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                PanelCliente.panelCliente(panel);
-            }
-        };
+        ActionListener oyenteCliente = e -> PanelCliente.panelCliente(panel);
         cliente.addActionListener(oyenteCliente);
         ruta = new File("").getAbsolutePath() + "\\src\\main\\imagenes\\cliente.png" ;
         imagen = new ImageIcon(ruta);
@@ -128,46 +111,19 @@ public class PanelPrincipal {
 
         panel.setLayout(null);
 
+        ArrayList<JButton> principal = new ArrayList<>();
+        principal.add(cocinero);
+        principal.add(camarero);
+        principal.add(admin);
+        principal.add(cliente);
+
+        metodos.plantillaboton(principal, panel);
+
         cocinero.setBounds(860, 500, 250, 100);
         camarero.setBounds(610, 500, 250, 100);
         admin.setBounds(360, 500, 250, 100);
         cliente.setBounds(110, 500, 250, 100);
 
-        panel.add(cocinero);
-        panel.add(camarero);
-        panel.add(cliente);
-        panel.add(admin);
-
-
-        cocinero.setFocusPainted(true);
-        cocinero.setContentAreaFilled(true);
-        cocinero.setBorder(BorderFactory.createMatteBorder(
-                1, 1, 1, 1, Color.darkGray));
-        cocinero.setBackground(Color.WHITE);
-
-
-        camarero.setBorderPainted(true);
-        camarero.setFocusPainted(true);
-        camarero.setContentAreaFilled(true);
-        camarero.setBorder(BorderFactory.createMatteBorder(
-                1, 1, 1, 1, Color.darkGray));
-        camarero.setBackground(Color.WHITE);
-
-
-        admin.setBorderPainted(true);
-        admin.setFocusPainted(true);
-        admin.setContentAreaFilled(true);
-        admin.setBorder(BorderFactory.createMatteBorder(
-                1, 1, 1, 1, Color.darkGray));
-        admin.setBackground(Color.WHITE);
-
-
-        cliente.setBorderPainted(true);
-        cliente.setFocusPainted(true);
-        cliente.setContentAreaFilled(true);
-        cliente.setBorder(BorderFactory.createMatteBorder(
-                1, 1, 1, 1, Color.darkGray));
-        cliente.setBackground(Color.WHITE);
     }
 
 
@@ -175,46 +131,6 @@ public class PanelPrincipal {
         String ruta = new File("").getAbsolutePath();
         return ruta  + "\\src\\main\\imagenes\\menuprincipal.jpg";
     }
-/*
-    //panel de COCINERO
-    private static void panelCocinero(){
-        urlimg = new ImageIcon(geturlimg()).getImage();
-        RestaurarPanel(panel);
-        panel.setLayout(null);
-        //Boton Comandas
-        JButton verComandas = new JButton("Comandas");
-        verComandas.setBounds(300,300,100,100);
-        ActionListener oyenteComandas = new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                panelComandas();
-            }
-        };
-        verComandas.addActionListener(oyenteComandas);
-        panel.add(verComandas);
-        //boton atras
-        botonAtras(panel);
-    }
-    private static void panelComandas(){
-        urlimg = new ImageIcon(geturlimg()).getImage();
-        RestaurarPanel(panel);
-        panel.setLayout(null);
-
-
-        //boton atras
-        JButton atras = new JButton("atras");
-        atras.setBounds(0,0,100,50);
-        panel.add(atras);
-        ActionListener oyenteAtras = new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                panelCocinero();
-            }
-        };
-        atras.addActionListener(oyenteAtras);
-    }
-
- */
 
     // metodos para botones estándar
     public static void botonAtras(){
@@ -229,12 +145,7 @@ public class PanelPrincipal {
         atras.setBorderPainted(false);
         atras.setFocusPainted(false);
         panel.add(atras);
-        ActionListener oyenteAtras = new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                PanelFondo(panel);
-            }
-        };
+        ActionListener oyenteAtras = e -> PanelFondo(panel);
         atras.addActionListener(oyenteAtras);
     }
     public static void botonAtrasCamarero(){
@@ -250,12 +161,7 @@ public class PanelPrincipal {
         atras.setBorderPainted(false);
         atras.setFocusPainted(false);
         panel.add(atras);
-        ActionListener oyenteAtras = new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                PanelCamarero.panelCamarero(panel);
-            }
-        };
+        ActionListener oyenteAtras = e -> PanelCamarero.panelCamarero(panel);
         atras.addActionListener(oyenteAtras);
     }
     public static void botonAtrasAdministrador(){
@@ -271,12 +177,7 @@ public class PanelPrincipal {
         atras.setBorderPainted(false);
         atras.setFocusPainted(false);
         panel.add(atras);
-        ActionListener oyenteAtras = new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                PanelAdministrador.panelAdministrador(panel);
-            }
-        };
+        ActionListener oyenteAtras = e -> PanelAdministrador.panelAdministrador(panel);
         atras.addActionListener(oyenteAtras);
     }
 

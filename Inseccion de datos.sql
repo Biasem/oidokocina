@@ -1,3 +1,5 @@
+
+
 insert into producto(descripcion, tipo_producto, precio) values ('Anchoas con piquillo', 1, 2.20);
 insert into producto(descripcion, tipo_producto, precio) values ('Anchoas con piquillo', 2, 5.00);
 insert into producto(descripcion, tipo_producto, precio) values ('Anchoas con piquillo', 3, 5.50);
@@ -173,3 +175,5 @@ insert into producto(descripcion, tipo_producto, precio) values ('Flan de huevo'
 insert into empleado(nombre, apellidos, num_empleado, rol) values('Juanma', 'Camacho Sanchez', 1, 0);
 
 insert into empleado(nombre, apellidos, num_empleado, rol) values('Ruben', 'Nieto Urena', 2, 1);
+
+insert into mesa(num_mesa,num_comensales,ocupada) values(1,1,1;)
