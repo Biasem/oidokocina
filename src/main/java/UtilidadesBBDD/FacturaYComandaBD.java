@@ -107,6 +107,49 @@ public class FacturaYComandaBD {
         }
     }
 
+    public static void obtenerCuentasAPagar(){
+        Connection con = conectarConBD();
+        int numMesaOcupada = 0;
+        try {
+            PreparedStatement query = con.prepareStatement("select num_mesa from mesa where ocupada =1 ");
+            ResultSet rs = query.executeQuery();
+
+            while (rs.next()) {
+                numMesaOcupada =  rs.getInt("id");
+
+
+
+            }
+
+            for(LineaComanda comanda:listaLineaComanda) {
+                PreparedStatement insert = con.prepareStatement("insert into linea_comanda (id_empleado,id_factura,id_producto,id_mesa,cantidad,cantidad_cocinada)" +
+                        "values(?,?,?,?,?,?)");
+
+                insert.setInt(1, comanda.getIdEmpleado());
+
+                insert.setInt(2, idFactura);
+                insert.setInt(3, comanda.getIdProducto());
+                insert.setInt(4, comanda.getId_mesa());
+                insert.setInt(5, comanda.getCantidadProducto());
+                insert.setInt(6, comanda.getCantidadCocinada());
+
+                //Ejecución del insert
+                insert.executeUpdate();
+            }
+        } catch (SQLException sqle) {
+            System.out.println("Error en la ejecución:"
+                    + sqle.getErrorCode() + " " + sqle.getMessage());
+
+        } finally {
+            cerrarConexion(con);
+        }
+
+
+
+
+
+
+    }
 
 
 
