@@ -24,7 +24,7 @@ public class MesaBD extends UtilidadesBD{
 
             //Recorremos los datos
             while (rs.next()) {
-                mesa = new Mesa(rs.getInt("id"), rs.getInt("num_mesa"),
+                mesa = new Mesa(rs.getInt("num_mesa"),
                         rs.getInt("num_comensales"), rs.getBoolean("ocupada"));
                 milista.add(mesa);
             }

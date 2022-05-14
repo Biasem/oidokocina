@@ -52,11 +52,11 @@ public class PanelCocinero extends JPanel {
             int id = x.getIdProducto();
 
             JLabel texto = new JLabel();
-            texto.setText("" + x.getIdEmpleado() + "" + x.getIdProducto() + "Cantidad:" + x.getCantidadProducto() + "Cantidad cocinada:" + numero[0]);
+            texto.setText("" + x.getNumEmpleado() + "" + x.getIdProducto() + "Cantidad:" + x.getCantidadProducto() + "Cantidad cocinada:" + numero[0]);
             metodos.plantillatexto(texto);
 
             JButton mesa = new JButton();
-            mesa.setText("" + x.getId_mesa());
+            mesa.setText("" + x.getNum_mesa());
             ActionListener mesafuncion = new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {

@@ -141,16 +141,6 @@ public class PanelAdministrador extends JPanel {
         //urlimg = new ImageIcon(geturlimg()).getImage();
         PanelPrincipal.RestaurarPanel(panel);
         panel.setLayout(null);
-        JLabel labelId = new JLabel("ID");
-        labelId.setFont( new Font("TimesRoman", BOLD,20));
-        labelId.setForeground(Color.white);
-        labelId.setBounds(150,150,60,20);
-        panel.add(labelId);
-
-        //Campo ID
-        JTextField campoId = new JTextField();
-        campoId.setBounds(170,150,50,20);
-        panel.add(campoId);
 
         //Etiqueta NOMBRE
         JLabel labelNombre = new JLabel("Nombre");
@@ -214,7 +204,6 @@ public class PanelAdministrador extends JPanel {
             public void actionPerformed(ActionEvent e) {
                 Empleado nuevo = new Empleado();
 
-                nuevo.setId(Integer.parseInt(campoId.getText()));
                 nuevo.setNombre(campoNombre.getText());
                 nuevo.setApellidos(campoApellidos.getText());
                 nuevo.setNum_empleado(Integer.parseInt(campoNumEmpleado.getText()));
@@ -232,11 +221,17 @@ public class PanelAdministrador extends JPanel {
         ActionListener oyenteBuscar = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Producto nuevoProducto = new Producto();
-                campoNombre.setText(EmpleadoBD.obtenerPorId(Integer.valueOf(campoId.getText())).getNombre());
-                campoApellidos.setText(EmpleadoBD.obtenerPorId(Integer.valueOf(campoId.getText())).getApellidos());
-                campoNumEmpleado.setText(EmpleadoBD.obtenerPorId(Integer.valueOf(campoId.getText())).getNum_empleado().toString());
-                comboRol.setSelectedItem(EmpleadoBD.obtenerPorId(Integer.parseInt(campoId.getText())).getRol());
+                Empleado empleado = new Empleado(EmpleadoBD.obtenerPorNumEmpleado(Integer.valueOf(campoNumEmpleado.getText())));
+                if (empleado.equals(null)){
+                    campoNombre.setText("");
+                    campoApellidos.setText("");
+
+
+                }else {
+                    campoNombre.setText(empleado.getNombre());
+                    campoApellidos.setText(empleado.getApellidos());
+                    comboRol.setSelectedItem(empleado.getRol());
+                }
             }
         };
         botonBuscar.addActionListener(oyenteBuscar);
@@ -249,7 +244,6 @@ public class PanelAdministrador extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 Empleado nuevo = new Empleado();
-                nuevo.setId(Integer.parseInt(campoId.getText()));
                 nuevo.setNombre(campoNombre.getText());
                 nuevo.setApellidos(campoApellidos.getText());
                 nuevo.setNum_empleado(Integer.parseInt(campoNumEmpleado.getText()));
@@ -269,7 +263,7 @@ public class PanelAdministrador extends JPanel {
             public void actionPerformed(ActionEvent e) {
                 Empleado nuevo = new Empleado();
 
-                nuevo.setId(Integer.valueOf(campoId.getText())); //filtrar las letras
+                nuevo.setNum_empleado(Integer.valueOf(campoNumEmpleado.getText())); //filtrar las letras
                 EmpleadoBD.eliminarEmpleado(nuevo);
             }
         };

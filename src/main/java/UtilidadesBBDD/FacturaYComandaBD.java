@@ -18,7 +18,7 @@ public class FacturaYComandaBD {
         Connection con = conectarConBD();
 
         try {
-            PreparedStatement insert = con.prepareStatement("insert into factura (fecha,total,pagado,id_mesa)" +
+            PreparedStatement insert = con.prepareStatement("insert into factura (fecha,total,pagado,num_mesa)" +
                     "values(?,?,?,?)");
 
             insert.setDate(1, Date.valueOf(LocalDate.now()));
@@ -71,8 +71,8 @@ public class FacturaYComandaBD {
         Connection con = conectarConBD();
 
         try {
-            PreparedStatement query = con.prepareStatement("select id from factura where id_mesa = ? and pagado = 0  ");
-            query.setInt(1, listaLineaComanda.get(0).getId_mesa());
+            PreparedStatement query = con.prepareStatement("select id from factura where num_mesa = ? and pagado = 0  ");
+            query.setInt(1, listaLineaComanda.get(0).getNum_mesa());
             ResultSet rs = query.executeQuery();
             int idFactura = 0;
             while (rs.next()) {
@@ -81,14 +81,13 @@ public class FacturaYComandaBD {
             }
 
         for(LineaComanda comanda:listaLineaComanda) {
-            PreparedStatement insert = con.prepareStatement("insert into linea_comanda (id_empleado,id_factura,id_producto,id_mesa,cantidad,cantidad_cocinada)" +
+            PreparedStatement insert = con.prepareStatement("insert into linea_comanda (num_empleado,id_factura,id_producto,num_mesa,cantidad,cantidad_cocinada)" +
                     "values(?,?,?,?,?,?)");
 
-            insert.setInt(1, comanda.getIdEmpleado());
-           
+            insert.setInt(1, comanda.getNumEmpleado());
             insert.setInt(2, idFactura);
             insert.setInt(3, comanda.getIdProducto());
-            insert.setInt(4, comanda.getId_mesa());
+            insert.setInt(4, comanda.getNum_mesa());
             insert.setInt(5, comanda.getCantidadProducto());
             insert.setInt(6, comanda.getCantidadCocinada());
 
@@ -121,21 +120,7 @@ public class FacturaYComandaBD {
 
             }
 
-            for(LineaComanda comanda:listaLineaComanda) {
-                PreparedStatement insert = con.prepareStatement("insert into linea_comanda (id_empleado,id_factura,id_producto,id_mesa,cantidad,cantidad_cocinada)" +
-                        "values(?,?,?,?,?,?)");
 
-                insert.setInt(1, comanda.getIdEmpleado());
-
-                insert.setInt(2, idFactura);
-                insert.setInt(3, comanda.getIdProducto());
-                insert.setInt(4, comanda.getId_mesa());
-                insert.setInt(5, comanda.getCantidadProducto());
-                insert.setInt(6, comanda.getCantidadCocinada());
-
-                //Ejecución del insert
-                insert.executeUpdate();
-            }
         } catch (SQLException sqle) {
             System.out.println("Error en la ejecución:"
                     + sqle.getErrorCode() + " " + sqle.getMessage());

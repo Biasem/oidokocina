@@ -4,29 +4,25 @@ import java.util.Objects;
 
 public class Empleado {
 
-    private int id;
     private String nombre;
     private String apellidos;
     private Integer num_empleado;
     private Rol rol;
 
-    public Empleado(int id, String nombre, String apellidos, Integer num_empleado, Rol rol) {
-        this.id = id;
+    public Empleado( String nombre, String apellidos, Integer num_empleado, Rol rol) {
         this.nombre = nombre;
         this.apellidos = apellidos;
         this.num_empleado = num_empleado;
         this.rol = rol;
     }
+    public Empleado(Empleado empleado){
+        this.nombre = empleado.nombre;
+        this.apellidos = empleado.apellidos;
+        this.num_empleado = empleado.num_empleado;
+        this.rol = empleado.rol;
+    }
 
     public Empleado(){}
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
 
     public String getNombre() {
         return nombre;
@@ -63,7 +59,6 @@ public class Empleado {
     @Override
     public String toString() {
         return "Empleado{" +
-                "id=" + id +
                 ", nombre='" + nombre + '\'' +
                 ", apellidos='" + apellidos + '\'' +
                 ", num_empleado=" + num_empleado +
@@ -76,11 +71,11 @@ public class Empleado {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Empleado empleado = (Empleado) o;
-        return id == empleado.id && num_empleado == empleado.num_empleado && Objects.equals(nombre, empleado.nombre) && Objects.equals(apellidos, empleado.apellidos) && rol == empleado.rol;
+        return Objects.equals(nombre, empleado.nombre) && Objects.equals(apellidos, empleado.apellidos) && Objects.equals(num_empleado, empleado.num_empleado) && rol == empleado.rol;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, nombre, apellidos, num_empleado, rol);
+        return Objects.hash(nombre, apellidos, num_empleado, rol);
     }
 }

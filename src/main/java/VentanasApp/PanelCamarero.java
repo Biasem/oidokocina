@@ -285,8 +285,8 @@ public class PanelCamarero extends JPanel {
                     nuevaLineaComanda.setIdProducto(listaProductos.stream().
                             filter(p -> p.getTipoProducto().equals(TipoProducto.valueOf(comboTipoProducto.getSelectedItem().toString()))&&
                             p.getDescripcion().equals(comboProducto.getSelectedItem().toString())).collect(Collectors.toList()).get(0).getId());
-                    nuevaLineaComanda.setIdEmpleado(Integer.valueOf(campoCamarero.getText()));
-                    nuevaLineaComanda.setId_mesa(Integer.valueOf(campoMesa.getText()));
+                    nuevaLineaComanda.setNumEmpleado(Integer.valueOf(campoCamarero.getText()));
+                    nuevaLineaComanda.setNum_mesa(Integer.valueOf(campoMesa.getText()));
                     nuevaLineaComanda.setId(0);
                     nuevaLineaComanda.setIdFactura(0);
                     nuevaLineaComanda.setCantidadCocinada(0);
