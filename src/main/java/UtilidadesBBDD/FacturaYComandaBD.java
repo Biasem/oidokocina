@@ -8,6 +8,7 @@ import Modelos.TipoProducto;
 import java.sql.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 import static UtilidadesBBDD.UtilidadesBD.*;
@@ -106,19 +107,30 @@ public class FacturaYComandaBD {
         }
     }
 
-    public static void obtenerCuentasAPagar(){
+    public static boolean obtenerCuentasAPagar(Integer num_mesa){
         Connection con = conectarConBD();
         int numMesaOcupada = 0;
+        int id_factura =0;
+        List<LineaComanda> listaLineaComanda = new ArrayList<>();
         try {
-            PreparedStatement query = con.prepareStatement("select num_mesa from mesa where ocupada =1 ");
+            PreparedStatement query = con.prepareStatement("select id from factura where pagado =0 and num_mesa = ? ");
+            query.setInt(1,num_mesa);
             ResultSet rs = query.executeQuery();
-
             while (rs.next()) {
-                numMesaOcupada =  rs.getInt("id");
-
-
-
+                id_factura = rs.getInt("id");
             }
+            PreparedStatement query2 = con.prepareStatement("select cantidad, cantidad_cocinada from linea_comanda where id_factura  = ? ");
+            query2.setInt(1,id_factura);
+            ResultSet rs2 = query2.executeQuery();
+
+
+            while (rs2.next()) {
+                LineaComanda lineaComanda = new LineaComanda();
+                lineaComanda.setCantidadProducto(rs2.getInt("cantidad"));
+                lineaComanda.setCantidadCocinada(rs2.getInt("cantidad_cocinada"));
+                listaLineaComanda.add(lineaComanda);
+            }
+
 
 
         } catch (SQLException sqle) {
@@ -127,6 +139,10 @@ public class FacturaYComandaBD {
 
         } finally {
             cerrarConexion(con);
+            for(LineaComanda lc:listaLineaComanda){
+                if (lc.getCantidadCocinada()!=lc.getCantidadProducto())return false;
+            }
+            return true;
         }
 
 

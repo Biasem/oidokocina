@@ -174,13 +174,41 @@ public class PanelCamarero extends JPanel {
         PanelPrincipal.RestaurarPanel(panel);
         panel.setLayout(null);
 
+        List<Mesa> listaMesas = new ArrayList<>();
+        listaMesas.addAll(MesaBD.obtenerTodasMesas().stream().filter(m->m.isOcupada()==true).collect(Collectors.toList()));
+        Font fuente = new Font("TimesRoman",Font.BOLD,20);
+
+
         JPanel panel2 = new JPanel();
-        panel2.setLayout(new GridLayout(20, 3, 20, 20));
+        panel2.setLayout(new GridLayout(listaMesas.size(), 2, 20, 20));
         //productos en botones para poner bonico
-        for (int i = 1;i<20;i++) {
-            panel2.add(new JButton("Mesa "+i));
-            panel2.add(new JButton("Pedido finalizado/si/no"));
-            panel2.add(new JButton("boton pagar"));
+        for (Mesa m:listaMesas) {
+            panel2.add(new JLabel("Mesa " + m.getNum_Mesa()) {
+                @Override
+                public void setFont(Font font) {
+                    font = fuente;
+                    super.setFont(font);
+                }
+
+                @Override
+                public void setForeground(Color bg) {
+                    super.setForeground(Color.white);
+                }
+            });
+            JButton botonPagarCuenta = new JButton("Pagar Cuenta");
+            botonPagarCuenta.setName(""+m.getNum_Mesa());
+            ActionListener accionPagarCuenta = new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+
+                }
+            };
+            botonPagarCuenta.addActionListener(accionPagarCuenta);
+            if(!FacturaYComandaBD.obtenerCuentasAPagar(m.getNum_Mesa()))botonPagarCuenta.setEnabled(false);
+            panel2.add(botonPagarCuenta);
+
+
+
 
         }
         panel2.setOpaque(false);
@@ -254,8 +282,6 @@ public class PanelCamarero extends JPanel {
             for (Producto p:listaProductos.stream().filter(p->p.getTipoProducto().
                     equals(TipoProducto.valueOf(comboTipoProducto.getSelectedItem().toString()))).collect(Collectors.toList())){
                 comboProducto.addItem(p.getDescripcion());
-
-
             }
         };
         comboTipoProducto.addActionListener(accionComboTipoProducto);
