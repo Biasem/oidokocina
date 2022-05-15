@@ -1,10 +1,8 @@
 package VentanasApp;
 
-import Modelos.Empleado;
-import Modelos.Producto;
-import Modelos.Rol;
-import Modelos.TipoProducto;
+import Modelos.*;
 import UtilidadesBBDD.EmpleadoBD;
+import UtilidadesBBDD.MesaBD;
 import UtilidadesBBDD.ProductoBD;
 
 import javax.swing.*;
@@ -90,16 +88,7 @@ public class PanelAdministrador extends JPanel {
         PanelPrincipal.RestaurarPanel(panel);
         panel.setLayout(null);
 
-        //Etiqueta ID
-        JLabel labelId = new JLabel("ID");
-        labelId.setFont( new Font("TimesRoman",Font.BOLD,20));
-        labelId.setForeground(Color.white);
-        labelId.setBounds(150,150,60,20);
-        panel.add(labelId);
-        //Campo ID
-        JTextField campoId = new JTextField();
-        campoId.setBounds(170,150,50,20);
-        panel.add(campoId);
+
         //Etiqueta NUM MESA
         JLabel labelNumMesa = new JLabel("Num. Mesa");
         labelNumMesa.setFont( new Font("TimesRoman",Font.BOLD,20));
@@ -120,23 +109,64 @@ public class PanelAdministrador extends JPanel {
         JTextField campoNumComensales = new JTextField();
         campoNumComensales.setBounds(330,190,50,20);
         panel.add(campoNumComensales);
-
+        //Boton Crear MESA
+        JButton botonCrear = new JButton("Crear");
+        ActionListener accionCrearMesa = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                MesaBD.crearMesa(Integer.valueOf(campoNumMesa.getText()),Integer.valueOf(campoNumComensales.getText()));
+                panelMesa(panel);
+            }
+        };
+        botonCrear.addActionListener(accionCrearMesa);
+        botonCrear.setBounds(200,600,100,50);
+        panel.add(botonCrear);
         //Boton Buscar MESA
         JButton botonBuscar = new JButton("Buscar");
+        ActionListener accionBuscarMesa = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Mesa mesaBuscada = new Mesa(MesaBD.obtenerPorNumMesa(Integer.valueOf(campoNumMesa.getText())));
+                    if(mesaBuscada==null){
+                        JOptionPane.showMessageDialog(null,"Esa mesa ya esta creada, seleccione otra");
+                    }else{
+                    campoNumComensales.setText(""+mesaBuscada.getNum_Comensales());
+                }
+            }
+        };
+        botonBuscar.addActionListener(accionBuscarMesa);
         botonBuscar.setBounds(300,600,100,50);
         panel.add(botonBuscar);
+
         //Boton Modificar MESA
         JButton botonModificar = new JButton("MODIFICAR");
         botonModificar.setBounds(400,600,110,50);
+        ActionListener accionModificar = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+            MesaBD.actualizarMesa(Integer.valueOf(campoNumMesa.getText()),Integer.valueOf(campoNumComensales.getText()));
+            panelMesa(panel);
+            }
+        };
+        botonModificar.addActionListener(accionModificar);
         panel.add(botonModificar);
         //Boton Eliminar MESA
         JButton botonEliminar = new JButton("ELIMINAR");
+        ActionListener accionEliminar = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                MesaBD.eliminarMesa(Integer.valueOf(campoNumMesa.getText()));
+                panelMesa(panel);
+            }
+        };
         botonEliminar.setBounds(510,600,100,50);
+        botonEliminar.addActionListener(accionEliminar);
         panel.add(botonEliminar);
         //boton Atras hacia panel camarero
         PanelPrincipal.botonAtrasAdministrador();
     }
     //Subpaneles de administrador  EMPLEADOS
+
     private static void panelEmpleados(JPanel panel){
         //urlimg = new ImageIcon(geturlimg()).getImage();
         PanelPrincipal.RestaurarPanel(panel);

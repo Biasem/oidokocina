@@ -78,4 +78,12 @@ public class metodos {
         x.setBackground(Color.LIGHT_GRAY);
         x.setMaximumSize(new Dimension(20,10));
     }
+
+    public static boolean inputEsUnNumero(String cadena){
+        if(cadena.isEmpty()) return false;
+
+
+
+        return true;
+    }
 }

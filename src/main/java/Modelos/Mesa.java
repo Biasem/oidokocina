@@ -16,6 +16,12 @@ public class Mesa {
     public Mesa() {
     }
 
+    public Mesa(Mesa mesa) {
+        this.Num_Mesa = mesa.getNum_Mesa();
+        this.Num_Comensales = mesa.getNum_Comensales();
+        this.ocupada = mesa.isOcupada();
+    }
+
     public int getNum_Mesa() {
         return Num_Mesa;
     }
