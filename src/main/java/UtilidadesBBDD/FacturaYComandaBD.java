@@ -124,6 +124,7 @@ public class FacturaYComandaBD {
             ResultSet rs2 = query2.executeQuery();
 
 
+
             while (rs2.next()) {
                 LineaComanda lineaComanda = new LineaComanda();
                 lineaComanda.setCantidadProducto(rs2.getInt("cantidad"));
@@ -136,6 +137,7 @@ public class FacturaYComandaBD {
 
         } finally {
             cerrarConexion(con);
+            if(listaLineaComanda.isEmpty())return false;
             for(LineaComanda lc:listaLineaComanda){
                 if (lc.getCantidadCocinada()!=lc.getCantidadProducto())return false;
             }
