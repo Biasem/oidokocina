@@ -63,7 +63,6 @@ public class ProductoBD extends UtilidadesBD{
             cerrarConexion(con);
         }
 
-
         return producto;
     }
 

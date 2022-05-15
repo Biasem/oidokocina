@@ -107,14 +107,14 @@ public class FacturaYComandaBD {
         }
     }
 
-    public static boolean obtenerCuentasAPagar(Integer num_mesa){
+    public static boolean obtenerCuentasAPagar(Integer numMesa){
         Connection con = conectarConBD();
         int numMesaOcupada = 0;
         int id_factura =0;
         List<LineaComanda> listaLineaComanda = new ArrayList<>();
         try {
             PreparedStatement query = con.prepareStatement("select id from factura where pagado =0 and num_mesa = ? ");
-            query.setInt(1,num_mesa);
+            query.setInt(1,numMesa);
             ResultSet rs = query.executeQuery();
             while (rs.next()) {
                 id_factura = rs.getInt("id");
@@ -130,9 +130,6 @@ public class FacturaYComandaBD {
                 lineaComanda.setCantidadCocinada(rs2.getInt("cantidad_cocinada"));
                 listaLineaComanda.add(lineaComanda);
             }
-
-
-
         } catch (SQLException sqle) {
             System.out.println("Error en la ejecución:"
                     + sqle.getErrorCode() + " " + sqle.getMessage());
@@ -144,15 +141,40 @@ public class FacturaYComandaBD {
             }
             return true;
         }
-
-
-
-
-
-
     }
+    public static List<LineaComanda> obtenerProductosFactura(Integer numMesa){
+        Connection con = conectarConBD();
+        int numMesaOcupada = 0;
+        int id_factura =0;
+        List<LineaComanda> listaLineaComanda = new ArrayList<>();
+        try {
+            PreparedStatement query = con.prepareStatement("select id from factura where pagado =0 and num_mesa = ? ");
+            query.setInt(1,numMesa);
+            ResultSet rs = query.executeQuery();
+            while (rs.next()) {
+                id_factura = rs.getInt("id");
+            }
+            PreparedStatement query2 = con.prepareStatement("select p.id , sum(lc.cantidad) as cantidad, num_empleado from linea_comanda lc join producto p on lc.id_producto = p.id  where id_factura = ? group by p.id ");
+            query2.setInt(1,id_factura);
+            ResultSet rs2 = query2.executeQuery();
 
 
+            while (rs2.next()) {
+                LineaComanda lineaComanda = new LineaComanda();
+                lineaComanda.setIdProducto(rs2.getInt("id"));
+                lineaComanda.setCantidadProducto(rs2.getInt("cantidad"));
+                lineaComanda.setNumEmpleado(rs2.getInt("num_empleado"));
+                lineaComanda.setNum_mesa(numMesa);
+                listaLineaComanda.add(lineaComanda);
+            }
+        } catch (SQLException sqle) {
+            System.out.println("Error en la ejecución:"
+                    + sqle.getErrorCode() + " " + sqle.getMessage());
 
+        } finally {
+            cerrarConexion(con);
+        }
+        return listaLineaComanda;
+    }
 
 }

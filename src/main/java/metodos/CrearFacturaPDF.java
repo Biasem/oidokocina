@@ -1,38 +1,30 @@
+package metodos;
+
+import Modelos.LineaComanda;
 import Modelos.Producto;
-import Modelos.TipoProducto;
+import UtilidadesBBDD.EmpleadoBD;
 import UtilidadesBBDD.ProductoBD;
-import UtilidadesBBDD.UtilidadesBD;
-import java.awt.Dimension;
-import java.io.File;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.*;
-import java.util.stream.Collectors;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPage;
 import org.apache.pdfbox.pdmodel.PDPageContentStream;
 import org.apache.pdfbox.pdmodel.common.PDRectangle;
 import org.apache.pdfbox.pdmodel.font.PDType1Font;
 import org.apache.pdfbox.pdmodel.graphics.image.PDImageXObject;
-public class pruebas extends UtilidadesBD{
 
-    public static void main(String[] args) throws Exception {
-        try (PDDocument document = new PDDocument()) {
+import java.io.File;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.List;
+import java.util.stream.Collectors;
 
+public class CrearFacturaPDF {
+    public static void crearFactura(List<LineaComanda> listaComandaIdProductoYCantidad){
+        List<Producto> listaProductos = ProductoBD.obtenerTodosProductos();
+        double cantidadTotalAPagar = 0;
+
+        try  {
+            PDDocument document = new PDDocument();
             PDPage page1 = new PDPage(PDRectangle.A6);
             document.addPage(page1);
 
@@ -48,9 +40,9 @@ public class pruebas extends UtilidadesBD{
             contentStream.newLineAtOffset( 10, page1.getMediaBox().getHeight() - 22);
             contentStream.setLeading(18.5f);
 
-            contentStream.showText("Número de Mesa: " + 4);
+            contentStream.showText("Número de Mesa: " + listaComandaIdProductoYCantidad.get(0).getNum_mesa());
             contentStream.newLine();
-            contentStream.showText("Camarero: " + "ruben");
+            contentStream.showText("Camarero: " + EmpleadoBD.obtenerPorNumEmpleado(listaComandaIdProductoYCantidad.get(0).getNumEmpleado()).getNombre());
             contentStream.newLine();
             contentStream.newLine();
 
@@ -65,21 +57,26 @@ public class pruebas extends UtilidadesBD{
 
 
             //PRODUCTOS
-            for(int x=0;x<5;x++){
-                contentStream.showText("producto"+x);
-                contentStream.newLineAtOffset(150, 0);
-                contentStream.showText("cantidad"+x);
-                contentStream.newLineAtOffset(100, 0);
-                contentStream.showText("total"+x);
+            for(LineaComanda lc : listaComandaIdProductoYCantidad){
+                contentStream.showText(listaProductos.stream().filter(p ->p.getId()==lc.getIdProducto()).collect(Collectors.toList()).get(0).getDescripcion());
+                contentStream.newLineAtOffset(250, 0);
+                double precioPorCantidad = lc.getCantidadProducto()+listaProductos.stream().filter(p ->p.getId()==lc.getIdProducto()).collect(Collectors.toList()).get(0).getPrecio();
+                cantidadTotalAPagar += lc.getCantidadProducto() * precioPorCantidad;
+                contentStream.showText(""+precioPorCantidad);
                 contentStream.newLine();
                 contentStream.newLineAtOffset(-250, 0);
+                contentStream.showText(listaProductos.stream().filter(p ->p.getId()==lc.getIdProducto()).collect(Collectors.toList()).get(0).getTipoProducto().toString());
+                contentStream.newLineAtOffset(150, 0);
+                contentStream.showText(""+lc.getCantidadProducto());
+                contentStream.newLineAtOffset(-150, 0);
+                contentStream.newLine();
 
             }
 
             contentStream.newLine();
             contentStream.showText("TOTAL");
             contentStream.newLineAtOffset(250, 0);
-            contentStream.showText(""+223231);
+            contentStream.showText(""+cantidadTotalAPagar);
 
             contentStream.newLineAtOffset(-250,-page1.getMediaBox().getHeight()+200);
             contentStream.showText(LocalDate.now().toString());
@@ -98,6 +95,9 @@ public class pruebas extends UtilidadesBD{
             contentStream.close();
 
             document.save("document.pdf");
+        }catch (Exception e){
+            System.out.println(e.getMessage());
         }
+
     }
 }
