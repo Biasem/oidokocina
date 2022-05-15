@@ -97,6 +97,30 @@ public class PanelAdministrador extends JPanel {
         panel.add(labelNumMesa);
         //Campo NUM MESA
         JTextField campoNumMesa = new JTextField();
+        campoNumMesa.addKeyListener(new KeyListener() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                char caracter = e.getKeyChar();
+
+                // Verificar si la tecla pulsada no es un digito
+                if(((caracter < '0') ||
+                        (caracter > '9')) &&
+                        (caracter != '\b' /*corresponde a BACK_SPACE*/))
+                {
+                    e.consume();  // ignorar el evento de teclado
+                }
+            }
+
+            @Override
+            public void keyPressed(KeyEvent e) {
+
+            }
+
+            @Override
+            public void keyReleased(KeyEvent e) {
+
+            }
+        });
         campoNumMesa.setBounds(260,170,50,20);
         panel.add(campoNumMesa);
         //Etiqueta NUM COMENSALES

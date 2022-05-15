@@ -77,6 +77,7 @@ public class MesaBD extends UtilidadesBD{
 
             //Ejecución del insert
             insert.executeUpdate();
+
             JOptionPane.showMessageDialog(null,"Mesa creada");
 
         } catch (SQLException sqle) {

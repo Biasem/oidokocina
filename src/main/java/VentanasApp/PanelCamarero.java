@@ -307,6 +307,9 @@ public class PanelCamarero extends JPanel {
         ActionListener accionAniadirProducto = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                //comprobamos camarero
+
+
                 //Comprobamos la mesa
                 if(FacturaYComandaBD.mesaOcupada(Integer.valueOf(campoMesa.getText()))){
                     LineaComanda nuevaLineaComanda = new LineaComanda();
