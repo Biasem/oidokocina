@@ -1,4 +1,4 @@
-package metodos;
+package UtilidadesBBDD;
 
 import Modelos.LineaComanda;
 import Modelos.Producto;
@@ -12,11 +12,16 @@ import org.apache.pdfbox.pdmodel.font.PDType1Font;
 import org.apache.pdfbox.pdmodel.graphics.image.PDImageXObject;
 
 import java.io.File;
+import java.sql.Connection;
+import java.sql.Date;
+import java.sql.PreparedStatement;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import static UtilidadesBBDD.UtilidadesBD.conectarConBD;
 
 public class CrearFacturaPDF {
     public static void crearFactura(List<LineaComanda> listaComandaIdProductoYCantidad){
@@ -94,7 +99,34 @@ public class CrearFacturaPDF {
 
             contentStream.close();
 
-            document.save("document.pdf");
+            document.save("Factura"+listaComandaIdProductoYCantidad.get(0).getIdFactura()+".pdf");
+
+
+            Connection con = conectarConBD();
+
+            //actualizamos factura para que aparezca pagado y el total
+            PreparedStatement update = con.prepareStatement("update factura " +
+                    "set fecha = ? , total = ? , pagado = ? " +
+                    " where id = ? ");
+            update.setDate(1, Date.valueOf(LocalDate.now()));
+            update.setDouble(2,cantidadTotalAPagar);
+            update.setInt(3, 1);
+            update.setInt(4, listaComandaIdProductoYCantidad.get(0).getIdFactura());
+
+            //Ejecución del update
+            update.executeUpdate();
+
+            //actualizamos la mesa para que aparezca desocupada
+            PreparedStatement update2 = con.prepareStatement("update mesa " +
+                    "set ocupada = ? " +
+                    " where num_mesa = ? ");
+            update2.setInt(1, 0);
+            update2.setInt(2, listaComandaIdProductoYCantidad.get(0).getNum_mesa());
+
+            //Ejecución del update
+            update2.executeUpdate();
+
+
         }catch (Exception e){
             System.out.println(e.getMessage());
         }

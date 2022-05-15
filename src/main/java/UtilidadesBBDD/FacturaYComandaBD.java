@@ -165,6 +165,7 @@ public class FacturaYComandaBD {
                 lineaComanda.setCantidadProducto(rs2.getInt("cantidad"));
                 lineaComanda.setNumEmpleado(rs2.getInt("num_empleado"));
                 lineaComanda.setNum_mesa(numMesa);
+                lineaComanda.setIdFactura(id_factura);
                 listaLineaComanda.add(lineaComanda);
             }
         } catch (SQLException sqle) {

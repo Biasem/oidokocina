@@ -7,7 +7,7 @@ import Modelos.TipoProducto;
 import UtilidadesBBDD.FacturaYComandaBD;
 import UtilidadesBBDD.MesaBD;
 import UtilidadesBBDD.ProductoBD;
-import metodos.CrearFacturaPDF;
+import UtilidadesBBDD.CrearFacturaPDF;
 
 import javax.swing.*;
 import java.awt.*;
@@ -202,6 +202,7 @@ public class PanelCamarero extends JPanel {
                 public void actionPerformed(ActionEvent e) {
                     if (m.getNum_Mesa()==Integer.valueOf(botonPagarCuenta.getName())) {
                         CrearFacturaPDF.crearFactura(FacturaYComandaBD.obtenerProductosFactura(m.getNum_Mesa()));
+                        panelCuentas(panel);
                     }
                 }
             };
