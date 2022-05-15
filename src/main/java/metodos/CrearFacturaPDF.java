@@ -14,9 +14,6 @@ import org.apache.pdfbox.pdmodel.graphics.image.PDImageXObject;
 
 import java.io.File;
 import java.sql.Connection;
-import java.sql.Date;
-import java.sql.PreparedStatement;
-import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -28,7 +25,7 @@ public class CrearFacturaPDF {
         double cantidadTotalAPagar = 0;
 
         try  {
-            Connection con = conectarConBD();
+            //Connection con = conectarConBD();
 
             PDDocument document = new PDDocument();
             PDPage page1 = new PDPage(PDRectangle.A6);
@@ -95,7 +92,7 @@ public class CrearFacturaPDF {
             contentStream.close();
 
             document.save("document.pdf");
-
+/*
             //actualizamos factura para que aparezca pagado y el total
             PreparedStatement update = con.prepareStatement("update factura " +
                     "set fecha = ? , total = ? , pagado = ? " +
@@ -117,7 +114,7 @@ public class CrearFacturaPDF {
 
             //Ejecución del update
             update2.executeUpdate();
-
+*/
         }catch (Exception e){
             System.out.println(e.getMessage());
         }
