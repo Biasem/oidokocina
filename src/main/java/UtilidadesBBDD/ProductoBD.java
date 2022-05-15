@@ -66,20 +66,6 @@ public class ProductoBD extends UtilidadesBD{
         return producto;
     }
 
-
-
-    public static void crearActualizarProducto(Producto producto){
-
-        Producto productoBD = obtenerPorId(producto.getId());
-
-        if(productoBD != null){
-            actualizarProducto(producto);
-        }else{
-            crearProducto(producto);
-        }
-    }
-
-
     public static void crearProducto(Producto producto){
         Connection con = conectarConBD();
 

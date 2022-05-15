@@ -10,7 +10,7 @@ public class UtilidadesBD {
     private static final String password = "1234";
 
 
-    protected static Connection conectarConBD() {
+    public static Connection conectarConBD() {
         Connection conexion;
         try {
             conexion = DriverManager.getConnection(url, usuario, password);

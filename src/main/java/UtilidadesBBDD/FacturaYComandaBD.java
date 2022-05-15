@@ -176,5 +176,33 @@ public class FacturaYComandaBD {
         }
         return listaLineaComanda;
     }
+    public static void actualizarFacturaYMesa(Integer numMesa){
+        Connection con = conectarConBD();
+        int numMesaOcupada = 0;
+        int id_factura =0;
+        List<LineaComanda> listaLineaComanda = new ArrayList<>();
+        try {
+            PreparedStatement query = con.prepareStatement("select id from factura where pagado =0 and num_mesa = ? ");
+            query.setInt(1,numMesa);
+            ResultSet rs = query.executeQuery();
+            while (rs.next()) {
+                id_factura = rs.getInt("id");
+            }
+            PreparedStatement update = con.prepareStatement("select p.id , sum(lc.cantidad) as cantidad, num_empleado from linea_comanda lc join producto p on lc.id_producto = p.id  where id_factura = ? group by p.id ");
+            update.setInt(1,id_factura);
+            ResultSet rs2 = update.executeQuery();
+
+
+
+        } catch (SQLException sqle) {
+            System.out.println("Error en la ejecución:"
+                    + sqle.getErrorCode() + " " + sqle.getMessage());
+
+        } finally {
+            cerrarConexion(con);
+        }
+
+    }
+
 
 }

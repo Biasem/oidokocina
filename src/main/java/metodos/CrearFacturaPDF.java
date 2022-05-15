@@ -1,5 +1,6 @@
 package metodos;
 
+import Modelos.Factura;
 import Modelos.LineaComanda;
 import Modelos.Producto;
 import UtilidadesBBDD.EmpleadoBD;
@@ -12,11 +13,14 @@ import org.apache.pdfbox.pdmodel.font.PDType1Font;
 import org.apache.pdfbox.pdmodel.graphics.image.PDImageXObject;
 
 import java.io.File;
+import java.sql.Connection;
+import java.sql.Date;
+import java.sql.PreparedStatement;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import static UtilidadesBBDD.UtilidadesBD.conectarConBD;
 
 public class CrearFacturaPDF {
     public static void crearFactura(List<LineaComanda> listaComandaIdProductoYCantidad){
@@ -24,6 +28,8 @@ public class CrearFacturaPDF {
         double cantidadTotalAPagar = 0;
 
         try  {
+            Connection con = conectarConBD();
+
             PDDocument document = new PDDocument();
             PDPage page1 = new PDPage(PDRectangle.A6);
             document.addPage(page1);
@@ -46,6 +52,12 @@ public class CrearFacturaPDF {
             contentStream.newLine();
             contentStream.newLine();
 
+            //linea negra
+            PDRectangle bbox = page1.getBBox();
+            contentStream.moveTo(bbox.getLowerLeftX() ,360);
+            contentStream.lineTo(bbox.getUpperRightX(),360);
+            contentStream.setLineWidth( 2f);
+            contentStream.stroke();
 
             contentStream.showText("PRODUCTO");
             contentStream.newLineAtOffset(120, 0);
@@ -78,26 +90,38 @@ public class CrearFacturaPDF {
             contentStream.newLineAtOffset(250, 0);
             contentStream.showText(""+cantidadTotalAPagar);
 
-            contentStream.newLineAtOffset(-250,-page1.getMediaBox().getHeight()+200);
-            contentStream.showText(LocalDate.now().toString());
-
-
             contentStream.endText();
-
-            //LINEAS NEGRAS
-            PDRectangle bbox = page1.getBBox();
-            contentStream.moveTo(bbox.getLowerLeftX() ,360);
-            contentStream.lineTo(bbox.getUpperRightX(),360);
-            contentStream.setLineWidth( 2f);
-            contentStream.stroke();
-
 
             contentStream.close();
 
             document.save("document.pdf");
+
+            //actualizamos factura para que aparezca pagado y el total
+            PreparedStatement update = con.prepareStatement("update factura " +
+                    "set fecha = ? , total = ? , pagado = ? " +
+                    " where id = ? ");
+            update.setDate(1, Date.valueOf(LocalDate.now()));
+            update.setDouble(2,cantidadTotalAPagar);
+            update.setInt(3, 1);
+            update.setInt(4, listaComandaIdProductoYCantidad.get(0).getIdFactura());
+
+            //Ejecución del update
+            update.executeUpdate();
+
+            //actualizamos la mesa para que aparezca desocupada
+            PreparedStatement update2 = con.prepareStatement("update mesa " +
+                    "set ocupada = ? " +
+                    " where id = ? ");
+            update2.setInt(1, 0);
+            update2.setInt(1, listaComandaIdProductoYCantidad.get(0).getIdFactura());
+
+            //Ejecución del update
+            update2.executeUpdate();
+
         }catch (Exception e){
             System.out.println(e.getMessage());
         }
+
 
     }
 }
