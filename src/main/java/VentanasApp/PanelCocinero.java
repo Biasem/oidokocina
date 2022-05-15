@@ -70,6 +70,7 @@ public class PanelCocinero extends JPanel {
                     }
                 }
             };
+            mesa.addActionListener(mesafuncion);
             metodos.plantillabotoncocinero(mesa);
 
             panel2.add(mesa);

@@ -49,7 +49,6 @@ public class PanelCliente extends JPanel {
 
     }
     public static void verCarta(JPanel panel){
-
         JButton atras = new JButton("atras");
         atras.setBounds(0,0,100,50);
         panel.add(atras);
@@ -58,35 +57,130 @@ public class PanelCliente extends JPanel {
             panelCliente(panel);
         };
         atras.addActionListener(oyenteAtras);
+
+        metodos.botonAtras(atras);
+
         //panel donde van los productos
+
         List<Producto> lista;
         lista = ProductoBD.obtenerTodosProductos().stream().sorted(Comparator.comparing(Producto::getDescripcion)).collect(Collectors.toList());
         lista = lista.stream().filter(p->!p.getTipoProducto().equals(TipoProducto.BEBIDAS)&&
                 !p.getTipoProducto().equals(TipoProducto.POSTRES)&&
                 !p.getTipoProducto().equals(TipoProducto.ESPECIALIDADES)).collect(Collectors.toList());
+
+        // Generamos los paneles y botones
+
+        final int[] panel2trigger = {1};
+        final int[] bebidastrigger = {0};
+        final int[] postrestrigger = {0};
+
         JPanel panel2 = new JPanel();
+        JPanel bebidas = new JPanel();
+        JPanel postres = new JPanel();
+
+        JButton botoncomida = new JButton();
+        JButton botonbebidas = new JButton();
+        JButton botonpostres = new JButton();
+
+        ActionListener bebidasboton = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (panel2trigger[0] == 1){
+                    for (Component x : panel2.getComponents()){
+                        x.setEnabled(false);
+                    }
+                }
+                if (postrestrigger[0] == 1){
+                    for (Component x : postres.getComponents()){
+                        x.setEnabled(false);
+                    }
+                }
+                panel.add(bebidas);
+
+                panel2trigger[0] = 0;
+                postrestrigger[0] = 0;
+                bebidastrigger[0] = 1;
+            }
+        };
+
+        ActionListener panel2boton = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (bebidastrigger[0] == 1){
+                    for (Component x : panel2.getComponents()){
+                        x.setEnabled(false);
+                    }
+                }
+                if (postrestrigger[0] == 1){
+                    for (Component x : postres.getComponents()){
+                        x.setEnabled(false);
+                    }
+                }
+                panel.add(panel2);
+
+                panel2trigger[0] = 1;
+                postrestrigger[0] = 0;
+                bebidastrigger[0] = 0;
+            }
+        };
+
+        ArrayList<JButton> botones = new ArrayList<>();
+
+        botones.add(botoncomida);
+        botones.add(botonbebidas);
+        botones.add(botonpostres);
+
+        botoncomida.setText("Comida");
+        botonbebidas.setText("Bebidas");
+        botonpostres.setText("Postres");
+
+        botoncomida.setBounds(100, 20, 70, 30);
+        botonbebidas.setBounds(170, 20, 70, 30);
+        botonpostres.setBounds(240, 20, 70, 30);
+
+        for (JButton x: botones){
+            x.setFocusPainted(true);
+            x.setContentAreaFilled(true);
+            x.setBorder(BorderFactory.createMatteBorder(
+                    1, 1, 1, 1, Color.darkGray));
+            x.setBackground(Color.WHITE);
+            x.setFont(new Font("TimesRoman", BOLD,10));
+        }
+
+        botoncomida.addActionListener(panel2boton);
+        botonbebidas.addActionListener(bebidasboton);
+
+        panel.add(botoncomida);
+        panel.add(botonbebidas);
+        panel.add(botonpostres);
+
+
         panel2.setLayout(new GridLayout(lista.stream().map(p->p.getDescripcion()).distinct().collect(Collectors.toList()).size(), 4, 5, 2));
+        bebidas.setLayout(new GridLayout(lista.stream().map(p->p.getDescripcion()).distinct().collect(Collectors.toList()).size(), 2, 5, 2));
+        postres.setLayout(new GridLayout(lista.stream().map(p->p.getDescripcion()).distinct().collect(Collectors.toList()).size(), 2, 5, 2));
 
         //productos en botones para poner bonico
+
         Producto np = new Producto();
         np = lista.get(0);
 
-        //Etiquetas de las reciones
+        //Etiquetas de las raciones
 
         JLabel tapa = new JLabel();
         JLabel media = new JLabel();
         JLabel racion = new JLabel();
+        JLabel precio = new JLabel();
 
         tapa.setText("Tapa");
         media.setText("Media");
         racion.setText("Ración");
+        precio.setText("Precio");
 
         ArrayList<JLabel> texto = new ArrayList<>();
         texto.add(tapa);
         texto.add(media);
         texto.add(racion);
-
-
+        texto.add(precio);
 
 
         for (JLabel x: texto){
@@ -102,12 +196,17 @@ public class PanelCliente extends JPanel {
             if (x == racion){
                 x.setBounds(865, 20, 285, 30);
             }
+            if (x == precio){
+                x.setBounds(325, 20, 260, 30);
+            }
 
         }
 
         panel.add(tapa);
         panel.add(media);
         panel.add(racion);
+
+        // Panel comidas
 
         for (Producto p:lista){
             if(p.equals(np)){// primera iteracion del bucle
@@ -166,17 +265,45 @@ public class PanelCliente extends JPanel {
                 panel2.add(etiqueta(p.getPrecio().toString()));
                 np=p;
             }
-
         }
 
-        panel2.setOpaque(true);
-        panel2.setBackground(Color.WHITE);
-        JScrollPane scrollPane = new JScrollPane(panel2);
-        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
-        scrollPane.setBounds(50, 50, 1100, 620);// aqui se puede ajustar los parametros del scrool
-        scrollPane.setOpaque(false);
-        scrollPane.getViewport().setOpaque(false);
-        panel.add(scrollPane);
+        // Panel Bebidas
+        for (Producto x: lista){
+            if(x.equals(np)){
+                if (x.getTipoProducto().equals(TipoProducto.BEBIDAS)){
+                    bebidas.add(etiqueta(x.getDescripcion()));
+                    bebidas.add(etiqueta(x.getPrecio().toString()));
+                    np=x;
+                }
+            }
+            else if (!x.getDescripcion().equals(np.getDescripcion())){
+                if(x.getTipoProducto().equals(TipoProducto.BEBIDAS)){
+                    bebidas.add(etiqueta(x.getDescripcion()));
+                    bebidas.add(etiqueta(x.getPrecio().toString()));
+                    np=x;
+                }
+            }
+        }
+
+        // Hacemos que todos los paneles se vean igual en cuanto a estetica
+
+        ArrayList<JPanel> paneles = new ArrayList<>();
+
+        paneles.add(panel2);
+        paneles.add(bebidas);
+        paneles.add(postres);
+
+        for (JPanel x: paneles){
+            x.setOpaque(true);
+            x.setBackground(Color.WHITE);
+            JScrollPane scrollPane = new JScrollPane(x);
+            scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+            scrollPane.setBounds(50, 50, 1100, 620);// aqui se puede ajustar los parametros del scrool
+            scrollPane.setOpaque(false);
+            scrollPane.getViewport().setOpaque(false);
+            panel.add(scrollPane);
+        }
+
 
 
     }
