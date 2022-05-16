@@ -135,9 +135,9 @@ public class PanelCliente extends JPanel {
         panel.add(botonespecialidades);
 
         panel2.setLayout(new GridLayout(lista.stream().map(p->p.getDescripcion()).distinct().collect(Collectors.toList()).size(), 4, 5, 2));
-        bebidas.setLayout(new GridLayout(lista.stream().map(p->p.getDescripcion()).distinct().collect(Collectors.toList()).size(), 4, 5, 2));
-        postres.setLayout(new GridLayout(lista.stream().map(p->p.getDescripcion()).distinct().collect(Collectors.toList()).size(), 4, 5, 2));
-        especialidades.setLayout(new GridLayout(lista.stream().map(p->p.getDescripcion()).distinct().collect(Collectors.toList()).size(), 4, 5, 2));
+        bebidas.setLayout(new GridLayout(lista.stream().map(p->p.getDescripcion()).distinct().collect(Collectors.toList()).size(), 4, 5, 1));
+        postres.setLayout(new GridLayout(lista.stream().map(p->p.getDescripcion()).distinct().collect(Collectors.toList()).size(), 4, 5, 1));
+        especialidades.setLayout(new GridLayout(lista.stream().map(p->p.getDescripcion()).distinct().collect(Collectors.toList()).size(), 4, 5, 1));
 
         //productos en botones para poner bonico
 
@@ -321,57 +321,25 @@ public class PanelCliente extends JPanel {
         }
 
         for (Producto p:listabebidas){
-            if(p.equals(np)) {
-                if(p.getTipoProducto().equals(TipoProducto.BEBIDAS)){
-                    bebidas.add(etiqueta(p.getDescripcion()));
-                    bebidas.add(etiqueta(p.getPrecio().toString()));
-                    np=p;
-                }
-            }
-
-            else if (!p.getDescripcion().equals(np.getDescripcion())) {
-                if(np.getTipoProducto().equals(TipoProducto.BEBIDAS)){
-                    bebidas.add(etiqueta(""));
-                    bebidas.add(etiqueta(""));
-                }
-
-                if(p.getTipoProducto().equals(TipoProducto.BEBIDAS)){
-                    bebidas.add(etiqueta(p.getDescripcion()));
-                    bebidas.add(etiqueta(p.getPrecio().toString()));
-                    np=p;
-                }
-            }
-            else if(np.getDescripcion().equals(p.getDescripcion())){
+            if(p.getTipoProducto().equals(TipoProducto.BEBIDAS)) {
+                bebidas.add(etiqueta(p.getDescripcion()));
+                bebidas.add(etiqueta(""));
+                bebidas.add(etiqueta(""));
                 bebidas.add(etiqueta(p.getPrecio().toString()));
-                np=p;
             }
         }
 
-        for (Producto p:listaespecial){
-            if(p.equals(np)) {
-                if(p.getTipoProducto().equals(TipoProducto.ESPECIALIDADES)){
-                    especialidades.add(etiqueta(p.getDescripcion()));
-                    especialidades.add(etiqueta(p.getPrecio().toString()));
-                    np=p;
-                }
-            }
 
-            else if (!p.getDescripcion().equals(np.getDescripcion())) {
-                if(np.getTipoProducto().equals(TipoProducto.ESPECIALIDADES)){
-
-                }
-
-                if(p.getTipoProducto().equals(TipoProducto.ESPECIALIDADES)){
-                    especialidades.add(etiqueta(p.getDescripcion()));
-                    especialidades.add(etiqueta(p.getPrecio().toString()));
-                    np=p;
-                }
-            }
-            else if(np.getDescripcion().equals(p.getDescripcion())){
-                especialidades.add(etiqueta(p.getPrecio().toString()));
-                np=p;
-            }
-        }
+       for (Producto x: listaespecial){
+           if (x.getTipoProducto().equals(TipoProducto.ESPECIALIDADES)){
+               especialidades.add(etiqueta(x.getDescripcion()));
+               especialidades.add(etiqueta(""));
+               especialidades.add(etiqueta(""));
+               especialidades.add(etiqueta(""));
+               especialidades.add(etiqueta(""));
+               especialidades.add(etiqueta(x.getPrecio().toString()));
+           }
+       }
 
         for (Producto p:listapostres){
             if(p.equals(np)) {
