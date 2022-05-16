@@ -2,12 +2,21 @@ package metodos;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
 import java.io.File;
 import java.util.ArrayList;
 
 import static java.awt.Font.BOLD;
 
 public class metodos {
+
+    public void actionPerformed (ActionEvent ae, ArrayList<JButton> botones){
+        Object evt = ae.getSource();
+        for (JButton x: botones){
+
+        }
+
+    }
 
     public static void  botonAtras(JButton atras){
 

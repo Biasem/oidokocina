@@ -13,6 +13,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import static java.awt.Font.BOLD;
@@ -53,7 +54,7 @@ public class PanelCliente extends JPanel {
         atras.setBounds(0,0,100,50);
         panel.add(atras);
         ActionListener oyenteAtras = e -> {
-        PanelPrincipal.RestaurarPanel(panel);
+            PanelPrincipal.RestaurarPanel(panel);
             panelCliente(panel);
         };
         atras.addActionListener(oyenteAtras);
@@ -64,9 +65,9 @@ public class PanelCliente extends JPanel {
 
         List<Producto> lista;
         lista = ProductoBD.obtenerTodosProductos().stream().sorted(Comparator.comparing(Producto::getDescripcion)).collect(Collectors.toList());
-        lista = lista.stream().filter(p->!p.getTipoProducto().equals(TipoProducto.BEBIDAS)&&
-                !p.getTipoProducto().equals(TipoProducto.POSTRES)&&
-                !p.getTipoProducto().equals(TipoProducto.ESPECIALIDADES)).collect(Collectors.toList());
+        
+
+        Map<TipoProducto, List<Producto>> productosPorTipo = lista.stream().collect(Collectors.groupingBy(Producto::getTipoProducto));
 
         // Generamos los paneles y botones
 
@@ -82,47 +83,7 @@ public class PanelCliente extends JPanel {
         JButton botonbebidas = new JButton();
         JButton botonpostres = new JButton();
 
-        ActionListener bebidasboton = new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (panel2trigger[0] == 1){
-                    for (Component x : panel2.getComponents()){
-                        x.setEnabled(false);
-                    }
-                }
-                if (postrestrigger[0] == 1){
-                    for (Component x : postres.getComponents()){
-                        x.setEnabled(false);
-                    }
-                }
-                panel.add(bebidas);
 
-                panel2trigger[0] = 0;
-                postrestrigger[0] = 0;
-                bebidastrigger[0] = 1;
-            }
-        };
-
-        ActionListener panel2boton = new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (bebidastrigger[0] == 1){
-                    for (Component x : panel2.getComponents()){
-                        x.setEnabled(false);
-                    }
-                }
-                if (postrestrigger[0] == 1){
-                    for (Component x : postres.getComponents()){
-                        x.setEnabled(false);
-                    }
-                }
-                panel.add(panel2);
-
-                panel2trigger[0] = 1;
-                postrestrigger[0] = 0;
-                bebidastrigger[0] = 0;
-            }
-        };
 
         ArrayList<JButton> botones = new ArrayList<>();
 
@@ -147,13 +108,10 @@ public class PanelCliente extends JPanel {
             x.setFont(new Font("TimesRoman", BOLD,10));
         }
 
-        botoncomida.addActionListener(panel2boton);
-        botonbebidas.addActionListener(bebidasboton);
 
         panel.add(botoncomida);
         panel.add(botonbebidas);
         panel.add(botonpostres);
-
 
         panel2.setLayout(new GridLayout(lista.stream().map(p->p.getDescripcion()).distinct().collect(Collectors.toList()).size(), 4, 5, 2));
         bebidas.setLayout(new GridLayout(lista.stream().map(p->p.getDescripcion()).distinct().collect(Collectors.toList()).size(), 2, 5, 2));
@@ -202,6 +160,46 @@ public class PanelCliente extends JPanel {
 
         }
 
+        ActionListener comidaaccion = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                panel2.setVisible(true);
+                bebidas.setVisible(false);
+                postres.setVisible(false);
+                tapa.setText("Tapa");
+                media.setText("Media");
+                racion.setText("Ración");
+            }
+        };
+
+        ActionListener bebidaaccion = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                panel2.setVisible((false));
+                bebidas.setVisible(true);
+                postres.setVisible(false);
+                tapa.setText("Precio");
+                media.setText("");
+                racion.setText("");
+            }
+        };
+
+        ActionListener postreaccion = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                panel2.setVisible(false);
+                bebidas.setVisible(false);
+                postres.setVisible(true);
+                tapa.setText("Precio");
+                media.setText("");
+                racion.setText("");
+            }
+        };
+
+        botoncomida.addActionListener(comidaaccion);
+        botonbebidas.addActionListener(bebidaaccion);
+        botonpostres.addActionListener(postreaccion);
+
         panel.add(tapa);
         panel.add(media);
         panel.add(racion);
@@ -228,6 +226,16 @@ public class PanelCliente extends JPanel {
                     panel2.add(etiqueta(p.getPrecio().toString()));
                     np=p;
                 }
+                if(p.getTipoProducto().equals(TipoProducto.BEBIDAS)){
+                    bebidas.add(etiqueta(p.getDescripcion()));
+                    bebidas.add(etiqueta(p.getPrecio().toString()));
+                    np=p;
+                }
+                if(p.getTipoProducto().equals(TipoProducto.POSTRES)){
+                    postres.add(etiqueta(p.getDescripcion()));
+                    postres.add(etiqueta(p.getPrecio().toString()));
+                    np=p;
+                }
             }
             //segunda iteración y siguientes, si p es distinto a np significa que entramos en un nuevo producto por tanto
             // tenemos que ver si ese producto nuevo es tapa media o racion y segun el anterior haya sido habra que rellenar
@@ -239,6 +247,12 @@ public class PanelCliente extends JPanel {
                 }
                 if(np.getTipoProducto().equals(TipoProducto.MEDIA)){
                     panel2.add(etiqueta(""));
+                }
+                if(np.getTipoProducto().equals(TipoProducto.BEBIDAS)){
+                    bebidas.add(etiqueta(""));
+                }
+                if(np.getTipoProducto().equals(TipoProducto.POSTRES)){
+                    postres.add(etiqueta(""));
                 }
                 //segun el siguiente producto, procedemos a su inicio y prodecemos al avance de la variable auxiliar
                 if(p.getTipoProducto().equals(TipoProducto.TAPA)){
@@ -259,6 +273,16 @@ public class PanelCliente extends JPanel {
                     panel2.add(etiqueta(p.getPrecio().toString()));
                     np=p;
                 }
+                if(p.getTipoProducto().equals(TipoProducto.BEBIDAS)){
+                    bebidas.add(etiqueta(p.getDescripcion()));
+                    bebidas.add(etiqueta(p.getPrecio().toString()));
+                    np=p;
+                }
+                if(p.getTipoProducto().equals(TipoProducto.POSTRES)){
+                    postres.add(etiqueta(p.getDescripcion()));
+                    postres.add(etiqueta(p.getPrecio().toString()));
+                    np=p;
+                }
             }
             //comparamos si el siguiente tiene la misma descripción solo obtenemos el precio
             else if(np.getDescripcion().equals(p.getDescripcion())){
@@ -267,23 +291,7 @@ public class PanelCliente extends JPanel {
             }
         }
 
-        // Panel Bebidas
-        for (Producto x: lista){
-            if(x.equals(np)){
-                if (x.getTipoProducto().equals(TipoProducto.BEBIDAS)){
-                    bebidas.add(etiqueta(x.getDescripcion()));
-                    bebidas.add(etiqueta(x.getPrecio().toString()));
-                    np=x;
-                }
-            }
-            else if (!x.getDescripcion().equals(np.getDescripcion())){
-                if(x.getTipoProducto().equals(TipoProducto.BEBIDAS)){
-                    bebidas.add(etiqueta(x.getDescripcion()));
-                    bebidas.add(etiqueta(x.getPrecio().toString()));
-                    np=x;
-                }
-            }
-        }
+
 
         // Hacemos que todos los paneles se vean igual en cuanto a estetica
 
@@ -303,10 +311,5 @@ public class PanelCliente extends JPanel {
             scrollPane.getViewport().setOpaque(false);
             panel.add(scrollPane);
         }
-
-
-
     }
-
-
 }
