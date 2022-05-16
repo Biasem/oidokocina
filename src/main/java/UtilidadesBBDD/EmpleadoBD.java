@@ -12,20 +12,21 @@ import java.sql.SQLException;
 
 public class EmpleadoBD extends UtilidadesBD {
 
-    public static Empleado obtenerPorId(Integer id) {
+    public static Empleado obtenerPorNumEmpleado(Integer numEmpleado) {
 
         Connection con = conectarConBD();
         Empleado empleado = null;
 
         try {
-            PreparedStatement query = con.prepareStatement("SELECT * FROM empleado where id = ?  ");
-            query.setInt(1, id);
+            PreparedStatement query = con.prepareStatement("SELECT * FROM empleado where num_empleado = ?  ");
+            query.setInt(1, numEmpleado);
             ResultSet rs = query.executeQuery();
 
             //Recorremos los datos
             while (rs.next()) {
-                empleado = new Empleado(rs.getInt("id"),rs.getString("nombre"),rs.getString("apellidos"),
+                empleado = new Empleado(rs.getString("nombre"),rs.getString("apellidos"),
                  rs.getInt("num_empleado"),Rol.values()[rs.getInt("rol")]);
+
             }
 
         } catch (SQLException sqle) {
@@ -43,7 +44,7 @@ public class EmpleadoBD extends UtilidadesBD {
 
     public static void crearActualizarEmpleado(Empleado empleado){
 
-        Empleado empBaseDatos = obtenerPorId(empleado.getId());
+        Empleado empBaseDatos = obtenerPorNumEmpleado(empleado.getNum_empleado());
 
         if(empBaseDatos != null){
             actualizarEmpleado(empleado);
@@ -57,14 +58,13 @@ public class EmpleadoBD extends UtilidadesBD {
         Connection con = conectarConBD();
 
         try {
-            PreparedStatement insert = con.prepareStatement("insert into empleado (id, codigo_empleado, nombre, apellidos, tipo_empleado)" +
-                    "values(?,?,?,?,?)");
+            PreparedStatement insert = con.prepareStatement("insert into empleado (Num_empleado, nombre, apellidos, Rol)" +
+                    "values(?,?,?,?)");
 
-            insert.setInt(1, empleado.getId());
-            insert.setInt(2,empleado.getNum_empleado());
-            insert.setString(3,empleado.getNombre());
-            insert.setString(4, empleado.getApellidos());
-            insert.setInt(5, empleado.getRol().ordinal());
+            insert.setInt(1,empleado.getNum_empleado());
+            insert.setString(2,empleado.getNombre());
+            insert.setString(3, empleado.getApellidos());
+            insert.setInt(4, empleado.getRol().ordinal());
 
             //Ejecución del insert
             insert.executeUpdate();
@@ -79,25 +79,22 @@ public class EmpleadoBD extends UtilidadesBD {
         }
     }
 
-
     public static void actualizarEmpleado(Empleado empleado){
         Connection con = conectarConBD();
 
         try {
+
             PreparedStatement update = con.prepareStatement("update empleado " +
-                    "set codigo_empleado = ? , nombre = ? , apellidos = ? , tipo_empledado = ?" +
-                    "where id = ? ");
+                    "set  nombre = ? , apellidos = ? , rol = ? " +
+                    "where num_empleado = ? ");
 
-            update.setInt(1,empleado.getNum_empleado());
-            update.setString(2,empleado.getNombre());
-            update.setString(3, empleado.getApellidos());
-            update.setInt(4, empleado.getRol().ordinal());
-            update.setInt(5, empleado.getId());
-
+            update.setString(1,empleado.getNombre());
+            update.setString(2, empleado.getApellidos());
+            update.setInt(3, empleado.getRol().ordinal());
+            update.setInt(4, empleado.getNum_empleado());
 
             //Ejecución del update
             update.executeUpdate();
-
 
         } catch (SQLException sqle) {
             System.out.println("Error en la ejecución:"
@@ -113,9 +110,9 @@ public class EmpleadoBD extends UtilidadesBD {
         Connection con = conectarConBD();
 
         try {
-            PreparedStatement delete = con.prepareStatement("delete from empleado where id = ? ");
+            PreparedStatement delete = con.prepareStatement("delete from empleado where num_empleado = ? ");
 
-            delete.setInt(1, empleado.getId());
+            delete.setInt(1, empleado.getNum_empleado());
 
             //Ejecución del delete
             delete.executeUpdate();
@@ -131,4 +128,9 @@ public class EmpleadoBD extends UtilidadesBD {
     }
 
 
+    public static boolean esCamarero(Integer numEmpleado){
+
+
+        return false;
+    }
 }

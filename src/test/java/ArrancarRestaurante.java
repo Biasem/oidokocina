@@ -1,7 +1,13 @@
+import Modelos.Mesa;
+import VentanasApp.PanelPrincipal;
+
+import java.util.ArrayList;
+import java.util.List;
+
 public class ArrancarRestaurante {
     //
     public static void main(String[] args) {
-        ConstruirRestaurante cr = new ConstruirRestaurante();
+        PanelPrincipal cr = new PanelPrincipal();
 
     }
 }

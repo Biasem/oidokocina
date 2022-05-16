@@ -2,15 +2,16 @@ import Modelos.Producto;
 import Modelos.TipoProducto;
 import UtilidadesBBDD.ProductoBD;
 import UtilidadesBBDD.UtilidadesBD;
-
 import java.awt.Dimension;
+import java.io.File;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
-
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -21,84 +22,82 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-
+import org.apache.pdfbox.pdmodel.PDDocument;
+import org.apache.pdfbox.pdmodel.PDPage;
+import org.apache.pdfbox.pdmodel.PDPageContentStream;
+import org.apache.pdfbox.pdmodel.common.PDRectangle;
+import org.apache.pdfbox.pdmodel.font.PDType1Font;
+import org.apache.pdfbox.pdmodel.graphics.image.PDImageXObject;
 public class pruebas extends UtilidadesBD{
 
-    public static void main(String... args) {
-        List<Producto> lista;
-        lista = ProductoBD.obtenerTodosProductos().stream().sorted(Comparator.comparing(Producto::getDescripcion)).collect(Collectors.toList());
+    public static void main(String[] args) throws Exception {
+        try (PDDocument document = new PDDocument()) {
 
-        //lista de bebidas System.out.println(lista.stream().filter(p->p.getTipoProducto().equals(TipoProducto.BEBIDAS)).collect(Collectors.toList()));
-        //lista de postres System.out.println(lista.stream().filter(p->p.getTipoProducto().equals(TipoProducto.POSTRE)).collect(Collectors.toList()));
-        Producto np = new Producto();
-        lista = lista.stream().filter(p->!p.getTipoProducto().equals(TipoProducto.BEBIDAS)&&
-                !p.getTipoProducto().equals(TipoProducto.POSTRES)&&
-                !p.getTipoProducto().equals(TipoProducto.ESPECIALIDADES)).collect(Collectors.toList());
+            PDPage page1 = new PDPage(PDRectangle.A6);
+            document.addPage(page1);
 
-        np = lista.get(0);
-        String cadena="";
-        for (Producto p:lista){
-            if(p.equals(np)){// primera iteracion del bucle
-                if(p.getTipoProducto().equals(TipoProducto.TAPA)){
-                    System.out.println(p.getDescripcion());
-                    System.out.println(p.getPrecio());
-                    np=p;
-                }
-                if(p.getTipoProducto().equals(TipoProducto.MEDIA)){
-                    System.out.println(p.getDescripcion());
-                    System.out.println("000");
-                    System.out.println(p.getPrecio());
-                    np=p;
-                }
-                if(p.getTipoProducto().equals(TipoProducto.RACION)){
-                    System.out.println(p.getDescripcion());
-                    System.out.println("000");
-                    System.out.println("000");
-                    System.out.println(p.getPrecio());
-                    np=p;
-                }
-            }
-            //segunda iteración y siguientes, si p es distinto a np significa que entramos en un nuevo producto por tanto
-            // tenemos que ver si ese producto nuevo es tapa media o racion y segun el anterior haya sido habra que rellenar
-            else if (!p.getDescripcion().equals(np.getDescripcion())){
-                //relleno del anterior segun sea tapa o media
-                if(np.getTipoProducto().equals(TipoProducto.TAPA)){
-                    System.out.println("000");
-                    System.out.println("000");
-                }
-                if(np.getTipoProducto().equals(TipoProducto.MEDIA)){
-                    System.out.println("000");
-                }
-                //segun el siguiente producto, procedemos a su inicio y prodecemos al avance de la variable auxiliar
-                if(p.getTipoProducto().equals(TipoProducto.TAPA)){
-                    System.out.println(p.getDescripcion());
-                    System.out.println(p.getPrecio());
-                    np=p;
-                }
-                if(p.getTipoProducto().equals(TipoProducto.MEDIA)){
-                    System.out.println(p.getDescripcion());
-                    System.out.println("000");
-                    System.out.println(p.getPrecio());
-                    np=p;
-                }
-                if(p.getTipoProducto().equals(TipoProducto.RACION)){
-                    System.out.println(p.getDescripcion());
-                    System.out.println("000");
-                    System.out.println("000");
-                    System.out.println(p.getPrecio());
-                    np=p;
-                }
-            }
-            //comparamos si el siguiente tiene la misma descripción solo obtenemos el precio
-            else if(np.getDescripcion().equals(p.getDescripcion())){
-                System.out.println(p.getPrecio());
-                np=p;
+            PDPageContentStream contentStream = new PDPageContentStream(document, page1);
+
+            PDImageXObject pdImage = PDImageXObject.createFromFile(new File("").getAbsolutePath() +"\\src\\main\\imagenes\\duck.jpg", document);
+            contentStream.drawImage(pdImage, 240, 365, pdImage.getWidth() / 10, pdImage.getHeight() / 10);
+
+            contentStream.beginText();
+
+
+            contentStream.setFont(PDType1Font.TIMES_BOLD, 12);
+            contentStream.newLineAtOffset( 10, page1.getMediaBox().getHeight() - 22);
+            contentStream.setLeading(18.5f);
+
+            contentStream.showText("Número de Mesa: " + 4);
+            contentStream.newLine();
+            contentStream.showText("Camarero: " + "ruben");
+            contentStream.newLine();
+            contentStream.newLine();
+
+
+            contentStream.showText("PRODUCTO");
+            contentStream.newLineAtOffset(120, 0);
+            contentStream.showText("CANTIDAD");
+            contentStream.newLineAtOffset(105, 0);
+            contentStream.showText("PRECIO");
+            contentStream.newLine();
+            contentStream.newLineAtOffset(-225, 0);
+
+
+            //PRODUCTOS
+            for(int x=0;x<5;x++){
+                contentStream.showText("producto"+x);
+                contentStream.newLineAtOffset(150, 0);
+                contentStream.showText("cantidad"+x);
+                contentStream.newLineAtOffset(100, 0);
+                contentStream.showText("total"+x);
+                contentStream.newLine();
+                contentStream.newLineAtOffset(-250, 0);
+
             }
 
+            contentStream.newLine();
+            contentStream.showText("TOTAL");
+            contentStream.newLineAtOffset(250, 0);
+            contentStream.showText(""+223231);
+
+            contentStream.newLineAtOffset(-250,-page1.getMediaBox().getHeight()+200);
+            contentStream.showText(LocalDate.now().toString());
+
+
+            contentStream.endText();
+
+            //LINEAS NEGRAS
+            PDRectangle bbox = page1.getBBox();
+            contentStream.moveTo(bbox.getLowerLeftX() ,360);
+            contentStream.lineTo(bbox.getUpperRightX(),360);
+            contentStream.setLineWidth( 2f);
+            contentStream.stroke();
+
+
+            contentStream.close();
+
+            document.save("document.pdf");
         }
-        lista = ProductoBD.obtenerTodosProductos().stream().sorted(Comparator.comparing(Producto::getDescripcion)).collect(Collectors.toList());
-        System.out.println(lista.stream().map(p->p.getDescripcion()).distinct().collect(Collectors.toList()));
-
-
     }
 }
