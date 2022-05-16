@@ -45,7 +45,7 @@ public class PanelCocinero extends JPanel {
         panel.add(scrollPane);
 
         ArrayList<LineaComanda> lista = new ArrayList<>();
-        //lista = (ArrayList<LineaComanda>) FacturaYComandaBD.ObtenerComandas().stream().sorted(Comparator.comparing(LineaComanda::getId_mesa)).collect(Collectors.toList());
+        lista = (ArrayList<LineaComanda>) FacturaYComandaBD.ObtenerComandas().stream().sorted(Comparator.comparing(LineaComanda::getNum_mesa)).collect(Collectors.toList());
 
         for (LineaComanda x: lista){
             final int[] numero = {0};
