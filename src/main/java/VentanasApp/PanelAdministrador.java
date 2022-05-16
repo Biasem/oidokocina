@@ -4,6 +4,8 @@ import Modelos.*;
 import UtilidadesBBDD.EmpleadoBD;
 import UtilidadesBBDD.MesaBD;
 import UtilidadesBBDD.ProductoBD;
+import metodos.FiltroNumeoDouble;
+import metodos.FiltroNumeros;
 
 import javax.swing.*;
 import java.awt.*;
@@ -97,30 +99,7 @@ public class PanelAdministrador extends JPanel {
         panel.add(labelNumMesa);
         //Campo NUM MESA
         JTextField campoNumMesa = new JTextField();
-        campoNumMesa.addKeyListener(new KeyListener() {
-            @Override
-            public void keyTyped(KeyEvent e) {
-                char caracter = e.getKeyChar();
-
-                // Verificar si la tecla pulsada no es un digito
-                if(((caracter < '0') ||
-                        (caracter > '9')) &&
-                        (caracter != '\b' /*corresponde a BACK_SPACE*/))
-                {
-                    e.consume();  // ignorar el evento de teclado
-                }
-            }
-
-            @Override
-            public void keyPressed(KeyEvent e) {
-
-            }
-
-            @Override
-            public void keyReleased(KeyEvent e) {
-
-            }
-        });
+        campoNumMesa.addKeyListener(new FiltroNumeros());
         campoNumMesa.setBounds(260,170,50,20);
         panel.add(campoNumMesa);
         //Etiqueta NUM COMENSALES
@@ -131,6 +110,7 @@ public class PanelAdministrador extends JPanel {
         panel.add(labelNumComensales);
         //Campo NUM COMENSALES
         JTextField campoNumComensales = new JTextField();
+        campoNumComensales.addKeyListener(new FiltroNumeros());
         campoNumComensales.setBounds(330,190,50,20);
         panel.add(campoNumComensales);
         //Boton Crear MESA
@@ -229,6 +209,7 @@ public class PanelAdministrador extends JPanel {
 
         //Campo NUM.EMPLEADO
         JTextField campoNumEmpleado = new JTextField();
+        campoNumEmpleado.addKeyListener(new FiltroNumeros());
         campoNumEmpleado.setBounds(300,210,50,20);
         panel.add(campoNumEmpleado);
 
@@ -341,6 +322,7 @@ public class PanelAdministrador extends JPanel {
         panel.add(labelId);
         //Campo ID
         JTextField campoId = new JTextField();
+        campoId.addKeyListener(new FiltroNumeros());
         campoId.setBounds(170,150,50,20);
         panel.add(campoId);
         //Etiqueta Codigo
@@ -351,6 +333,7 @@ public class PanelAdministrador extends JPanel {
         panel.add(labelCodigo);
         //Campo Codigo
         JTextField campoCodigo = new JTextField();
+        campoCodigo.addKeyListener(new FiltroNumeros());
         campoCodigo.setBounds(330,150,50,20);
         panel.add(campoCodigo);
 
@@ -379,6 +362,7 @@ public class PanelAdministrador extends JPanel {
         panel.add(labelPrecio);
         //Campo Precio
         JTextField campoPrecio = new JTextField();
+        campoPrecio.addKeyListener(new FiltroNumeoDouble());
         campoPrecio.setBounds(220,250,50,20);
         panel.add(campoPrecio);
 
