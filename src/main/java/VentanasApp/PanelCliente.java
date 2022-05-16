@@ -61,9 +61,11 @@ public class PanelCliente extends JPanel {
         //panel donde van los productos
         List<Producto> lista;
         lista = ProductoBD.obtenerTodosProductos().stream().sorted(Comparator.comparing(Producto::getDescripcion)).collect(Collectors.toList());
+
         lista = lista.stream().filter(p->!p.getTipoProducto().equals(TipoProducto.BEBIDAS)&&
                 !p.getTipoProducto().equals(TipoProducto.POSTRES)&&
                 !p.getTipoProducto().equals(TipoProducto.ESPECIALIDADES)).collect(Collectors.toList());
+
         JPanel panel2 = new JPanel();
         panel2.setLayout(new GridLayout(lista.stream().map(p->p.getDescripcion()).distinct().collect(Collectors.toList()).size(), 4, 5, 2));
 

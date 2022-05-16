@@ -1,11 +1,11 @@
 package VentanasApp;
 
-import Modelos.Empleado;
-import Modelos.Producto;
-import Modelos.Rol;
-import Modelos.TipoProducto;
+import Modelos.*;
 import UtilidadesBBDD.EmpleadoBD;
+import UtilidadesBBDD.MesaBD;
 import UtilidadesBBDD.ProductoBD;
+import metodos.FiltroNumeoDouble;
+import metodos.FiltroNumeros;
 
 import javax.swing.*;
 import java.awt.*;
@@ -90,16 +90,7 @@ public class PanelAdministrador extends JPanel {
         PanelPrincipal.RestaurarPanel(panel);
         panel.setLayout(null);
 
-        //Etiqueta ID
-        JLabel labelId = new JLabel("ID");
-        labelId.setFont( new Font("TimesRoman",Font.BOLD,20));
-        labelId.setForeground(Color.white);
-        labelId.setBounds(150,150,60,20);
-        panel.add(labelId);
-        //Campo ID
-        JTextField campoId = new JTextField();
-        campoId.setBounds(170,150,50,20);
-        panel.add(campoId);
+
         //Etiqueta NUM MESA
         JLabel labelNumMesa = new JLabel("Num. Mesa");
         labelNumMesa.setFont( new Font("TimesRoman",Font.BOLD,20));
@@ -108,6 +99,7 @@ public class PanelAdministrador extends JPanel {
         panel.add(labelNumMesa);
         //Campo NUM MESA
         JTextField campoNumMesa = new JTextField();
+        campoNumMesa.addKeyListener(new FiltroNumeros());
         campoNumMesa.setBounds(260,170,50,20);
         panel.add(campoNumMesa);
         //Etiqueta NUM COMENSALES
@@ -118,39 +110,76 @@ public class PanelAdministrador extends JPanel {
         panel.add(labelNumComensales);
         //Campo NUM COMENSALES
         JTextField campoNumComensales = new JTextField();
+        campoNumComensales.addKeyListener(new FiltroNumeros());
         campoNumComensales.setBounds(330,190,50,20);
         panel.add(campoNumComensales);
-
+        //Boton Crear MESA
+        JButton botonCrear = new JButton("Crear");
+        ActionListener accionCrearMesa = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(campoNumComensales.getText().isEmpty()||campoNumMesa.getText().isEmpty()){
+                    JOptionPane.showMessageDialog(null,"Hay campos vacios");
+                }else{
+                MesaBD.crearMesa(Integer.valueOf(campoNumMesa.getText()),Integer.valueOf(campoNumComensales.getText()));
+                panelMesa(panel);
+                }
+            }
+        };
+        botonCrear.addActionListener(accionCrearMesa);
+        botonCrear.setBounds(200,600,100,50);
+        panel.add(botonCrear);
         //Boton Buscar MESA
         JButton botonBuscar = new JButton("Buscar");
+        ActionListener accionBuscarMesa = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Mesa mesaBuscada = new Mesa(MesaBD.obtenerPorNumMesa(Integer.valueOf(campoNumMesa.getText())));
+                if (mesaBuscada.getNum_Comensales()==-1){
+                    JOptionPane.showMessageDialog(null,"Esa mesa no está creada");
+
+                }else {
+                    campoNumComensales.setText("" + mesaBuscada.getNum_Comensales());
+                }
+            }
+        };
+        botonBuscar.addActionListener(accionBuscarMesa);
         botonBuscar.setBounds(300,600,100,50);
         panel.add(botonBuscar);
+
         //Boton Modificar MESA
         JButton botonModificar = new JButton("MODIFICAR");
         botonModificar.setBounds(400,600,110,50);
+        ActionListener accionModificar = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+            MesaBD.actualizarMesa(Integer.valueOf(campoNumMesa.getText()),Integer.valueOf(campoNumComensales.getText()));
+            panelMesa(panel);
+            }
+        };
+        botonModificar.addActionListener(accionModificar);
         panel.add(botonModificar);
         //Boton Eliminar MESA
         JButton botonEliminar = new JButton("ELIMINAR");
+        ActionListener accionEliminar = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                MesaBD.eliminarMesa(Integer.valueOf(campoNumMesa.getText()));
+                panelMesa(panel);
+            }
+        };
         botonEliminar.setBounds(510,600,100,50);
+        botonEliminar.addActionListener(accionEliminar);
         panel.add(botonEliminar);
         //boton Atras hacia panel camarero
         PanelPrincipal.botonAtrasAdministrador();
     }
     //Subpaneles de administrador  EMPLEADOS
+
     private static void panelEmpleados(JPanel panel){
         //urlimg = new ImageIcon(geturlimg()).getImage();
         PanelPrincipal.RestaurarPanel(panel);
         panel.setLayout(null);
-        JLabel labelId = new JLabel("ID");
-        labelId.setFont( new Font("TimesRoman", BOLD,20));
-        labelId.setForeground(Color.white);
-        labelId.setBounds(150,150,60,20);
-        panel.add(labelId);
-
-        //Campo ID
-        JTextField campoId = new JTextField();
-        campoId.setBounds(170,150,50,20);
-        panel.add(campoId);
 
         //Etiqueta NOMBRE
         JLabel labelNombre = new JLabel("Nombre");
@@ -185,6 +214,7 @@ public class PanelAdministrador extends JPanel {
 
         //Campo NUM.EMPLEADO
         JTextField campoNumEmpleado = new JTextField();
+        campoNumEmpleado.addKeyListener(new FiltroNumeros());
         campoNumEmpleado.setBounds(300,210,50,20);
         panel.add(campoNumEmpleado);
 
@@ -212,9 +242,9 @@ public class PanelAdministrador extends JPanel {
         ActionListener oyenteCrear = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+
                 Empleado nuevo = new Empleado();
 
-                nuevo.setId(Integer.parseInt(campoId.getText()));
                 nuevo.setNombre(campoNombre.getText());
                 nuevo.setApellidos(campoApellidos.getText());
                 nuevo.setNum_empleado(Integer.parseInt(campoNumEmpleado.getText()));
@@ -232,11 +262,17 @@ public class PanelAdministrador extends JPanel {
         ActionListener oyenteBuscar = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Producto nuevoProducto = new Producto();
-                campoNombre.setText(EmpleadoBD.obtenerPorId(Integer.valueOf(campoId.getText())).getNombre());
-                campoApellidos.setText(EmpleadoBD.obtenerPorId(Integer.valueOf(campoId.getText())).getApellidos());
-                campoNumEmpleado.setText(EmpleadoBD.obtenerPorId(Integer.valueOf(campoId.getText())).getNum_empleado().toString());
-                comboRol.setSelectedItem(EmpleadoBD.obtenerPorId(Integer.parseInt(campoId.getText())).getRol());
+                Empleado empleado = new Empleado(EmpleadoBD.obtenerPorNumEmpleado(Integer.valueOf(campoNumEmpleado.getText())));
+                if (empleado.equals(null)){
+                    campoNombre.setText("");
+                    campoApellidos.setText("");
+
+
+                }else {
+                    campoNombre.setText(empleado.getNombre());
+                    campoApellidos.setText(empleado.getApellidos());
+                    comboRol.setSelectedItem(empleado.getRol());
+                }
             }
         };
         botonBuscar.addActionListener(oyenteBuscar);
@@ -249,7 +285,6 @@ public class PanelAdministrador extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 Empleado nuevo = new Empleado();
-                nuevo.setId(Integer.parseInt(campoId.getText()));
                 nuevo.setNombre(campoNombre.getText());
                 nuevo.setApellidos(campoApellidos.getText());
                 nuevo.setNum_empleado(Integer.parseInt(campoNumEmpleado.getText()));
@@ -269,7 +304,7 @@ public class PanelAdministrador extends JPanel {
             public void actionPerformed(ActionEvent e) {
                 Empleado nuevo = new Empleado();
 
-                nuevo.setId(Integer.valueOf(campoId.getText())); //filtrar las letras
+                nuevo.setNum_empleado(Integer.valueOf(campoNumEmpleado.getText())); //filtrar las letras
                 EmpleadoBD.eliminarEmpleado(nuevo);
             }
         };
@@ -293,6 +328,7 @@ public class PanelAdministrador extends JPanel {
         panel.add(labelId);
         //Campo ID
         JTextField campoId = new JTextField();
+        campoId.addKeyListener(new FiltroNumeros());
         campoId.setBounds(170,150,50,20);
         panel.add(campoId);
         //Etiqueta Codigo
@@ -303,6 +339,7 @@ public class PanelAdministrador extends JPanel {
         panel.add(labelCodigo);
         //Campo Codigo
         JTextField campoCodigo = new JTextField();
+        campoCodigo.addKeyListener(new FiltroNumeros());
         campoCodigo.setBounds(330,150,50,20);
         panel.add(campoCodigo);
 
@@ -331,6 +368,7 @@ public class PanelAdministrador extends JPanel {
         panel.add(labelPrecio);
         //Campo Precio
         JTextField campoPrecio = new JTextField();
+        campoPrecio.addKeyListener(new FiltroNumeoDouble());
         campoPrecio.setBounds(220,250,50,20);
         panel.add(campoPrecio);
 

@@ -4,21 +4,21 @@ import java.util.Objects;
 
 public class LineaComanda {
     private int id;
-    private int idEmpleado;
+    private int numEmpleado;
     private int idFactura;
     private int idProducto;
-    private int id_mesa;
+    private int num_mesa;
     private int cantidadProducto;
     private int cantidadCocinada;
 
     public LineaComanda(){}
 
-    public LineaComanda(int id, int idEmpleado, int idFactura, int idProducto, int id_mesa, int cantidadProducto, int cantidadCocinada) {
+    public LineaComanda(int id, int numEmpleado, int idFactura, int idProducto, int num_mesa, int cantidadProducto, int cantidadCocinada) {
         this.id = id;
-        this.idEmpleado = idEmpleado;
+        this.numEmpleado = numEmpleado;
         this.idFactura = idFactura;
         this.idProducto = idProducto;
-        this.id_mesa = id_mesa;
+        this.num_mesa = num_mesa;
         this.cantidadProducto = cantidadProducto;
         this.cantidadCocinada = cantidadCocinada;
     }
@@ -31,12 +31,12 @@ public class LineaComanda {
         this.id = id;
     }
 
-    public int getIdEmpleado() {
-        return idEmpleado;
+    public int getNumEmpleado() {
+        return numEmpleado;
     }
 
-    public void setIdEmpleado(int idEmpleado) {
-        this.idEmpleado = idEmpleado;
+    public void setNumEmpleado(int numEmpleado) {
+        this.numEmpleado = numEmpleado;
     }
 
     public int getIdFactura() {
@@ -55,12 +55,12 @@ public class LineaComanda {
         this.idProducto = idProducto;
     }
 
-    public int getId_mesa() {
-        return id_mesa;
+    public int getNum_mesa() {
+        return num_mesa;
     }
 
-    public void setId_mesa(int id_mesa) {
-        this.id_mesa = id_mesa;
+    public void setNum_mesa(int num_mesa) {
+        this.num_mesa = num_mesa;
     }
 
     public int getCantidadProducto() {
@@ -84,22 +84,22 @@ public class LineaComanda {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         LineaComanda that = (LineaComanda) o;
-        return id == that.id && idEmpleado == that.idEmpleado && idFactura == that.idFactura && idProducto == that.idProducto && id_mesa == that.id_mesa && cantidadProducto == that.cantidadProducto && cantidadCocinada == that.cantidadCocinada;
+        return id == that.id && numEmpleado == that.numEmpleado && idFactura == that.idFactura && idProducto == that.idProducto && num_mesa == that.num_mesa && cantidadProducto == that.cantidadProducto && cantidadCocinada == that.cantidadCocinada;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, idEmpleado, idFactura, idProducto, id_mesa, cantidadProducto, cantidadCocinada);
+        return Objects.hash(id, numEmpleado, idFactura, idProducto, num_mesa, cantidadProducto, cantidadCocinada);
     }
 
     @Override
     public String toString() {
         return "LineaComanda{" +
                 "id=" + id +
-                ", idEmpleado=" + idEmpleado +
+                ", numEmpleado=" + numEmpleado +
                 ", idFactura=" + idFactura +
                 ", idProducto=" + idProducto +
-                ", id_mesa=" + id_mesa +
+                ", num_mesa=" + num_mesa +
                 ", cantidadProducto=" + cantidadProducto +
                 ", cantidadCocinada=" + cantidadCocinada +
                 '}';

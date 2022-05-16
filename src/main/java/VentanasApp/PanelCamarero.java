@@ -5,6 +5,7 @@ import Modelos.Mesa;
 import Modelos.Producto;
 import Modelos.TipoProducto;
 import UtilidadesBBDD.FacturaYComandaBD;
+import UtilidadesBBDD.MesaBD;
 import UtilidadesBBDD.ProductoBD;
 
 import javax.swing.*;
@@ -18,19 +19,14 @@ import java.util.stream.Collectors;
 
 public class PanelCamarero extends JPanel {
     //BORRAR CUANDO ESTE IMPLEMENTADO LA BBDD DE MESAS
-    static Mesa mesa1 = new Mesa(1,1,0,true);
-    static Mesa mesa2 = new Mesa(2,2,0,true);
-    static List<Mesa> listaMesas = new ArrayList<>();
+
     static List<Producto> listaProductos = new ArrayList<>();
     static List<LineaComanda> listaComandas = new ArrayList<>();
 //-----------------------------------------------------------------------------------------------
 
     static void panelCamarero(JPanel panel){
         //BORRAR CUANDO ESTE IMPLEMENTADA LA BBDD
-        if (listaMesas.isEmpty()){
-            listaMesas.add(mesa1);
-            listaMesas.add(mesa2);
-        }
+
         if (listaProductos.isEmpty()) listaProductos = ProductoBD.obtenerTodosProductos().stream().collect(Collectors.toList());
 
         //---------------------------------------------------------------------
@@ -96,6 +92,8 @@ public class PanelCamarero extends JPanel {
     }
     // subpanel de camarero AFORO
     private static void panelAforo(JPanel panel){
+        List<Mesa> listaMesas = new ArrayList<>();
+        listaMesas.addAll(MesaBD.obtenerTodasMesas());
 
         Font fuente = new Font("TimesRoman",Font.BOLD,20);
         PanelPrincipal.RestaurarPanel(panel);
@@ -148,7 +146,8 @@ public class PanelCamarero extends JPanel {
                 public void actionPerformed(ActionEvent e) {
                     for (Mesa j:listaMesas){
                         if (j.getNum_Mesa()==Integer.valueOf(botonOcuparMesa.getName())){
-                            j.setOcupada(true);
+                            MesaBD.ocuparMesa(j.getNum_Mesa());
+                            FacturaYComandaBD.crearFacturaMesa(j.getNum_Mesa());
                             panelAforo(panel);
                         }
                     }
@@ -175,13 +174,43 @@ public class PanelCamarero extends JPanel {
         PanelPrincipal.RestaurarPanel(panel);
         panel.setLayout(null);
 
+        List<Mesa> listaMesas = new ArrayList<>();
+        listaMesas.addAll(MesaBD.obtenerTodasMesas().stream().filter(m->m.isOcupada()==true).collect(Collectors.toList()));
+        Font fuente = new Font("TimesRoman",Font.BOLD,20);
+
+
         JPanel panel2 = new JPanel();
-        panel2.setLayout(new GridLayout(20, 3, 20, 20));
+        panel2.setLayout(new GridLayout(listaMesas.size(), 2, 20, 20));
         //productos en botones para poner bonico
-        for (int i = 1;i<20;i++) {
-            panel2.add(new JButton("Mesa "+i));
-            panel2.add(new JButton("Pedido finalizado/si/no"));
-            panel2.add(new JButton("boton pagar"));
+        for (Mesa m:listaMesas) {
+            panel2.add(new JLabel("Mesa " + m.getNum_Mesa()) {
+                @Override
+                public void setFont(Font font) {
+                    font = fuente;
+                    super.setFont(font);
+                }
+                @Override
+                public void setForeground(Color bg) {
+                    super.setForeground(Color.white);
+                }
+            });
+            JButton botonPagarCuenta = new JButton("Pagar Cuenta");
+            botonPagarCuenta.setName(""+m.getNum_Mesa());
+            ActionListener accionPagarCuenta = new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    if (m.getNum_Mesa()==Integer.valueOf(botonPagarCuenta.getName())) {
+                        CrearFacturaPDF.crearFactura(FacturaYComandaBD.obtenerProductosFactura(m.getNum_Mesa()));
+                        panelCuentas(panel);
+                    }
+                }
+            };
+            botonPagarCuenta.addActionListener(accionPagarCuenta);
+            if(!FacturaYComandaBD.obtenerCuentasAPagar(m.getNum_Mesa()))botonPagarCuenta.setEnabled(false);
+            panel2.add(botonPagarCuenta);
+
+
+
 
         }
         panel2.setOpaque(false);
@@ -201,7 +230,6 @@ public class PanelCamarero extends JPanel {
         PanelPrincipal.RestaurarPanel(panel);
         panel.setLayout(null);
 
-
         //Label Mesa
         JLabel labelMesa = new JLabel("Mesa:");
         labelMesa.setFont( new Font("TimesRoman",Font.BOLD,20));
@@ -210,6 +238,7 @@ public class PanelCamarero extends JPanel {
         panel.add(labelMesa);
         //Campo Mesa
         JTextField campoMesa = new JTextField();
+        campoMesa.addKeyListener(new FiltroNumeros());
         campoMesa.setBounds(110,100,50,20);
         panel.add(campoMesa);
 
@@ -221,6 +250,7 @@ public class PanelCamarero extends JPanel {
         panel.add(labelCamarero);
         //Campo Camarero
         JTextField campoCamarero = new JTextField();
+        campoCamarero.addKeyListener(new FiltroNumeros());
         campoCamarero.setBounds(350,100,50,20);
         panel.add(campoCamarero);
 
@@ -256,8 +286,6 @@ public class PanelCamarero extends JPanel {
             for (Producto p:listaProductos.stream().filter(p->p.getTipoProducto().
                     equals(TipoProducto.valueOf(comboTipoProducto.getSelectedItem().toString()))).collect(Collectors.toList())){
                 comboProducto.addItem(p.getDescripcion());
-
-
             }
         };
         comboTipoProducto.addActionListener(accionComboTipoProducto);
@@ -270,9 +298,9 @@ public class PanelCamarero extends JPanel {
         panel.add(labelCantidad);
         //Campo Cantidad
         JTextField campoCantidad = new JTextField();
+        campoCantidad.addKeyListener(new FiltroNumeros());
         campoCantidad.setBounds(150,250,50,20);
         panel.add(campoCantidad);
-
 
 
         //Boton añadir linea comanda
@@ -281,6 +309,9 @@ public class PanelCamarero extends JPanel {
         ActionListener accionAniadirProducto = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                //comprobamos camarero
+
+
                 //Comprobamos la mesa
                 if(FacturaYComandaBD.mesaOcupada(Integer.valueOf(campoMesa.getText()))){
                     LineaComanda nuevaLineaComanda = new LineaComanda();
@@ -288,8 +319,8 @@ public class PanelCamarero extends JPanel {
                     nuevaLineaComanda.setIdProducto(listaProductos.stream().
                             filter(p -> p.getTipoProducto().equals(TipoProducto.valueOf(comboTipoProducto.getSelectedItem().toString()))&&
                             p.getDescripcion().equals(comboProducto.getSelectedItem().toString())).collect(Collectors.toList()).get(0).getId());
-                    nuevaLineaComanda.setIdEmpleado(Integer.valueOf(campoCamarero.getText()));
-                    nuevaLineaComanda.setId_mesa(Integer.valueOf(campoMesa.getText()));
+                    nuevaLineaComanda.setNumEmpleado(Integer.valueOf(campoCamarero.getText()));
+                    nuevaLineaComanda.setNum_mesa(Integer.valueOf(campoMesa.getText()));
                     nuevaLineaComanda.setId(0);
                     nuevaLineaComanda.setIdFactura(0);
                     nuevaLineaComanda.setCantidadCocinada(0);
