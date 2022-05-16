@@ -118,8 +118,12 @@ public class PanelAdministrador extends JPanel {
         ActionListener accionCrearMesa = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                if(campoNumComensales.getText().isEmpty()||campoNumMesa.getText().isEmpty()){
+                    JOptionPane.showMessageDialog(null,"Hay campos vacios");
+                }else{
                 MesaBD.crearMesa(Integer.valueOf(campoNumMesa.getText()),Integer.valueOf(campoNumComensales.getText()));
                 panelMesa(panel);
+                }
             }
         };
         botonCrear.addActionListener(accionCrearMesa);
@@ -131,10 +135,11 @@ public class PanelAdministrador extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 Mesa mesaBuscada = new Mesa(MesaBD.obtenerPorNumMesa(Integer.valueOf(campoNumMesa.getText())));
-                    if(mesaBuscada==null){
-                        JOptionPane.showMessageDialog(null,"Esa mesa ya esta creada, seleccione otra");
-                    }else{
-                    campoNumComensales.setText(""+mesaBuscada.getNum_Comensales());
+                if (mesaBuscada.getNum_Comensales()==-1){
+                    JOptionPane.showMessageDialog(null,"Esa mesa no está creada");
+
+                }else {
+                    campoNumComensales.setText("" + mesaBuscada.getNum_Comensales());
                 }
             }
         };
@@ -237,6 +242,7 @@ public class PanelAdministrador extends JPanel {
         ActionListener oyenteCrear = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+
                 Empleado nuevo = new Empleado();
 
                 nuevo.setNombre(campoNombre.getText());
