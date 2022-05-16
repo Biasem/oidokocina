@@ -79,7 +79,6 @@ public class EmpleadoBD extends UtilidadesBD {
         }
     }
 
-
     public static void actualizarEmpleado(Empleado empleado){
         Connection con = conectarConBD();
 
@@ -94,10 +93,8 @@ public class EmpleadoBD extends UtilidadesBD {
             update.setInt(3, empleado.getRol().ordinal());
             update.setInt(4, empleado.getNum_empleado());
 
-
             //Ejecución del update
             update.executeUpdate();
-
 
         } catch (SQLException sqle) {
             System.out.println("Error en la ejecución:"
@@ -131,4 +128,9 @@ public class EmpleadoBD extends UtilidadesBD {
     }
 
 
+    public static boolean esCamarero(Integer numEmpleado){
+
+
+        return false;
+    }
 }
