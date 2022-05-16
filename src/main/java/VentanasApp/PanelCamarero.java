@@ -4,10 +4,11 @@ import Modelos.LineaComanda;
 import Modelos.Mesa;
 import Modelos.Producto;
 import Modelos.TipoProducto;
+import UtilidadesBBDD.CrearFacturaPDF;
 import UtilidadesBBDD.FacturaYComandaBD;
 import UtilidadesBBDD.MesaBD;
 import UtilidadesBBDD.ProductoBD;
-import UtilidadesBBDD.CrearFacturaPDF;
+import metodos.FiltroNumeros;
 
 import javax.swing.*;
 import java.awt.*;
@@ -239,6 +240,7 @@ public class PanelCamarero extends JPanel {
         panel.add(labelMesa);
         //Campo Mesa
         JTextField campoMesa = new JTextField();
+        campoMesa.addKeyListener(new FiltroNumeros());
         campoMesa.setBounds(110,100,50,20);
         panel.add(campoMesa);
 
@@ -250,6 +252,7 @@ public class PanelCamarero extends JPanel {
         panel.add(labelCamarero);
         //Campo Camarero
         JTextField campoCamarero = new JTextField();
+        campoCamarero.addKeyListener(new FiltroNumeros());
         campoCamarero.setBounds(350,100,50,20);
         panel.add(campoCamarero);
 
@@ -297,6 +300,7 @@ public class PanelCamarero extends JPanel {
         panel.add(labelCantidad);
         //Campo Cantidad
         JTextField campoCantidad = new JTextField();
+        campoCantidad.addKeyListener(new FiltroNumeros());
         campoCantidad.setBounds(150,250,50,20);
         panel.add(campoCantidad);
 
@@ -307,6 +311,9 @@ public class PanelCamarero extends JPanel {
         ActionListener accionAniadirProducto = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                //comprobamos camarero
+
+
                 //Comprobamos la mesa
                 if(FacturaYComandaBD.mesaOcupada(Integer.valueOf(campoMesa.getText()))){
                     LineaComanda nuevaLineaComanda = new LineaComanda();

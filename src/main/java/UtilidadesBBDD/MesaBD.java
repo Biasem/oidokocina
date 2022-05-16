@@ -77,6 +77,7 @@ public class MesaBD extends UtilidadesBD{
 
             //Ejecución del insert
             insert.executeUpdate();
+
             JOptionPane.showMessageDialog(null,"Mesa creada");
 
         } catch (SQLException sqle) {
@@ -96,13 +97,17 @@ public class MesaBD extends UtilidadesBD{
             PreparedStatement query = con.prepareStatement("SELECT * FROM mesa where num_mesa = ?  ");
             query.setInt(1, numMesa);
             ResultSet rs = query.executeQuery();
-
+            if(!rs.next()){
+                mesa = new Mesa(numMesa,-1,false);
+            }
+            rs = query.executeQuery();
             //Recorremos los datos
             while (rs.next()) {
                 mesa = new Mesa(rs.getInt("num_mesa"), rs.getInt("num_comensales"),
                         rs.getBoolean("ocupada"));
 
             }
+
 
         } catch (SQLException sqle) {
             System.out.println("Error en la ejecución:"

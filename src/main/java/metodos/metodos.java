@@ -10,14 +10,6 @@ import static java.awt.Font.BOLD;
 
 public class metodos {
 
-    public void actionPerformed (ActionEvent ae, ArrayList<JButton> botones){
-        Object evt = ae.getSource();
-        for (JButton x: botones){
-
-        }
-
-    }
-
     public static void  botonAtras(JButton atras){
 
         atras.setBounds(10,10,40,40);
@@ -86,11 +78,4 @@ public class metodos {
         x.setMaximumSize(new Dimension(20,10));
     }
 
-    public static boolean inputEsUnNumero(String cadena){
-        if(cadena.isEmpty()) return false;
-
-
-
-        return true;
-    }
 }
