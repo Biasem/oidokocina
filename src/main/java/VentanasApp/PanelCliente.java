@@ -36,15 +36,13 @@ public class PanelCliente extends JPanel {
             PanelPrincipal.RestaurarPanel(panel);
             verCarta(panel);
         };
-        vercarta.addActionListener(oyenteCarta);
-        vercarta.setBorderPainted(true);
-        vercarta.setFocusPainted(true);
-        vercarta.setContentAreaFilled(true);
-        vercarta.setBorder(BorderFactory.createMatteBorder(
-                1, 1, 1, 1, Color.darkGray));
-        vercarta.setBackground(Color.WHITE);
 
-        panel.add(vercarta);
+        ArrayList <JButton> peque = new ArrayList<>();
+        peque.add(vercarta);
+        vercarta.addActionListener(oyenteCarta);
+
+        metodos.plantillaboton(peque, panel);
+
         PanelPrincipal.botonAtras();
 
 
@@ -64,40 +62,63 @@ public class PanelCliente extends JPanel {
         //panel donde van los productos
 
         List<Producto> lista;
-        lista = ProductoBD.obtenerTodosProductos().stream().sorted(Comparator.comparing(Producto::getDescripcion)).collect(Collectors.toList());
-        
+        List<Producto> listabebidas;
+        List<Producto> listapostres;
+        List<Producto> listaespecial;
 
-        Map<TipoProducto, List<Producto>> productosPorTipo = lista.stream().collect(Collectors.groupingBy(Producto::getTipoProducto));
+        // Creamos tres listas para luego hacer los bucles por separado
+
+        lista = ProductoBD.obtenerTodosProductos().stream().sorted(Comparator.comparing(Producto::getDescripcion)).collect(Collectors.toList());
+
+        listabebidas = lista.stream().filter(p->!p.getTipoProducto().equals(TipoProducto.TAPA)&&
+                !p.getTipoProducto().equals(TipoProducto.MEDIA)&&
+                !p.getTipoProducto().equals(TipoProducto.RACION)&&
+                !p.getTipoProducto().equals(TipoProducto.POSTRES)&&
+                !p.getTipoProducto().equals(TipoProducto.ESPECIALIDADES)).collect(Collectors.toList());
+
+        listapostres = lista.stream().filter(p->!p.getTipoProducto().equals(TipoProducto.BEBIDAS)&&
+                !p.getTipoProducto().equals(TipoProducto.MEDIA)&&
+                !p.getTipoProducto().equals(TipoProducto.RACION)&&
+                !p.getTipoProducto().equals(TipoProducto.ESPECIALIDADES)).collect(Collectors.toList());
+
+        listaespecial = lista.stream().filter(p->!p.getTipoProducto().equals(TipoProducto.BEBIDAS)&&
+                !p.getTipoProducto().equals(TipoProducto.MEDIA)&&
+                !p.getTipoProducto().equals(TipoProducto.RACION)&&
+                !p.getTipoProducto().equals(TipoProducto.POSTRES)).collect(Collectors.toList());
+
+        lista = lista.stream().filter(p->!p.getTipoProducto().equals(TipoProducto.BEBIDAS)&&
+                !p.getTipoProducto().equals(TipoProducto.POSTRES)&&
+                !p.getTipoProducto().equals(TipoProducto.ESPECIALIDADES)).collect(Collectors.toList());
+
 
         // Generamos los paneles y botones
-
-        final int[] panel2trigger = {1};
-        final int[] bebidastrigger = {0};
-        final int[] postrestrigger = {0};
 
         JPanel panel2 = new JPanel();
         JPanel bebidas = new JPanel();
         JPanel postres = new JPanel();
+        JPanel especialidades = new JPanel();
 
         JButton botoncomida = new JButton();
         JButton botonbebidas = new JButton();
         JButton botonpostres = new JButton();
-
-
+        JButton botonespecialidades = new JButton();
 
         ArrayList<JButton> botones = new ArrayList<>();
 
         botones.add(botoncomida);
         botones.add(botonbebidas);
         botones.add(botonpostres);
+        botones.add(botonespecialidades);
 
         botoncomida.setText("Comida");
         botonbebidas.setText("Bebidas");
         botonpostres.setText("Postres");
+        botonespecialidades.setText("Especial");
 
-        botoncomida.setBounds(100, 20, 70, 30);
-        botonbebidas.setBounds(170, 20, 70, 30);
-        botonpostres.setBounds(240, 20, 70, 30);
+        botoncomida.setBounds(50, 20, 60, 30);
+        botonbebidas.setBounds(120, 20, 60, 30);
+        botonpostres.setBounds(190, 20, 60, 30);
+        botonespecialidades.setBounds(260, 20, 60, 30);
 
         for (JButton x: botones){
             x.setFocusPainted(true);
@@ -108,14 +129,15 @@ public class PanelCliente extends JPanel {
             x.setFont(new Font("TimesRoman", BOLD,10));
         }
 
-
         panel.add(botoncomida);
         panel.add(botonbebidas);
         panel.add(botonpostres);
+        panel.add(botonespecialidades);
 
         panel2.setLayout(new GridLayout(lista.stream().map(p->p.getDescripcion()).distinct().collect(Collectors.toList()).size(), 4, 5, 2));
-        bebidas.setLayout(new GridLayout(lista.stream().map(p->p.getDescripcion()).distinct().collect(Collectors.toList()).size(), 2, 5, 2));
-        postres.setLayout(new GridLayout(lista.stream().map(p->p.getDescripcion()).distinct().collect(Collectors.toList()).size(), 2, 5, 2));
+        bebidas.setLayout(new GridLayout(lista.stream().map(p->p.getDescripcion()).distinct().collect(Collectors.toList()).size(), 4, 5, 2));
+        postres.setLayout(new GridLayout(lista.stream().map(p->p.getDescripcion()).distinct().collect(Collectors.toList()).size(), 4, 5, 2));
+        especialidades.setLayout(new GridLayout(lista.stream().map(p->p.getDescripcion()).distinct().collect(Collectors.toList()).size(), 4, 5, 2));
 
         //productos en botones para poner bonico
 
@@ -160,12 +182,15 @@ public class PanelCliente extends JPanel {
 
         }
 
+        // Acciones que harán los botones. En este caso, desactivan los paneles y alteran el texto de los JLabel.
+
         ActionListener comidaaccion = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 panel2.setVisible(true);
                 bebidas.setVisible(false);
                 postres.setVisible(false);
+                especialidades.setVisible(false);
                 tapa.setText("Tapa");
                 media.setText("Media");
                 racion.setText("Ración");
@@ -178,8 +203,9 @@ public class PanelCliente extends JPanel {
                 panel2.setVisible((false));
                 bebidas.setVisible(true);
                 postres.setVisible(false);
-                tapa.setText("Precio");
-                media.setText("");
+                especialidades.setVisible(false);
+                tapa.setText("");
+                media.setText("Precio");
                 racion.setText("");
             }
         };
@@ -190,8 +216,22 @@ public class PanelCliente extends JPanel {
                 panel2.setVisible(false);
                 bebidas.setVisible(false);
                 postres.setVisible(true);
-                tapa.setText("Precio");
-                media.setText("");
+                especialidades.setVisible(false);
+                tapa.setText("");
+                media.setText("Precio");
+                racion.setText("");
+            }
+        };
+
+        ActionListener especialidadaccion = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                panel2.setVisible(false);
+                bebidas.setVisible(false);
+                postres.setVisible(false);
+                especialidades.setVisible(true);
+                tapa.setText("");
+                media.setText("Precio");
                 racion.setText("");
             }
         };
@@ -199,6 +239,7 @@ public class PanelCliente extends JPanel {
         botoncomida.addActionListener(comidaaccion);
         botonbebidas.addActionListener(bebidaaccion);
         botonpostres.addActionListener(postreaccion);
+        botonespecialidades.addActionListener(especialidadaccion);
 
         panel.add(tapa);
         panel.add(media);
@@ -226,11 +267,6 @@ public class PanelCliente extends JPanel {
                     panel2.add(etiqueta(p.getPrecio().toString()));
                     np=p;
                 }
-                if(p.getTipoProducto().equals(TipoProducto.BEBIDAS)){
-                    bebidas.add(etiqueta(p.getDescripcion()));
-                    bebidas.add(etiqueta(p.getPrecio().toString()));
-                    np=p;
-                }
                 if(p.getTipoProducto().equals(TipoProducto.POSTRES)){
                     postres.add(etiqueta(p.getDescripcion()));
                     postres.add(etiqueta(p.getPrecio().toString()));
@@ -247,9 +283,6 @@ public class PanelCliente extends JPanel {
                 }
                 if(np.getTipoProducto().equals(TipoProducto.MEDIA)){
                     panel2.add(etiqueta(""));
-                }
-                if(np.getTipoProducto().equals(TipoProducto.BEBIDAS)){
-                    bebidas.add(etiqueta(""));
                 }
                 if(np.getTipoProducto().equals(TipoProducto.POSTRES)){
                     postres.add(etiqueta(""));
@@ -273,11 +306,7 @@ public class PanelCliente extends JPanel {
                     panel2.add(etiqueta(p.getPrecio().toString()));
                     np=p;
                 }
-                if(p.getTipoProducto().equals(TipoProducto.BEBIDAS)){
-                    bebidas.add(etiqueta(p.getDescripcion()));
-                    bebidas.add(etiqueta(p.getPrecio().toString()));
-                    np=p;
-                }
+
                 if(p.getTipoProducto().equals(TipoProducto.POSTRES)){
                     postres.add(etiqueta(p.getDescripcion()));
                     postres.add(etiqueta(p.getPrecio().toString()));
@@ -291,6 +320,86 @@ public class PanelCliente extends JPanel {
             }
         }
 
+        for (Producto p:listabebidas){
+            if(p.equals(np)) {
+                if(p.getTipoProducto().equals(TipoProducto.BEBIDAS)){
+                    bebidas.add(etiqueta(p.getDescripcion()));
+                    bebidas.add(etiqueta(p.getPrecio().toString()));
+                    np=p;
+                }
+            }
+
+            else if (!p.getDescripcion().equals(np.getDescripcion())) {
+                if(np.getTipoProducto().equals(TipoProducto.BEBIDAS)){
+                    bebidas.add(etiqueta(""));
+                    bebidas.add(etiqueta(""));
+                }
+
+                if(p.getTipoProducto().equals(TipoProducto.BEBIDAS)){
+                    bebidas.add(etiqueta(p.getDescripcion()));
+                    bebidas.add(etiqueta(p.getPrecio().toString()));
+                    np=p;
+                }
+            }
+            else if(np.getDescripcion().equals(p.getDescripcion())){
+                bebidas.add(etiqueta(p.getPrecio().toString()));
+                np=p;
+            }
+        }
+
+        for (Producto p:listaespecial){
+            if(p.equals(np)) {
+                if(p.getTipoProducto().equals(TipoProducto.ESPECIALIDADES)){
+                    especialidades.add(etiqueta(p.getDescripcion()));
+                    especialidades.add(etiqueta(p.getPrecio().toString()));
+                    np=p;
+                }
+            }
+
+            else if (!p.getDescripcion().equals(np.getDescripcion())) {
+                if(np.getTipoProducto().equals(TipoProducto.ESPECIALIDADES)){
+
+                }
+
+                if(p.getTipoProducto().equals(TipoProducto.ESPECIALIDADES)){
+                    especialidades.add(etiqueta(p.getDescripcion()));
+                    especialidades.add(etiqueta(p.getPrecio().toString()));
+                    np=p;
+                }
+            }
+            else if(np.getDescripcion().equals(p.getDescripcion())){
+                especialidades.add(etiqueta(p.getPrecio().toString()));
+                np=p;
+            }
+        }
+
+        for (Producto p:listapostres){
+            if(p.equals(np)) {
+                if(p.getTipoProducto().equals(TipoProducto.POSTRES)){
+                    postres.add(etiqueta(p.getDescripcion()));
+                    postres.add(etiqueta(p.getPrecio().toString()));
+                    np=p;
+                }
+            }
+
+            else if (!p.getDescripcion().equals(np.getDescripcion())) {
+                if(np.getTipoProducto().equals(TipoProducto.POSTRES)){
+                    postres.add(etiqueta(""));
+                    postres.add(etiqueta(""));
+                }
+
+                if(p.getTipoProducto().equals(TipoProducto.POSTRES)){
+                    postres.add(etiqueta(p.getDescripcion()));
+                    postres.add(etiqueta(p.getPrecio().toString()));
+                    np=p;
+                }
+            }
+            else if(np.getDescripcion().equals(p.getDescripcion())){
+                postres.add(etiqueta(p.getPrecio().toString()));
+                np=p;
+            }
+        }
+
 
 
         // Hacemos que todos los paneles se vean igual en cuanto a estetica
@@ -300,6 +409,7 @@ public class PanelCliente extends JPanel {
         paneles.add(panel2);
         paneles.add(bebidas);
         paneles.add(postres);
+        paneles.add(especialidades);
 
         for (JPanel x: paneles){
             x.setOpaque(true);
