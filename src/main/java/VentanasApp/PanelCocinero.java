@@ -46,28 +46,38 @@ public class PanelCocinero extends JPanel {
 
         ArrayList<LineaComanda> lista = new ArrayList<>();
         lista = (ArrayList<LineaComanda>) FacturaYComandaBD.ObtenerComandas().stream().sorted(Comparator.comparing(LineaComanda::getNum_mesa)).collect(Collectors.toList());
+        panel2.setLayout(new GridLayout(0,2));
 
         for (LineaComanda x: lista){
             final int[] numero = {0};
             int id = x.getIdProducto();
 
             JLabel texto = new JLabel();
-            texto.setText("" + x.getNumEmpleado() + "" + x.getIdProducto() + "Cantidad:" + x.getCantidadProducto() + "Cantidad cocinada:" + numero[0]);
+            texto.setText("Camarero:   " + x.getNumEmpleado() + "Producto:   " + x.getIdProducto() +  "Cantidad:   " + x.getCantidadProducto() + "Cantidad cocinada:   " + numero[0]);
             metodos.plantillatexto(texto);
 
             JButton mesa = new JButton();
-            mesa.setText("" + x.getNum_mesa());
+            mesa.setText("" + x.getId());
+            ArrayList<JButton> mesas = new ArrayList<>();
+            mesas.add(mesa);
+
+
             ActionListener mesafuncion = new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    if (id == x.getIdProducto()){
-                        numero[0] = numero[0] + 1;
 
-                        if (numero[0] >= x.getCantidadProducto()){
-                            mesa.setEnabled(false);
-                            texto.setText("Hecho");
+                    // sacar esto fuera y hacer el bucle comenzando con y
+                    for (JButton y: mesas){
+                        if ((Integer.valueOf(y.getText()) == x.getId())){
+                            numero[0] = numero[0] + 1;
+
+                            if (numero[0] >= x.getCantidadProducto()){
+                                mesa.setEnabled(false);
+                                texto.setText("Hecho");
+                            }
                         }
                     }
+
                 }
             };
             mesa.addActionListener(mesafuncion);
