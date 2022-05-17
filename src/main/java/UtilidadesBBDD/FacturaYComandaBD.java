@@ -17,30 +17,19 @@ import static UtilidadesBBDD.UtilidadesBD.*;
 
 public class FacturaYComandaBD {
 
-    public static void ActualizarCantidad(JButton boton,ArrayList<LineaComanda> lista){
+    public static void ActualizarCantidad(LineaComanda comanda){
         Connection con = conectarConBD();
-        LineaComanda comanda = new LineaComanda();
-
-        for (LineaComanda x: lista){
-            if (Integer.valueOf(boton.getText()) == x.getId()){
-                comanda = x;
-            }
-        }
 
         try {
-            PreparedStatement query = con.prepareStatement("select id from LineaComanda where id = ?");
-            query.setInt(1, comanda.getId());
-            ResultSet rs = query.executeQuery();
-            int idLineaComanda = 0;
-            while (rs.next()) {
-                idLineaComanda =  rs.getInt("id");
 
-            }
+            PreparedStatement update = con.prepareStatement("update linea_comanda " + "set cantidadcocinada = ? " + "where id = ? ");
 
-            PreparedStatement update = con.prepareStatement("update linea_comanda" + "set CantidadCocinada = ?" + "where id = ?");
+            int numerito = 0;
+            numerito = comanda.getCantidadCocinada() + 1;
+            update.setInt(1, numerito);
+            update.setInt(2, comanda.getId());
 
-            update.setInt(6, comanda.getCantidadCocinada() + 1);
-
+            update.executeUpdate();
         }
 
         catch (SQLException e) {

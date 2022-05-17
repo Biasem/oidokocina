@@ -48,26 +48,36 @@ public class PanelCocinero extends JPanel {
         lista = (ArrayList<LineaComanda>) FacturaYComandaBD.ObtenerComandas().stream().sorted(Comparator.comparing(LineaComanda::getNum_mesa)).collect(Collectors.toList());
 
         for (LineaComanda x: lista){
-            final int[] numero = {0};
-            int id = x.getIdProducto();
 
             JLabel texto = new JLabel();
-            texto.setText("" + x.getNumEmpleado() + "" + x.getIdProducto() + "Cantidad:" + x.getCantidadProducto() + "Cantidad cocinada:" + numero[0]);
+            texto.setName(String.valueOf(x.getId()));
+            texto.setText("Camarero" + x.getNumEmpleado() + "Producto" + x.getIdProducto() + "Cantidad:" + x.getCantidadProducto() + "Cantidad cocinada:" + "" + x.getCantidadCocinada());
             metodos.plantillatexto(texto);
 
             JButton mesa = new JButton();
-            mesa.setText("" + x.getNum_mesa());
+            mesa.setName(String.valueOf(x.getId()));
+
+            ArrayList<LineaComanda> nuevalista = lista;
+
             ActionListener mesafuncion = new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    if (id == x.getIdProducto()){
-                        numero[0] = numero[0] + 1;
+                    LineaComanda comanda = new LineaComanda();
+                   for (LineaComanda y: nuevalista){
 
-                        if (numero[0] >= x.getCantidadProducto()){
-                            mesa.setEnabled(false);
-                            texto.setText("Hecho");
-                        }
-                    }
+                       if (Integer.valueOf(mesa.getName()) == y.getId()){
+                           comanda = y;
+                       }
+                   }
+                   FacturaYComandaBD.ActualizarCantidad(comanda);
+
+                   if (comanda.getCantidadProducto() == comanda.getCantidadCocinada()){
+                       mesa.setEnabled(false);
+                       if (texto.getName() == mesa.getName()){
+                           texto.setText("Hecho");
+                       }
+                   }
+                   panelComandas(panel);
                 }
             };
             mesa.addActionListener(mesafuncion);
