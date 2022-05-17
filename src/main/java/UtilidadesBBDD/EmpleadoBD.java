@@ -40,20 +40,6 @@ public class EmpleadoBD extends UtilidadesBD {
         return empleado;
     }
 
-
-
-    public static void crearActualizarEmpleado(Empleado empleado){
-
-        Empleado empBaseDatos = obtenerPorNumEmpleado(empleado.getNum_empleado());
-
-        if(empBaseDatos != null){
-            actualizarEmpleado(empleado);
-        }else{
-            crearEmpleado(empleado);
-        }
-    }
-
-
     public static void crearEmpleado(Empleado empleado){
         Connection con = conectarConBD();
 
@@ -129,7 +115,24 @@ public class EmpleadoBD extends UtilidadesBD {
 
 
     public static boolean esCamarero(Integer numEmpleado){
+        Connection con = conectarConBD();
+        try {
+            PreparedStatement query = con.prepareStatement("select rol from empleado where num_empleado = ?  ");
+            query.setInt(1,numEmpleado);
+            ResultSet rs = query.executeQuery();
 
+            //Recorremos los datos
+            while (rs.next()) {
+                if (rs.getInt("rol")==0) return true;
+            }
+
+        } catch (SQLException sqle) {
+            System.out.println("Error en la ejecución:"
+                    + sqle.getErrorCode() + " " + sqle.getMessage());
+
+        } finally {
+            cerrarConexion(con);
+        }
 
         return false;
     }

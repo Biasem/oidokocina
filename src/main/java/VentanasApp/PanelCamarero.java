@@ -4,10 +4,7 @@ import Modelos.LineaComanda;
 import Modelos.Mesa;
 import Modelos.Producto;
 import Modelos.TipoProducto;
-import UtilidadesBBDD.CrearFacturaPDF;
-import UtilidadesBBDD.FacturaYComandaBD;
-import UtilidadesBBDD.MesaBD;
-import UtilidadesBBDD.ProductoBD;
+import UtilidadesBBDD.*;
 import metodos.FiltroNumeros;
 
 import javax.swing.*;
@@ -312,22 +309,26 @@ public class PanelCamarero extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 //comprobamos camarero
-
-
+                if(EmpleadoBD.esCamarero(Integer.valueOf(campoCamarero.getText()))){
                 //Comprobamos la mesa
-                if(FacturaYComandaBD.mesaOcupada(Integer.valueOf(campoMesa.getText()))){
-                    LineaComanda nuevaLineaComanda = new LineaComanda();
-                    nuevaLineaComanda.setCantidadProducto(Integer.valueOf(campoCantidad.getText()));
-                    nuevaLineaComanda.setIdProducto(listaProductos.stream().
-                            filter(p -> p.getTipoProducto().equals(TipoProducto.valueOf(comboTipoProducto.getSelectedItem().toString()))&&
-                            p.getDescripcion().equals(comboProducto.getSelectedItem().toString())).collect(Collectors.toList()).get(0).getId());
-                    nuevaLineaComanda.setNumEmpleado(Integer.valueOf(campoCamarero.getText()));
-                    nuevaLineaComanda.setNum_mesa(Integer.valueOf(campoMesa.getText()));
-                    nuevaLineaComanda.setId(0);
-                    nuevaLineaComanda.setIdFactura(0);
-                    nuevaLineaComanda.setCantidadCocinada(0);
-                    listaComandas.add(nuevaLineaComanda);
-                    panelPedidos(panel);
+                    if(FacturaYComandaBD.mesaOcupada(Integer.valueOf(campoMesa.getText()))){
+                        LineaComanda nuevaLineaComanda = new LineaComanda();
+                        nuevaLineaComanda.setCantidadProducto(Integer.valueOf(campoCantidad.getText()));
+                        nuevaLineaComanda.setIdProducto(listaProductos.stream().
+                                filter(p -> p.getTipoProducto().equals(TipoProducto.valueOf(comboTipoProducto.getSelectedItem().toString()))&&
+                                p.getDescripcion().equals(comboProducto.getSelectedItem().toString())).collect(Collectors.toList()).get(0).getId());
+                        nuevaLineaComanda.setNumEmpleado(Integer.valueOf(campoCamarero.getText()));
+                        nuevaLineaComanda.setNum_mesa(Integer.valueOf(campoMesa.getText()));
+                        nuevaLineaComanda.setId(0);
+                        nuevaLineaComanda.setIdFactura(0);
+                        nuevaLineaComanda.setCantidadCocinada(0);
+                        listaComandas.add(nuevaLineaComanda);
+                        panelPedidos(panel);
+                    }else{
+                        JOptionPane.showMessageDialog(null,"Mesa Libre, imposible hacer comanda");
+                    }
+                }else{
+                    JOptionPane.showMessageDialog(null,"No has seleccionado un camarero");
                 }
             }
         };
