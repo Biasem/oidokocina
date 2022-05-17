@@ -32,6 +32,8 @@ import org.apache.pdfbox.pdmodel.graphics.image.PDImageXObject;
 public class pruebas extends UtilidadesBD{
 
     public static void main(String[] args) throws Exception {
-         System.out.println(EmpleadoBD.obtenerPorNumEmpleado(1).getRol().ordinal());
+         System.out.println(EmpleadoBD.existeEmpleado(2));
     }
+
+
 }

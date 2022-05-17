@@ -145,9 +145,9 @@ public class EmpleadoBD extends UtilidadesBD {
 
             //Recorremos los datos
             if (rs.next()) {
-                empleado.setNum_empleado(rs.getInt("num_empleado"));
+                return true;
             }else{
-
+            return false;
             }
 
         } catch (SQLException sqle) {

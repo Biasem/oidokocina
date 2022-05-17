@@ -309,11 +309,8 @@ public class PanelCamarero extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
             //comprobamos que no haya campos vacios
-                if(!metodos.elInputEstaVacio(campoCamarero.getText())&&
-                    !metodos.elInputEstaVacio(campoCantidad.getText())&&
-                    !metodos.elInputEstaVacio(campoMesa.getText())&&
-                    !metodos.elInputEstaVacio(comboTipoProducto.getSelectedItem().toString())&&
-                    !metodos.elInputEstaVacio(comboProducto.getSelectedItem().toString())) {
+                if(campoCamarero.getText().isEmpty()||campoCantidad.getText().isEmpty()||campoMesa.getText().isEmpty()||
+                comboTipoProducto.getSelectedItem().toString().isEmpty()||comboProducto.getSelectedItem().toString().isEmpty()){
                     //comprobamos que la cantidad no sea 0
                     if (Integer.valueOf(campoCantidad.getText()) > 0) {
                         //comprobamos camarero
