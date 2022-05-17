@@ -79,11 +79,12 @@ public class metodos {
         x.setMaximumSize(new Dimension(20,10));
     }
 
-    public static boolean inputEsUnNumero(String cadena){
-        if(cadena.isEmpty()) return false;
+    public static boolean elInputEstaVacio(String string){
+        if(string.isEmpty()){
+            return true;
 
-
-
-        return true;
+        }else {
+            return false;
+        }
     }
 }

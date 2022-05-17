@@ -5,7 +5,7 @@ import Modelos.Mesa;
 import Modelos.Producto;
 import Modelos.TipoProducto;
 import UtilidadesBBDD.*;
-import metodos.FiltroNumeros;
+import metodos.*;
 
 import javax.swing.*;
 import java.awt.*;
@@ -308,27 +308,42 @@ public class PanelCamarero extends JPanel {
         ActionListener accionAniadirProducto = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //comprobamos camarero
-                if(EmpleadoBD.esCamarero(Integer.valueOf(campoCamarero.getText()))){
-                //Comprobamos la mesa
-                    if(FacturaYComandaBD.mesaOcupada(Integer.valueOf(campoMesa.getText()))){
-                        LineaComanda nuevaLineaComanda = new LineaComanda();
-                        nuevaLineaComanda.setCantidadProducto(Integer.valueOf(campoCantidad.getText()));
-                        nuevaLineaComanda.setIdProducto(listaProductos.stream().
-                                filter(p -> p.getTipoProducto().equals(TipoProducto.valueOf(comboTipoProducto.getSelectedItem().toString()))&&
-                                p.getDescripcion().equals(comboProducto.getSelectedItem().toString())).collect(Collectors.toList()).get(0).getId());
-                        nuevaLineaComanda.setNumEmpleado(Integer.valueOf(campoCamarero.getText()));
-                        nuevaLineaComanda.setNum_mesa(Integer.valueOf(campoMesa.getText()));
-                        nuevaLineaComanda.setId(0);
-                        nuevaLineaComanda.setIdFactura(0);
-                        nuevaLineaComanda.setCantidadCocinada(0);
-                        listaComandas.add(nuevaLineaComanda);
-                        panelPedidos(panel);
-                    }else{
-                        JOptionPane.showMessageDialog(null,"Mesa Libre, imposible hacer comanda");
+            //comprobamos que no haya campos vacios
+                if(!metodos.elInputEstaVacio(campoCamarero.getText())&&
+                    !metodos.elInputEstaVacio(campoCantidad.getText())&&
+                    !metodos.elInputEstaVacio(campoMesa.getText())&&
+                    !metodos.elInputEstaVacio(comboTipoProducto.getSelectedItem().toString())&&
+                    !metodos.elInputEstaVacio(comboProducto.getSelectedItem().toString())) {
+                    //comprobamos que la cantidad no sea 0
+                    if (Integer.valueOf(campoCantidad.getText()) > 0) {
+                        //comprobamos camarero
+                        if (EmpleadoBD.esCamarero(Integer.valueOf(campoCamarero.getText()))) {
+                            //Comprobamos la mesa
+                            if (FacturaYComandaBD.mesaOcupada(Integer.valueOf(campoMesa.getText()))) {
+                                LineaComanda nuevaLineaComanda = new LineaComanda();
+                                nuevaLineaComanda.setCantidadProducto(Integer.valueOf(campoCantidad.getText()));
+                                nuevaLineaComanda.setIdProducto(listaProductos.stream().
+                                        filter(p -> p.getTipoProducto().equals(TipoProducto.valueOf(comboTipoProducto.getSelectedItem().toString())) &&
+                                                p.getDescripcion().equals(comboProducto.getSelectedItem().toString())).collect(Collectors.toList()).get(0).getId());
+                                nuevaLineaComanda.setNumEmpleado(Integer.valueOf(campoCamarero.getText()));
+                                nuevaLineaComanda.setNum_mesa(Integer.valueOf(campoMesa.getText()));
+                                nuevaLineaComanda.setId(0);
+                                nuevaLineaComanda.setIdFactura(0);
+                                nuevaLineaComanda.setCantidadCocinada(0);
+                                listaComandas.add(nuevaLineaComanda);
+                                panelPedidos(panel);
+                            } else {
+                                JOptionPane.showMessageDialog(null, "Mesa Libre, imposible hacer comanda");
+                            }
+                        } else {
+                            JOptionPane.showMessageDialog(null, "No has seleccionado un camarero");
+                        }
+                    } else {
+                        JOptionPane.showMessageDialog(null, "La cantidad tiene que ser mayor a cero");
                     }
                 }else{
-                    JOptionPane.showMessageDialog(null,"No has seleccionado un camarero");
+                    JOptionPane.showMessageDialog(null, "Hay campos vacíos");
+
                 }
             }
         };
