@@ -129,6 +129,11 @@ public class PanelAdministrador extends JPanel {
         botonCrear.addActionListener(accionCrearMesa);
         botonCrear.setBounds(200,600,100,50);
         panel.add(botonCrear);
+
+        ArrayList<JButton> mesas = new ArrayList<>();
+
+        mesas.add(botonCrear);
+
         //Boton Buscar MESA
         JButton botonBuscar = new JButton("Buscar");
         ActionListener accionBuscarMesa = new ActionListener() {
@@ -147,8 +152,10 @@ public class PanelAdministrador extends JPanel {
         botonBuscar.setBounds(300,600,100,50);
         panel.add(botonBuscar);
 
+        mesas.add(botonBuscar);
+
         //Boton Modificar MESA
-        JButton botonModificar = new JButton("MODIFICAR");
+        JButton botonModificar = new JButton("Modificar");
         botonModificar.setBounds(400,600,110,50);
         ActionListener accionModificar = new ActionListener() {
             @Override
@@ -159,8 +166,9 @@ public class PanelAdministrador extends JPanel {
         };
         botonModificar.addActionListener(accionModificar);
         panel.add(botonModificar);
+        mesas.add(botonModificar);
         //Boton Eliminar MESA
-        JButton botonEliminar = new JButton("ELIMINAR");
+        JButton botonEliminar = new JButton("Eliminar");
         ActionListener accionEliminar = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -171,6 +179,16 @@ public class PanelAdministrador extends JPanel {
         botonEliminar.setBounds(510,600,100,50);
         botonEliminar.addActionListener(accionEliminar);
         panel.add(botonEliminar);
+
+        mesas.add(botonEliminar);
+
+        botonCrear.setBounds(200,550,200,100);
+        botonBuscar.setBounds(400,550,200,100);
+        botonModificar.setBounds(600,550,200,100);
+        botonEliminar.setBounds(800,550,200,100);
+
+        plantillaboton(mesas, panel);
+
         //boton Atras hacia panel camarero
         PanelPrincipal.botonAtrasAdministrador();
     }
