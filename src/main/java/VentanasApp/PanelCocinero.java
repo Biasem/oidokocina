@@ -47,46 +47,57 @@ public class PanelCocinero extends JPanel {
         ArrayList<LineaComanda> lista = new ArrayList<>();
         lista = (ArrayList<LineaComanda>) FacturaYComandaBD.ObtenerComandas().stream().sorted(Comparator.comparing(LineaComanda::getNum_mesa)).collect(Collectors.toList());
 
+        ArrayList<JButton> total = new ArrayList<>();
+
         for (LineaComanda x: lista){
+            if (x.getCantidadProducto() <= x.getCantidadCocinada()){
 
-            JLabel texto = new JLabel();
-            texto.setName(String.valueOf(x.getId()));
-            texto.setText("Camarero" + x.getNumEmpleado() + "Producto" + x.getIdProducto() + "Cantidad:" + x.getCantidadProducto() + "Cantidad cocinada:" + "" + x.getCantidadCocinada());
-            metodos.plantillatexto(texto);
+            }
 
-            JButton mesa = new JButton();
-            mesa.setName(String.valueOf(x.getId()));
+            else{
+                JLabel texto = new JLabel();
+                texto.setName(String.valueOf(x.getId()));
+                texto.setText("Camarero" + x.getNumEmpleado() + "Producto" + x.getIdProducto() + "Cantidad:" + x.getCantidadProducto() + "Cantidad cocinada:" + "" + x.getCantidadCocinada());
+                metodos.plantillatexto(texto);
 
-            ArrayList<LineaComanda> nuevalista = lista;
+                JButton mesa = new JButton();
+                mesa.setText(String.valueOf(x.getNum_mesa()));
+                mesa.setName(String.valueOf(x.getId()));
 
-            ActionListener mesafuncion = new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    LineaComanda comanda = new LineaComanda();
-                   for (LineaComanda y: nuevalista){
+                ArrayList<LineaComanda> nuevalista = lista;
 
-                       if (Integer.valueOf(mesa.getName()) == y.getId()){
-                           comanda = y;
-                       }
-                   }
-                   FacturaYComandaBD.ActualizarCantidad(comanda);
+                ActionListener mesafuncion = new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        LineaComanda comanda = new LineaComanda();
+                        for (LineaComanda y: nuevalista){
 
-                   if (comanda.getCantidadProducto() == comanda.getCantidadCocinada()){
-                       mesa.setEnabled(false);
-                       if (texto.getName() == mesa.getName()){
-                           texto.setText("Hecho");
-                       }
-                   }
-                   panelComandas(panel);
-                }
-            };
-            mesa.addActionListener(mesafuncion);
-            metodos.plantillabotoncocinero(mesa);
+                            if (Integer.valueOf(mesa.getName()) == y.getId()){
+                                comanda = y;
+                            }
+                        }
+                        FacturaYComandaBD.ActualizarCantidad(comanda);
 
-            panel2.add(mesa);
-            panel2.add(texto);
+                        if (comanda.getCantidadProducto() == comanda.getCantidadCocinada()){
+                            mesa.setEnabled(false);
+                            if (texto.getName() == mesa.getName()){
+                                texto.setText("Hecho");
+                            }
+                        }
+                        panelComandas(panel);
+                    }
+                };
+                mesa.addActionListener(mesafuncion);
+                metodos.plantillabotoncocinero(mesa);
 
+                total.add(mesa);
+                panel2.add(mesa);
+                panel2.add(texto);
+            }
         }
+
+        panel2.setLayout(new GridLayout(total.size(), 2, 20, 20));
+        panel2.setBounds(0, 400, 700, 900);
 
         //boton atras
         JButton atras = new JButton("atras");

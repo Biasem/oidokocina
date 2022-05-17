@@ -22,7 +22,7 @@ public class FacturaYComandaBD {
 
         try {
 
-            PreparedStatement update = con.prepareStatement("update linea_comanda " + "set cantidadcocinada = ? " + "where id = ? ");
+            PreparedStatement update = con.prepareStatement("update linea_comanda " + "set cantidad_cocinada = ? " + "where id = ? ");
 
             int numerito = 0;
             numerito = comanda.getCantidadCocinada() + 1;
