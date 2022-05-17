@@ -46,38 +46,38 @@ public class PanelCocinero extends JPanel {
 
         ArrayList<LineaComanda> lista = new ArrayList<>();
         lista = (ArrayList<LineaComanda>) FacturaYComandaBD.ObtenerComandas().stream().sorted(Comparator.comparing(LineaComanda::getNum_mesa)).collect(Collectors.toList());
-        panel2.setLayout(new GridLayout(0,2));
 
         for (LineaComanda x: lista){
-            final int[] numero = {0};
-            int id = x.getIdProducto();
 
             JLabel texto = new JLabel();
-            texto.setText("Camarero:   " + x.getNumEmpleado() + "Producto:   " + x.getIdProducto() +  "Cantidad:   " + x.getCantidadProducto() + "Cantidad cocinada:   " + numero[0]);
+            texto.setName(String.valueOf(x.getId()));
+            texto.setText("Camarero" + x.getNumEmpleado() + "Producto" + x.getIdProducto() + "Cantidad:" + x.getCantidadProducto() + "Cantidad cocinada:" + "" + x.getCantidadCocinada());
             metodos.plantillatexto(texto);
 
             JButton mesa = new JButton();
-            mesa.setText("" + x.getId());
-            ArrayList<JButton> mesas = new ArrayList<>();
-            mesas.add(mesa);
+            mesa.setName(String.valueOf(x.getId()));
 
+            ArrayList<LineaComanda> nuevalista = lista;
 
             ActionListener mesafuncion = new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
+                    LineaComanda comanda = new LineaComanda();
+                   for (LineaComanda y: nuevalista){
 
-                    // sacar esto fuera y hacer el bucle comenzando con y
-                    for (JButton y: mesas){
-                        if ((Integer.valueOf(y.getText()) == x.getId())){
-                            numero[0] = numero[0] + 1;
+                       if (Integer.valueOf(mesa.getName()) == y.getId()){
+                           comanda = y;
+                       }
+                   }
+                   FacturaYComandaBD.ActualizarCantidad(comanda);
 
-                            if (numero[0] >= x.getCantidadProducto()){
-                                mesa.setEnabled(false);
-                                texto.setText("Hecho");
-                            }
-                        }
-                    }
-
+                   if (comanda.getCantidadProducto() == comanda.getCantidadCocinada()){
+                       mesa.setEnabled(false);
+                       if (texto.getName() == mesa.getName()){
+                           texto.setText("Hecho");
+                       }
+                   }
+                   panelComandas(panel);
                 }
             };
             mesa.addActionListener(mesafuncion);

@@ -5,6 +5,8 @@ import Modelos.Mesa;
 import Modelos.Producto;
 import Modelos.TipoProducto;
 
+import javax.sound.sampled.Line;
+import javax.swing.*;
 import java.sql.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -15,7 +17,34 @@ import static UtilidadesBBDD.UtilidadesBD.*;
 
 public class FacturaYComandaBD {
 
-    public static List<LineaComanda> ObtenerComandas() {
+    public static void ActualizarCantidad(LineaComanda comanda){
+        Connection con = conectarConBD();
+
+        try {
+
+            PreparedStatement update = con.prepareStatement("update linea_comanda " + "set cantidadcocinada = ? " + "where id = ? ");
+
+            int numerito = 0;
+            numerito = comanda.getCantidadCocinada() + 1;
+            update.setInt(1, numerito);
+            update.setInt(2, comanda.getId());
+
+            update.executeUpdate();
+        }
+
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        finally{
+            cerrarConexion(con);
+        }
+
+
+    }
+
+
+        public static List<LineaComanda> ObtenerComandas() {
         List<LineaComanda> comandas = new ArrayList<>();
         Connection con = conectarConBD();
         LineaComanda linea_comanda;
