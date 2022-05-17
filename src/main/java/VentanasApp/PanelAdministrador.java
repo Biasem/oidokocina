@@ -129,12 +129,16 @@ public class PanelAdministrador extends JPanel {
         ActionListener accionBuscarMesa = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Mesa mesaBuscada = new Mesa(MesaBD.obtenerPorNumMesa(Integer.valueOf(campoNumMesa.getText())));
-                if (mesaBuscada.getNum_Comensales()==-1){
-                    JOptionPane.showMessageDialog(null,"Esa mesa no está creada");
+                if (campoNumMesa.getText().isEmpty()) {
+                    JOptionPane.showMessageDialog(null,"Campo Num.Mesa vacio");
+                } else {
+                    Mesa mesaBuscada = new Mesa(MesaBD.obtenerPorNumMesa(Integer.valueOf(campoNumMesa.getText())));
+                    if (mesaBuscada.getNum_Comensales() == -1) {
+                        JOptionPane.showMessageDialog(null, "Esa mesa no está creada");
 
-                }else {
-                    campoNumComensales.setText("" + mesaBuscada.getNum_Comensales());
+                    } else {
+                        campoNumComensales.setText("" + mesaBuscada.getNum_Comensales());
+                    }
                 }
             }
         };
@@ -266,15 +270,19 @@ public class PanelAdministrador extends JPanel {
         ActionListener oyenteCrear = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
-                Empleado nuevo = new Empleado();
-
-                nuevo.setNombre(campoNombre.getText());
-                nuevo.setApellidos(campoApellidos.getText());
-                nuevo.setNum_empleado(Integer.parseInt(campoNumEmpleado.getText()));
-                nuevo.setRol(Rol.valueOf(comboRol.getSelectedItem().toString()));
-                EmpleadoBD.crearEmpleado(nuevo);
-
+            //comprobamos si los campos estan vacios
+                if(campoApellidos.getText().isEmpty()||campoNombre.getText().isEmpty()||
+                campoNumEmpleado.getText().isEmpty()){
+                    JOptionPane.showMessageDialog(null,"Hay campos vacios");
+                }else {
+                        Empleado nuevo = new Empleado();
+                        nuevo.setNombre(campoNombre.getText());
+                        nuevo.setApellidos(campoApellidos.getText());
+                        nuevo.setNum_empleado(Integer.parseInt(campoNumEmpleado.getText()));
+                        nuevo.setRol(Rol.valueOf(comboRol.getSelectedItem().toString()));
+                        EmpleadoBD.crearEmpleado(nuevo);
+                        panelEmpleados(panel);
+                }
             }
         };
         botonCrear.addActionListener(oyenteCrear);
@@ -286,16 +294,20 @@ public class PanelAdministrador extends JPanel {
         ActionListener oyenteBuscar = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Empleado empleado = new Empleado(EmpleadoBD.obtenerPorNumEmpleado(Integer.valueOf(campoNumEmpleado.getText())));
-                if (empleado.equals(null)){
-                    campoNombre.setText("");
-                    campoApellidos.setText("");
+            if (campoNumEmpleado.getText().isEmpty()){
+                JOptionPane.showMessageDialog(null,"Campo Num.empleado no puede estar vacio");
+            }else{
+                    Empleado empleado = new Empleado(EmpleadoBD.obtenerPorNumEmpleado(Integer.valueOf(campoNumEmpleado.getText())));
+                    if (empleado.equals(null)){
+                        campoNombre.setText("");
+                        campoApellidos.setText("");
 
 
-                }else {
-                    campoNombre.setText(empleado.getNombre());
-                    campoApellidos.setText(empleado.getApellidos());
-                    comboRol.setSelectedItem(empleado.getRol());
+                    }else {
+                        campoNombre.setText(empleado.getNombre());
+                        campoApellidos.setText(empleado.getApellidos());
+                        comboRol.setSelectedItem(empleado.getRol());
+                    }
                 }
             }
         };
