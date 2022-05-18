@@ -1,7 +1,9 @@
 package VentanasApp;
 
+import Modelos.Empleado;
 import Modelos.LineaComanda;
 import Modelos.Producto;
+import UtilidadesBBDD.EmpleadoBD;
 import UtilidadesBBDD.FacturaYComandaBD;
 import UtilidadesBBDD.ProductoBD;
 import metodos.metodos;
@@ -19,10 +21,12 @@ public class PanelCocinero extends JPanel {
         panel.setLayout(null);
         //Boton Comandas
         JButton verComandas = new JButton("Comandas");
-        verComandas.setBounds(300,300,100,100);
+        ArrayList<JButton> comanda = new ArrayList<>();
+        comanda.add(verComandas);
+        metodos.plantillaboton(comanda, panel);
+        verComandas.setBounds(460, 340, 250, 100);
         ActionListener oyenteComandas = e -> panelComandas(panel);
         verComandas.addActionListener(oyenteComandas);
-        panel.add(verComandas);
         //boton atras
         PanelPrincipal.botonAtras();
     }
@@ -35,14 +39,18 @@ public class PanelCocinero extends JPanel {
         panel2.setLayout(new GridLayout(1, 2, 20, 20));
         //productos en botones para poner bonico
 
-        panel2.setOpaque(false);
+        panel2.setOpaque(true);
+        panel2.setBackground(Color.WHITE);
         JScrollPane scrollPane = new JScrollPane(panel2);
-        scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
-        scrollPane.setBounds(400, 0, 780, 500);// aqui se puede ajustar los parametros del scrool
+        scrollPane.setBounds(50, 50, 1120, 620);// aqui se puede ajustar los parametros del scrool
         scrollPane.setOpaque(false);
+        scrollPane.getViewport().setOpaque(false);
+
         //scrollPane.getViewport().setOpaque(false);
         panel.add(scrollPane);
+
+
 
         ArrayList<LineaComanda> lista = new ArrayList<>();
         lista = (ArrayList<LineaComanda>) FacturaYComandaBD.ObtenerComandas().stream().sorted(Comparator.comparing(LineaComanda::getNum_mesa)).collect(Collectors.toList());
@@ -57,8 +65,20 @@ public class PanelCocinero extends JPanel {
             else{
                 JLabel texto = new JLabel();
                 texto.setName(String.valueOf(x.getId()));
-                texto.setText("Camarero" + x.getNumEmpleado() + "Producto" + x.getIdProducto() + "Cantidad:" + x.getCantidadProducto() + "Cantidad cocinada:" + "" + x.getCantidadCocinada());
-                metodos.plantillatexto(texto);
+                int empleado = 0;
+                int producto = 0;
+
+                empleado = x.getNumEmpleado();
+                producto = x.getIdProducto();
+
+                Empleado trabajador = new Empleado();
+                Producto comida = new Producto();
+
+                comida = ProductoBD.obtenerPorId(producto);
+                trabajador = EmpleadoBD.obtenerPorNumEmpleado(empleado);
+
+                texto.setText("Camarero:  " + trabajador.getNombre() + "  " + "Producto:  " + comida.getDescripcion() + "  " + "Cantidad:  " + x.getCantidadProducto() + "  " + "Preparado:  " + x.getCantidadCocinada());
+                metodos.plantillatextococinero(texto);
 
                 JButton mesa = new JButton();
                 mesa.setText(String.valueOf(x.getNum_mesa()));
@@ -96,12 +116,13 @@ public class PanelCocinero extends JPanel {
             }
         }
 
-        panel2.setLayout(new GridLayout(total.size(), 2, 20, 20));
-        panel2.setBounds(0, 400, 700, 900);
+        panel2.setLayout(new GridLayout(total.size(), 2, 2, 2));
+
+
 
         //boton atras
         JButton atras = new JButton("atras");
-        atras.setBounds(0,0,100,50);
+        metodos.botonAtras(atras);
         panel.add(atras);
         ActionListener oyenteAtras = e -> panelCocinero(panel);
         atras.addActionListener(oyenteAtras);
