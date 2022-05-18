@@ -69,6 +69,12 @@ public class metodos {
         texto.setOpaque(true);
     }
 
+    public static void plantillatextococinero(JLabel texto){
+        texto.setFont( new Font("TimesRoman", BOLD,12));
+        texto.setForeground(Color.BLACK);
+        texto.setOpaque(true);
+    }
+
     public static void plantillabotoncocinero (JButton x){
         x.setFocusPainted(true);
         x.setContentAreaFilled(true);
