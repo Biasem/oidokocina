@@ -3,7 +3,6 @@ package metodos;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.File;
 import java.util.ArrayList;
 
@@ -11,8 +10,8 @@ import static java.awt.Font.BOLD;
 
 public class metodos {
 
-    public void botonAtras(){
-        JButton atras = new JButton();
+    public static void  botonAtras(JButton atras){
+
         atras.setBounds(10,10,40,40);
         String ruta = new File("").getAbsolutePath() + "\\src\\main\\imagenes\\atras.png" ;
         ImageIcon imagen = new ImageIcon(ruta);
@@ -79,11 +78,4 @@ public class metodos {
         x.setMaximumSize(new Dimension(20,10));
     }
 
-    public static boolean inputEsUnNumero(String cadena){
-        if(cadena.isEmpty()) return false;
-
-
-
-        return true;
-    }
 }
