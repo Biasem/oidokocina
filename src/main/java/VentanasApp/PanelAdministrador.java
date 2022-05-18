@@ -117,7 +117,6 @@ public class PanelAdministrador extends JPanel {
                     JOptionPane.showMessageDialog(null,"Hay campos vacios");
                 }else{
                 MesaBD.crearMesa(Integer.valueOf(campoNumMesa.getText()),Integer.valueOf(campoNumComensales.getText()));
-                panelMesa(panel);
                 }
             }
         };
@@ -297,7 +296,6 @@ public class PanelAdministrador extends JPanel {
                         nuevo.setNum_empleado(Integer.parseInt(campoNumEmpleado.getText()));
                         nuevo.setRol(Rol.valueOf(comboRol.getSelectedItem().toString()));
                         EmpleadoBD.crearEmpleado(nuevo);
-                        panelEmpleados(panel);
                 }
             }
         };
@@ -399,17 +397,6 @@ public class PanelAdministrador extends JPanel {
         campoId.addKeyListener(new FiltroNumeros());
         campoId.setBounds(170,150,50,20);
         panel.add(campoId);
-        //Etiqueta Codigo
-        JLabel labelCodigo = new JLabel("CODIGO");
-        labelCodigo.setFont( new Font("TimesRoman",Font.BOLD,20));
-        labelCodigo.setForeground(Color.white);
-        labelCodigo.setBounds(250,150,100,20);
-        panel.add(labelCodigo);
-        //Campo Codigo
-        JTextField campoCodigo = new JTextField();
-        campoCodigo.addKeyListener(new FiltroNumeros());
-        campoCodigo.setBounds(330,150,50,20);
-        panel.add(campoCodigo);
 
         //Etiqueta Tipo Producto
         JLabel labelTipoProducto = new JLabel("Tipo de Producto");
@@ -459,12 +446,17 @@ public class PanelAdministrador extends JPanel {
         ActionListener oyenteCrear = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Producto nuevoProducto = new Producto();
-                nuevoProducto.setId(Integer.parseInt(campoId.getText())); //filtrar las letras
-                nuevoProducto.setTipoProducto(TipoProducto.valueOf(comboTipoProducto.getSelectedItem().toString()));
-                nuevoProducto.setPrecio(Double.valueOf(campoPrecio.getText()));
-                nuevoProducto.setDescripcion(campoDescripcion.getText());
-                ProductoBD.crearProducto(nuevoProducto);
+                if(!campoDescripcion.getText().isEmpty()&&!campoId.getText().isEmpty()&&!campoPrecio.getText().isEmpty()&&
+                Double.valueOf(campoPrecio.getText())>0.0) {
+                    Producto nuevoProducto = new Producto();
+                    nuevoProducto.setId(Integer.parseInt(campoId.getText())); //filtrar las letras
+                    nuevoProducto.setTipoProducto(TipoProducto.valueOf(comboTipoProducto.getSelectedItem().toString()));
+                    nuevoProducto.setPrecio(Double.valueOf(campoPrecio.getText()));
+                    nuevoProducto.setDescripcion(campoDescripcion.getText());
+                    ProductoBD.crearProducto(nuevoProducto);
+                }else{
+                    JOptionPane.showMessageDialog(null,"Hay campos vacios o el precio es cero");
+                }
             }
         };
         botonCrear.addActionListener(oyenteCrear);
@@ -477,11 +469,21 @@ public class PanelAdministrador extends JPanel {
         ActionListener oyenteBuscar = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Producto nuevoProducto = new Producto();
-                campoDescripcion.setText(ProductoBD.obtenerPorId(Integer.valueOf(campoId.getText())).getDescripcion());
-                campoPrecio.setText(ProductoBD.obtenerPorId(Integer.valueOf(campoId.getText())).getPrecio().toString());
-                comboTipoProducto.setSelectedItem(ProductoBD.obtenerPorId(Integer.parseInt(campoId.getText())).getTipoProducto());
+                if(!campoId.getText().isEmpty()){
+                    if(ProductoBD.existeProducto(Integer.valueOf(campoId.getText()))) {
+                        Producto nuevoProducto = new Producto(ProductoBD.obtenerPorId(Integer.valueOf(campoId.getText())));
+                        campoDescripcion.setText(nuevoProducto.getDescripcion());
+                        campoPrecio.setText(nuevoProducto.getPrecio().toString());
+                        comboTipoProducto.setSelectedItem(nuevoProducto.getTipoProducto());
+                    }else{
+                        JOptionPane.showMessageDialog(null, "No hay producto con ese Id");
+                        panelProductos(panel);
+                    }
+                }else{
+                    JOptionPane.showMessageDialog(null,"Campo Id esta vacio");
+                }
             }
+
         };
         botonBuscar.addActionListener(oyenteBuscar);
         producto.add(botonBuscar);
@@ -492,14 +494,21 @@ public class PanelAdministrador extends JPanel {
         ActionListener oyenteModificar = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
-
-                Producto nuevoProducto = new Producto();
-                nuevoProducto.setId(Integer.valueOf(campoId.getText())); //filtrar las letras
-                nuevoProducto.setTipoProducto(TipoProducto.valueOf(comboTipoProducto.getSelectedItem().toString()));
-                nuevoProducto.setPrecio(Double.valueOf(campoPrecio.getText()));
-                nuevoProducto.setDescripcion(campoDescripcion.getText());
-                ProductoBD.actualizarProducto(nuevoProducto);
+                if(!campoDescripcion.getText().isEmpty()&&!campoId.getText().isEmpty()&&!campoPrecio.getText().isEmpty()&&
+                        Double.valueOf(campoPrecio.getText())>0.0) {
+                    if(ProductoBD.existeProducto(Integer.valueOf(campoId.getText()))) {
+                        Producto nuevoProducto = new Producto();
+                        nuevoProducto.setId(Integer.valueOf(campoId.getText())); //filtrar las letras
+                        nuevoProducto.setTipoProducto(TipoProducto.valueOf(comboTipoProducto.getSelectedItem().toString()));
+                        nuevoProducto.setPrecio(Double.valueOf(campoPrecio.getText()));
+                        nuevoProducto.setDescripcion(campoDescripcion.getText());
+                        ProductoBD.actualizarProducto(nuevoProducto);
+                    }else{
+                        JOptionPane.showMessageDialog(null, "Imposible modificar no existe producto con ese Id");
+                    }
+                }else{
+                    JOptionPane.showMessageDialog(null,"Hay campos vacios o el precio es cero");
+                }
             }
         };
         botonModificar.addActionListener(oyenteModificar);
@@ -511,17 +520,22 @@ public class PanelAdministrador extends JPanel {
         ActionListener oyenteEliminar = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Producto productoModificar = new Producto();
-                Producto nuevoProducto = new Producto();
-                nuevoProducto.setId(Integer.valueOf(campoId.getText())); //filtrar las letras
-                ProductoBD.eliminarProducto(nuevoProducto);
+                if(!campoId.getText().isEmpty()) {
+                    if(ProductoBD.existeProducto(Integer.valueOf(campoId.getText()))) {
+                        ProductoBD.eliminarProducto(Integer.valueOf(campoId.getText()));
+                    }else{
+                        JOptionPane.showMessageDialog(null, "Imposible eliminar no hay producto con ese Id");
+                        panelProductos(panel);
+                    }
+                }else{
+                    JOptionPane.showMessageDialog(null,"Campo Id esta vacio");
+                }
             }
         };
         botonEliminar.addActionListener(oyenteEliminar);
         producto.add(botonEliminar);
 
         plantillaboton(producto, panel);
-
 
         //boton Atras hacia panel camarero
         PanelPrincipal.botonAtrasAdministrador();

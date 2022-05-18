@@ -81,7 +81,7 @@ public class MesaBD extends UtilidadesBD{
             JOptionPane.showMessageDialog(null,"Mesa creada");
 
         } catch (SQLException sqle) {
-            JOptionPane.showMessageDialog(null,"Esa mesa ya esta creada, seleccione otra");
+            JOptionPane.showMessageDialog(null,"Imposible crear, ya existe una mesa con el mismo Num.Mesa");
 
         } finally {
             cerrarConexion(con);
@@ -105,9 +105,7 @@ public class MesaBD extends UtilidadesBD{
             while (rs.next()) {
                 mesa = new Mesa(rs.getInt("num_mesa"), rs.getInt("num_comensales"),
                         rs.getBoolean("ocupada"));
-
             }
-
 
         } catch (SQLException sqle) {
             System.out.println("Error en la ejecución:"

@@ -20,6 +20,12 @@ public class Producto {
     public Producto() {
     }
 
+    public Producto(Producto producto){
+        this.id = producto.getId();
+        this.descripcion = producto.getDescripcion();
+        this.precio = producto.getPrecio();
+        this.tipoProducto = producto.getTipoProducto();
+    }
 
     public int getId() {
         return id;
