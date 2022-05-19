@@ -100,7 +100,6 @@ public class PanelCliente extends JPanel {
                 !p.getTipoProducto().equals(TipoProducto.ESPECIALIDADES)).collect(Collectors.toList())
         .stream().sorted(Comparator.comparing(Producto::getTipoProducto)).collect(Collectors.toList()).
         stream().sorted(Comparator.comparing(Producto::getDescripcion)).collect(Collectors.toList());
-        System.out.println(listacomida);
 
 
         // Generamos los paneles y botones
