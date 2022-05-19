@@ -39,8 +39,8 @@ public class pruebas extends UtilidadesBD{
         listacomida = lista.stream().filter(p->!p.getTipoProducto().equals(TipoProducto.BEBIDAS)&&
                 !p.getTipoProducto().equals(TipoProducto.POSTRES)&&
                 !p.getTipoProducto().equals(TipoProducto.ESPECIALIDADES)).collect(Collectors.toList());
-        //listacomida.stream().sorted(p->p.getTipoProducto()).collect(Collectors.toList());
-
+        listacomida = listacomida.stream().sorted(Comparator.comparing(Producto::getTipoProducto)).collect(Collectors.toList());
+        listacomida = listacomida.stream().sorted(Comparator.comparing(Producto::getDescripcion)).collect(Collectors.toList());
          System.out.println(listacomida);
     }
 

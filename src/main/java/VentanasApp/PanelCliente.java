@@ -48,6 +48,24 @@ public class PanelCliente extends JPanel {
 
     }
     public static void verCarta(JPanel panel){
+        ArrayList<JPanel> paneles = new ArrayList<>();
+
+        JPanel panelcomida = new JPanel();
+        JPanel panelbebidas = new JPanel();
+        JPanel panelpostres = new JPanel();
+        JPanel panelespecialidades = new JPanel();
+
+        paneles.add(panelcomida);
+        paneles.add(panelbebidas);
+        paneles.add(panelpostres);
+        paneles.add(panelespecialidades);
+
+        JScrollPane scrollcomida = new JScrollPane(panelcomida);
+        JScrollPane scrollbebida = new JScrollPane(panelbebidas);
+        JScrollPane scrollpostres = new JScrollPane(panelpostres);
+        JScrollPane scrollespecial = new JScrollPane(panelespecialidades);
+
+
         JButton atras = new JButton("atras");
         atras.setBounds(0,0,100,50);
         panel.add(atras);
@@ -79,15 +97,13 @@ public class PanelCliente extends JPanel {
 
         listacomida = lista.stream().filter(p->!p.getTipoProducto().equals(TipoProducto.BEBIDAS)&&
                 !p.getTipoProducto().equals(TipoProducto.POSTRES)&&
-                !p.getTipoProducto().equals(TipoProducto.ESPECIALIDADES)).collect(Collectors.toList());
+                !p.getTipoProducto().equals(TipoProducto.ESPECIALIDADES)).collect(Collectors.toList())
+        .stream().sorted(Comparator.comparing(Producto::getTipoProducto)).collect(Collectors.toList()).
+        stream().sorted(Comparator.comparing(Producto::getDescripcion)).collect(Collectors.toList());
+        System.out.println(listacomida);
 
 
         // Generamos los paneles y botones
-
-        JPanel panelcomida = new JPanel();
-        JPanel panelbebidas = new JPanel();
-        JPanel panelpostres = new JPanel();
-        JPanel panelespecialidades = new JPanel();
 
         JButton botoncomida = new JButton();
         JButton botonbebidas = new JButton();
@@ -173,10 +189,10 @@ public class PanelCliente extends JPanel {
         ActionListener comidaaccion = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                panelcomida.setVisible(true);
-                panelbebidas.setVisible(false);
-                panelpostres.setVisible(false);
-                panelespecialidades.setVisible(false);
+                scrollcomida.setVisible(true);
+                scrollbebida.setVisible(false);
+                scrollpostres.setVisible(false);
+                scrollespecial.setVisible(false);
                 tapa.setText("Tapa");
                 media.setText("Media");
                 racion.setText("Ración");
@@ -186,10 +202,10 @@ public class PanelCliente extends JPanel {
         ActionListener bebidaaccion = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                panelcomida.setVisible((false));
-                panelbebidas.setVisible(true);
-                panelpostres.setVisible(false);
-                panelespecialidades.setVisible(false);
+                scrollcomida.setVisible(false);
+                scrollbebida.setVisible(true);
+                scrollpostres.setVisible(false);
+                scrollespecial.setVisible(false);
                 tapa.setText("");
                 media.setText("Precio");
                 racion.setText("");
@@ -199,10 +215,10 @@ public class PanelCliente extends JPanel {
         ActionListener postreaccion = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                panelcomida.setVisible(false);
-                panelbebidas.setVisible(false);
-                panelpostres.setVisible(true);
-                panelespecialidades.setVisible(false);
+                scrollcomida.setVisible(false);
+                scrollbebida.setVisible(false);
+                scrollpostres.setVisible(true);
+                scrollespecial.setVisible(false);
                 tapa.setText("");
                 media.setText("Precio");
                 racion.setText("");
@@ -212,10 +228,10 @@ public class PanelCliente extends JPanel {
         ActionListener especialidadaccion = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                panelcomida.setVisible(false);
-                panelbebidas.setVisible(false);
-                panelpostres.setVisible(false);
-                panelespecialidades.setVisible(true);
+                scrollcomida.setVisible(false);
+                scrollbebida.setVisible(false);
+                scrollpostres.setVisible(false);
+                scrollespecial.setVisible(true);
                 tapa.setText("");
                 media.setText("Precio");
                 racion.setText("");
@@ -240,20 +256,20 @@ public class PanelCliente extends JPanel {
                 if(p.getTipoProducto().equals(TipoProducto.TAPA)){
                     panelcomida.add(etiqueta(p.getDescripcion()));
                     panelcomida.add(etiqueta(p.getPrecio().toString()));
-
+                    np=p;
                 }
                 if(p.getTipoProducto().equals(TipoProducto.MEDIA)){
                     panelcomida.add(etiqueta(p.getDescripcion()));
                     panelcomida.add(etiqueta(""));
                     panelcomida.add(etiqueta(p.getPrecio().toString()));
-
+                    np=p;
                 }
                 if(p.getTipoProducto().equals(TipoProducto.RACION)){
                     panelcomida.add(etiqueta(p.getDescripcion()));
                     panelcomida.add(etiqueta(""));
                     panelcomida.add(etiqueta(""));
                     panelcomida.add(etiqueta(p.getPrecio().toString()));
-
+                    np=p;
                 }
             }
             //segunda iteración y siguientes, si p es distinto a np significa que entramos en un nuevo producto por tanto
@@ -267,7 +283,6 @@ public class PanelCliente extends JPanel {
                 }
                 if(np.getTipoProducto().equals(TipoProducto.MEDIA)){
                     panelcomida.add(etiqueta(""));
-
                 }
                 //segun el siguiente producto, procedemos a su inicio y prodecemos al avance de la variable auxiliar
                 if(p.getTipoProducto().equals(TipoProducto.TAPA)){
@@ -316,24 +331,28 @@ public class PanelCliente extends JPanel {
 
         // Hacemos que todos los paneles se vean igual en cuanto a estetica
 
-        ArrayList<JPanel> paneles = new ArrayList<>();
 
-        paneles.add(panelcomida);
-        paneles.add(panelbebidas);
-        paneles.add(panelpostres);
-        paneles.add(panelespecialidades);
 
         for (JPanel x: paneles){
             x.setOpaque(true);
             x.setBackground(Color.WHITE);
-            JScrollPane scrollPane = new JScrollPane(x);
-            scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
-            scrollPane.setBounds(50, 50, 1100, 620);// aqui se puede ajustar los parametros del scrool
-            scrollPane.setOpaque(false);
-            scrollPane.getViewport().setOpaque(false);
-            //scrollPane.setVisible(false);
-            panel.add(scrollPane);
-            scrollPane.setName("pepe");
         }
+
+        ArrayList<JScrollPane> listascroll = new ArrayList<>();
+
+        listascroll.add(scrollcomida);
+        listascroll.add(scrollbebida);
+        listascroll.add(scrollpostres);
+        listascroll.add(scrollespecial);
+
+        for (JScrollPane x: listascroll){
+            x.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+            x.setBounds(50, 50, 1100, 620);// aqui se puede ajustar los parametros del scrool
+            x.setOpaque(false);
+            x.getViewport().setOpaque(false);
+            panel.add(x);
+        }
+
+
     }
 }
