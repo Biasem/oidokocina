@@ -141,7 +141,7 @@ public class PanelCliente extends JPanel {
         panel.add(botonpostres);
         panel.add(botonespecialidades);
 
-        panelcomida.setLayout(new GridLayout(listacomida.size(), 4, 5, 2));
+        panelcomida.setLayout(new GridLayout(listacomida.stream().map(Producto::getDescripcion).distinct().collect(Collectors.toList()).size(), 4, 5, 2));
         panelbebidas.setLayout(new GridLayout(listabebidas.size(), 2, 2, 1));
         panelpostres.setLayout(new GridLayout(listapostres.size(), 2, 2, 1));
         panelespecialidades.setLayout(new GridLayout(listaespecial.size(), 2, 2, 1));
