@@ -59,7 +59,7 @@ public class EmpleadoBD extends UtilidadesBD {
             JOptionPane.showMessageDialog(null,"Empleado creado");
 
         } catch (SQLException sqle) {
-            JOptionPane.showMessageDialog(null,"Imposible crear, el empleado ya existe");
+            JOptionPane.showMessageDialog(null,"Imposible crear, existe un empleado con el mismo id");
 
         } finally {
             cerrarConexion(con);

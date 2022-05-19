@@ -1,8 +1,10 @@
 package UtilidadesBBDD;
 
+import Modelos.Empleado;
 import Modelos.Producto;
 import Modelos.TipoProducto;
 
+import javax.swing.*;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -80,11 +82,11 @@ public class ProductoBD extends UtilidadesBD{
 
             //Ejecución del insert
             insert.executeUpdate();
-
+            JOptionPane.showMessageDialog(null,"Producto creado");
 
         } catch (SQLException sqle) {
-            System.out.println("Error en la ejecución:"
-                    + sqle.getErrorCode() + " " + sqle.getMessage());
+            JOptionPane.showMessageDialog(null,"Imposible crear, existe otro producto con el mismo id");
+
 
         } finally {
             cerrarConexion(con);
@@ -119,13 +121,13 @@ public class ProductoBD extends UtilidadesBD{
     }
 
 
-    public static void eliminarProducto(Producto producto){
+    public static void eliminarProducto(Integer id){
         Connection con = conectarConBD();
 
         try {
             PreparedStatement delete = con.prepareStatement("delete from producto where id = ? ");
 
-            delete.setInt(1, producto.getId());
+            delete.setInt(1, id);
 
             //Ejecución del delete
             delete.executeUpdate();
@@ -139,6 +141,30 @@ public class ProductoBD extends UtilidadesBD{
             cerrarConexion(con);
         }
     }
+    public static boolean existeProducto(Integer id){
+        Connection con = conectarConBD();
+        Empleado empleado = null;
 
+        try {
+            PreparedStatement query = con.prepareStatement("SELECT id FROM producto where id = ?  ");
+            query.setInt(1, id);
+            ResultSet rs = query.executeQuery();
+
+            //Recorremos los datos
+            if (rs.next()) {
+                return true;
+            }else{
+                return false;
+            }
+
+        } catch (SQLException sqle) {
+            System.out.println("Error en la ejecución:"
+                    + sqle.getErrorCode() + " " + sqle.getMessage());
+
+        } finally {
+            cerrarConexion(con);
+        }
+        return false;
+    }
 
 }

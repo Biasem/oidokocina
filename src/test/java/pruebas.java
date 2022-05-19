@@ -32,7 +32,16 @@ import org.apache.pdfbox.pdmodel.graphics.image.PDImageXObject;
 public class pruebas extends UtilidadesBD{
 
     public static void main(String[] args) throws Exception {
-         System.out.println(EmpleadoBD.existeEmpleado(2));
+        List<Producto> lista;
+        List<Producto> listacomida;
+
+        lista = ProductoBD.obtenerTodosProductos().stream().sorted(Comparator.comparing(Producto::getDescripcion)).collect(Collectors.toList());
+        listacomida = lista.stream().filter(p->!p.getTipoProducto().equals(TipoProducto.BEBIDAS)&&
+                !p.getTipoProducto().equals(TipoProducto.POSTRES)&&
+                !p.getTipoProducto().equals(TipoProducto.ESPECIALIDADES)).collect(Collectors.toList());
+        listacomida = listacomida.stream().sorted(Comparator.comparing(Producto::getTipoProducto)).collect(Collectors.toList());
+        listacomida = listacomida.stream().sorted(Comparator.comparing(Producto::getDescripcion)).collect(Collectors.toList());
+         System.out.println(listacomida);
     }
 
 
