@@ -5,6 +5,8 @@ import Modelos.Mesa;
 import Modelos.Producto;
 import Modelos.TipoProducto;
 
+import javax.sound.sampled.Line;
+import javax.swing.*;
 import java.sql.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -14,6 +16,67 @@ import java.util.List;
 import static UtilidadesBBDD.UtilidadesBD.*;
 
 public class FacturaYComandaBD {
+
+    public static void ActualizarCantidad(LineaComanda comanda){
+        Connection con = conectarConBD();
+
+        try {
+
+            PreparedStatement update = con.prepareStatement("update linea_comanda " + "set cantidad_cocinada = ? " + "where id = ? ");
+
+            int numerito = 0;
+            numerito = comanda.getCantidadCocinada() + 1;
+            update.setInt(1, numerito);
+            update.setInt(2, comanda.getId());
+
+            update.executeUpdate();
+        }
+
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        finally{
+            cerrarConexion(con);
+        }
+
+
+    }
+
+
+        public static List<LineaComanda> ObtenerComandas() {
+        List<LineaComanda> comandas = new ArrayList<>();
+        Connection con = conectarConBD();
+        LineaComanda linea_comanda;
+
+        try {
+            PreparedStatement query = con.prepareStatement("SELECT * FROM linea_comanda  ");
+            ResultSet rs = query.executeQuery();
+
+            //Recorremos los datos
+            while (rs.next()) {
+
+
+                LineaComanda comida = new LineaComanda(rs.getInt("id"),
+                        rs.getInt("num_empleado"),
+                        rs.getInt("id_factura"),
+                        rs.getInt("id_producto"),
+                        rs.getInt("num_mesa"),
+                        rs.getInt("cantidad"),
+                        rs.getInt("cantidad_cocinada"));
+
+                comandas.add(comida);
+            }
+
+        } catch (SQLException sqle) {
+            System.out.println("Error en la ejecución:"
+                    + sqle.getErrorCode() + " " + sqle.getMessage());
+
+        } finally {
+            cerrarConexion(con);
+        }
+        return comandas;
+    }
 
     public static void crearFacturaMesa(int numMesa){
         Connection con = conectarConBD();

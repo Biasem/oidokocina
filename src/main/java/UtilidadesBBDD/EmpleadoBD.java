@@ -5,6 +5,7 @@ package UtilidadesBBDD;
 import Modelos.Empleado;
 import Modelos.Rol;
 
+import javax.swing.*;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -40,20 +41,6 @@ public class EmpleadoBD extends UtilidadesBD {
         return empleado;
     }
 
-
-
-    public static void crearActualizarEmpleado(Empleado empleado){
-
-        Empleado empBaseDatos = obtenerPorNumEmpleado(empleado.getNum_empleado());
-
-        if(empBaseDatos != null){
-            actualizarEmpleado(empleado);
-        }else{
-            crearEmpleado(empleado);
-        }
-    }
-
-
     public static void crearEmpleado(Empleado empleado){
         Connection con = conectarConBD();
 
@@ -67,12 +54,12 @@ public class EmpleadoBD extends UtilidadesBD {
             insert.setInt(4, empleado.getRol().ordinal());
 
             //Ejecución del insert
-            insert.executeUpdate();
 
+            insert.executeUpdate();
+            JOptionPane.showMessageDialog(null,"Empleado creado");
 
         } catch (SQLException sqle) {
-            System.out.println("Error en la ejecución:"
-                    + sqle.getErrorCode() + " " + sqle.getMessage());
+            JOptionPane.showMessageDialog(null,"Imposible crear, existe un empleado con el mismo id");
 
         } finally {
             cerrarConexion(con);
@@ -105,7 +92,6 @@ public class EmpleadoBD extends UtilidadesBD {
         }
     }
 
-
     public static void eliminarEmpleado(Empleado empleado){
         Connection con = conectarConBD();
 
@@ -127,10 +113,52 @@ public class EmpleadoBD extends UtilidadesBD {
         }
     }
 
-
     public static boolean esCamarero(Integer numEmpleado){
+        Connection con = conectarConBD();
+        try {
+            PreparedStatement query = con.prepareStatement("select rol from empleado where num_empleado = ?  ");
+            query.setInt(1,numEmpleado);
+            ResultSet rs = query.executeQuery();
 
+            //Recorremos los datos
+            while (rs.next()) {
+                if (rs.getInt("rol")==0) return true;
+            }
 
+        } catch (SQLException sqle) {
+            System.out.println("Error en la ejecución:"
+                    + sqle.getErrorCode() + " " + sqle.getMessage());
+
+        } finally {
+            cerrarConexion(con);
+        }
         return false;
     }
+    public static boolean existeEmpleado(Integer numEmpleado){
+        Connection con = conectarConBD();
+        Empleado empleado = null;
+
+        try {
+            PreparedStatement query = con.prepareStatement("SELECT num_empleado FROM empleado where num_empleado = ?  ");
+            query.setInt(1, numEmpleado);
+            ResultSet rs = query.executeQuery();
+
+            //Recorremos los datos
+            if (rs.next()) {
+                return true;
+            }else{
+            return false;
+            }
+
+        } catch (SQLException sqle) {
+            System.out.println("Error en la ejecución:"
+                    + sqle.getErrorCode() + " " + sqle.getMessage());
+
+        } finally {
+            cerrarConexion(con);
+        }
+        return false;
+    }
+
+
 }
