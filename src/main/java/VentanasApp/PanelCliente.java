@@ -331,6 +331,7 @@ public class PanelCliente extends JPanel {
             scrollPane.setBounds(50, 50, 1100, 620);// aqui se puede ajustar los parametros del scrool
             scrollPane.setOpaque(false);
             scrollPane.getViewport().setOpaque(false);
+            //scrollPane.setVisible(false);
             panel.add(scrollPane);
             scrollPane.setName("pepe");
         }

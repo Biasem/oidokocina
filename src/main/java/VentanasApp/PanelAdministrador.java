@@ -423,7 +423,7 @@ public class PanelAdministrador extends JPanel {
         panel.add(labelPrecio);
         //Campo Precio
         JTextField campoPrecio = new JTextField();
-        campoPrecio.addKeyListener(new FiltroNumeoDouble());
+        campoPrecio.addKeyListener(new FiltroNumeroDouble());
         campoPrecio.setBounds(220,250,50,20);
         panel.add(campoPrecio);
 
