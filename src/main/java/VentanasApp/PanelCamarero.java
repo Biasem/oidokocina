@@ -4,11 +4,8 @@ import Modelos.LineaComanda;
 import Modelos.Mesa;
 import Modelos.Producto;
 import Modelos.TipoProducto;
-import UtilidadesBBDD.CrearFacturaPDF;
-import UtilidadesBBDD.FacturaYComandaBD;
-import UtilidadesBBDD.MesaBD;
-import UtilidadesBBDD.ProductoBD;
-import metodos.FiltroNumeros;
+import UtilidadesBBDD.*;
+import metodos.*;
 
 import javax.swing.*;
 import java.awt.*;
@@ -27,11 +24,8 @@ public class PanelCamarero extends JPanel {
 //-----------------------------------------------------------------------------------------------
 
     static void panelCamarero(JPanel panel){
-        //BORRAR CUANDO ESTE IMPLEMENTADA LA BBDD
 
         if (listaProductos.isEmpty()) listaProductos = ProductoBD.obtenerTodosProductos().stream().collect(Collectors.toList());
-
-        //---------------------------------------------------------------------
 
         PanelPrincipal.RestaurarPanel(panel);
         panel.setLayout(null);
@@ -292,6 +286,8 @@ public class PanelCamarero extends JPanel {
         };
         comboTipoProducto.addActionListener(accionComboTipoProducto);
 
+
+
         //Label Cantidad
         JLabel labelCantidad = new JLabel("Cantidad:");
         labelCantidad.setFont( new Font("TimesRoman",Font.BOLD,20));
@@ -311,23 +307,39 @@ public class PanelCamarero extends JPanel {
         ActionListener accionAniadirProducto = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //comprobamos camarero
+            //comprobamos que no haya campos vacios
+                if(!campoCamarero.getText().isEmpty()&&!campoMesa.getText().isEmpty()&&!campoCantidad.getText().isEmpty()
+                &&comboProducto.getItemCount()>0){
+                    //comprobamos que la cantidad no sea 0
+                    if (Integer.valueOf(campoCantidad.getText()) > 0) {
+                        //comprobamos camarero
+                        if (EmpleadoBD.esCamarero(Integer.valueOf(campoCamarero.getText()))) {
+                            //Comprobamos la mesa
+                            if (FacturaYComandaBD.mesaOcupada(Integer.valueOf(campoMesa.getText()))) {
+                                LineaComanda nuevaLineaComanda = new LineaComanda();
+                                nuevaLineaComanda.setCantidadProducto(Integer.valueOf(campoCantidad.getText()));
+                                nuevaLineaComanda.setIdProducto(listaProductos.stream().
+                                        filter(p -> p.getTipoProducto().equals(TipoProducto.valueOf(comboTipoProducto.getSelectedItem().toString())) &&
+                                                p.getDescripcion().equals(comboProducto.getSelectedItem().toString())).collect(Collectors.toList()).get(0).getId());
+                                nuevaLineaComanda.setNumEmpleado(Integer.valueOf(campoCamarero.getText()));
+                                nuevaLineaComanda.setNum_mesa(Integer.valueOf(campoMesa.getText()));
+                                nuevaLineaComanda.setId(0);
+                                nuevaLineaComanda.setIdFactura(0);
+                                nuevaLineaComanda.setCantidadCocinada(0);
+                                listaComandas.add(nuevaLineaComanda);
+                                panelPedidos(panel);
+                            } else {
+                                JOptionPane.showMessageDialog(null, "Mesa Libre, imposible hacer comanda");
+                            }
+                        } else {
+                            JOptionPane.showMessageDialog(null, "No has seleccionado un camarero");
+                        }
+                    } else {
+                        JOptionPane.showMessageDialog(null, "La cantidad tiene que ser mayor a cero");
+                    }
+                }else{
+                    JOptionPane.showMessageDialog(null, "Hay campos vacíos");
 
-
-                //Comprobamos la mesa
-                if(FacturaYComandaBD.mesaOcupada(Integer.valueOf(campoMesa.getText()))){
-                    LineaComanda nuevaLineaComanda = new LineaComanda();
-                    nuevaLineaComanda.setCantidadProducto(Integer.valueOf(campoCantidad.getText()));
-                    nuevaLineaComanda.setIdProducto(listaProductos.stream().
-                            filter(p -> p.getTipoProducto().equals(TipoProducto.valueOf(comboTipoProducto.getSelectedItem().toString()))&&
-                            p.getDescripcion().equals(comboProducto.getSelectedItem().toString())).collect(Collectors.toList()).get(0).getId());
-                    nuevaLineaComanda.setNumEmpleado(Integer.valueOf(campoCamarero.getText()));
-                    nuevaLineaComanda.setNum_mesa(Integer.valueOf(campoMesa.getText()));
-                    nuevaLineaComanda.setId(0);
-                    nuevaLineaComanda.setIdFactura(0);
-                    nuevaLineaComanda.setCantidadCocinada(0);
-                    listaComandas.add(nuevaLineaComanda);
-                    panelPedidos(panel);
                 }
             }
         };
@@ -355,17 +367,35 @@ public class PanelCamarero extends JPanel {
         panel2.setOpaque(false);
         JScrollPane scrollPane = new JScrollPane(panel2);
         int bajadaLabel = 0;
+        int numeroParaBoton = 0;
+
         for(LineaComanda lc:listaComandas){
             JLabel labelProducto2 = new JLabel(listaProductos.stream().filter(p->p.getId()== lc.getIdProducto()).collect(Collectors.toList()).get(0).getDescripcion());
-            labelProducto2.setBounds(0,15*bajadaLabel,250,20);
+            labelProducto2.setBounds(0,20*bajadaLabel,250,20);
             panel2.add(labelProducto2);
             JLabel labelTipoProducto2 = new JLabel(listaProductos.stream().filter(p->p.getId()== lc.getIdProducto()).collect(Collectors.toList()).get(0).getTipoProducto().toString());
-            labelTipoProducto2.setBounds(250,15*bajadaLabel,250,20);
+            labelTipoProducto2.setBounds(250,20*bajadaLabel,300,20);
             panel2.add(labelTipoProducto2);
-            JLabel labelCantidad2 = new JLabel(""+lc.getCantidadProducto());
-            labelCantidad2.setBounds(350,15*bajadaLabel,50,20);
+            JLabel labelCantidad2 = new JLabel("Cantidad "+lc.getCantidadProducto());
+            labelCantidad2.setBounds(350,20*bajadaLabel,110,20);
             panel2.add(labelCantidad2);
+            JButton botonEliminarlineacomanda = new JButton("Eliminar linea");
+            botonEliminarlineacomanda.setBounds(430,20*bajadaLabel,125,20);
+            botonEliminarlineacomanda.setName(""+numeroParaBoton);
+            ActionListener accionEliminarLineaComanda = new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                int numero = Integer.valueOf(botonEliminarlineacomanda.getName());
+                    listaComandas.remove(numero);
+                    System.out.println(numero);
+                    System.out.println(listaComandas);
+                    panelPedidos(panel);
+                }
+            };
+            botonEliminarlineacomanda.addActionListener(accionEliminarLineaComanda);
+            panel2.add(botonEliminarlineacomanda);
             bajadaLabel++;
+            numeroParaBoton++;
         }
         scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
