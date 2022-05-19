@@ -240,20 +240,20 @@ public class PanelCliente extends JPanel {
                 if(p.getTipoProducto().equals(TipoProducto.TAPA)){
                     panelcomida.add(etiqueta(p.getDescripcion()));
                     panelcomida.add(etiqueta(p.getPrecio().toString()));
-                    np=p;
+
                 }
                 if(p.getTipoProducto().equals(TipoProducto.MEDIA)){
                     panelcomida.add(etiqueta(p.getDescripcion()));
                     panelcomida.add(etiqueta(""));
                     panelcomida.add(etiqueta(p.getPrecio().toString()));
-                    np=p;
+
                 }
                 if(p.getTipoProducto().equals(TipoProducto.RACION)){
                     panelcomida.add(etiqueta(p.getDescripcion()));
                     panelcomida.add(etiqueta(""));
                     panelcomida.add(etiqueta(""));
                     panelcomida.add(etiqueta(p.getPrecio().toString()));
-                    np=p;
+
                 }
             }
             //segunda iteración y siguientes, si p es distinto a np significa que entramos en un nuevo producto por tanto
@@ -263,9 +263,11 @@ public class PanelCliente extends JPanel {
                 if(np.getTipoProducto().equals(TipoProducto.TAPA)){
                     panelcomida.add(etiqueta(""));
                     panelcomida.add(etiqueta(""));
+
                 }
                 if(np.getTipoProducto().equals(TipoProducto.MEDIA)){
                     panelcomida.add(etiqueta(""));
+
                 }
                 //segun el siguiente producto, procedemos a su inicio y prodecemos al avance de la variable auxiliar
                 if(p.getTipoProducto().equals(TipoProducto.TAPA)){
@@ -330,6 +332,7 @@ public class PanelCliente extends JPanel {
             scrollPane.setOpaque(false);
             scrollPane.getViewport().setOpaque(false);
             panel.add(scrollPane);
+            scrollPane.setName("pepe");
         }
     }
 }
