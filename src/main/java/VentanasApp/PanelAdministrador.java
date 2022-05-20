@@ -9,6 +9,7 @@ import java.io.File;
 import java.util.ArrayList;
 
 import static java.awt.Font.BOLD;
+import static metodos.metodos.botonadministrador;
 import static metodos.metodos.plantillaboton;
 
 
@@ -73,6 +74,7 @@ public class PanelAdministrador extends JPanel {
         administrador.add(empleados);
         administrador.add(productos);
 
+        botonadministrador(administrador);
         plantillaboton(administrador, panel);
 
         //boton atras
@@ -213,6 +215,7 @@ public class PanelAdministrador extends JPanel {
         botonEliminar.setBounds(800,550,200,100);
 
         plantillaboton(mesas, panel);
+        botonadministrador(mesas);
 
         //boton Atras hacia panel camarero
         PanelPrincipal.botonAtrasAdministrador();
@@ -378,6 +381,7 @@ public class PanelAdministrador extends JPanel {
         empleados.add(botonEliminar);
 
         plantillaboton(empleados, panel);
+        botonadministrador(empleados);
         //boton Atras hacia panel camarero
         PanelPrincipal.botonAtrasAdministrador();
     }
@@ -534,6 +538,8 @@ public class PanelAdministrador extends JPanel {
         };
         botonEliminar.addActionListener(oyenteEliminar);
         producto.add(botonEliminar);
+
+        botonadministrador(producto);
 
         plantillaboton(producto, panel);
 

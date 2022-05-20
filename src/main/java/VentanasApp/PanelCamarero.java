@@ -15,6 +15,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static java.awt.Color.*;
+
 
 public class PanelCamarero extends JPanel {
     //BORRAR CUANDO ESTE IMPLEMENTADO LA BBDD DE MESAS
@@ -104,7 +106,7 @@ public class PanelCamarero extends JPanel {
                 }
                 @Override
                 public void setForeground(Color bg) {
-                    super.setForeground(Color.white);
+                    super.setForeground(white);
                 }
             });
             panel2.add(new JLabel(){
@@ -132,6 +134,8 @@ public class PanelCamarero extends JPanel {
                 }
             });
             JButton botonOcuparMesa = new JButton("Ocupar mesa");
+            ArrayList<JButton> botones = new ArrayList<>();
+            botones.add(botonOcuparMesa);
             botonOcuparMesa.setName(""+m.getNum_Mesa());
             ActionListener accionOcuparMesa = new ActionListener() {
                 @Override
@@ -147,14 +151,15 @@ public class PanelCamarero extends JPanel {
             };
             botonOcuparMesa.addActionListener(accionOcuparMesa);
             if(m.isOcupada())botonOcuparMesa.setEnabled(false);
-            panel2.add(botonOcuparMesa);
+            metodos.plantillaboton(botones, panel2);
         }
         panel2.setOpaque(false);
         JScrollPane scrollPane = new JScrollPane(panel2);
         scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
-        scrollPane.setBounds(0, 50, 780, 500);// aqui se puede ajustar los parametros del scrool
-        scrollPane.setOpaque(false);
+        scrollPane.setBounds(200, 90, 780, 500);// aqui se puede ajustar los parametros del scrool
+        scrollPane.setOpaque(true);
+        scrollPane.setBackground(Color.darkGray);
         scrollPane.getViewport().setOpaque(false);
         panel.add(scrollPane);
 
@@ -175,7 +180,7 @@ public class PanelCamarero extends JPanel {
         panel2.setLayout(new GridLayout(listaMesas.size(), 2, 20, 20));
         //productos en botones para poner bonico
         for (Mesa m:listaMesas) {
-            panel2.add(new JLabel("Mesa " + m.getNum_Mesa()) {
+            panel2.add(new JLabel("Mesa" + m.getNum_Mesa()) {
                 @Override
                 public void setFont(Font font) {
                     font = fuente;
@@ -183,10 +188,15 @@ public class PanelCamarero extends JPanel {
                 }
                 @Override
                 public void setForeground(Color bg) {
-                    super.setForeground(Color.white);
+                    super.setForeground(WHITE);
                 }
             });
             JButton botonPagarCuenta = new JButton("Pagar Cuenta");
+            botonPagarCuenta.setFocusPainted(true);
+            botonPagarCuenta.setContentAreaFilled(true);
+            botonPagarCuenta.setBorder(BorderFactory.createMatteBorder(
+                    1, 1, 1, 1, Color.darkGray));
+            botonPagarCuenta.setBackground(Color.WHITE);
             botonPagarCuenta.setName(""+m.getNum_Mesa());
             ActionListener accionPagarCuenta = new ActionListener() {
                 @Override
@@ -200,17 +210,15 @@ public class PanelCamarero extends JPanel {
             botonPagarCuenta.addActionListener(accionPagarCuenta);
             if(!FacturaYComandaBD.obtenerCuentasAPagar(m.getNum_Mesa()))botonPagarCuenta.setEnabled(false);
             panel2.add(botonPagarCuenta);
-
-
-
-
         }
+
         panel2.setOpaque(false);
         JScrollPane scrollPane = new JScrollPane(panel2);
         scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
-        scrollPane.setBounds(0, 50, 780, 500);// aqui se puede ajustar los parametros del scrool
-        scrollPane.setOpaque(false);
+        scrollPane.setBounds(200, 90, 780, 500);// aqui se puede ajustar los parametros del scrool
+        scrollPane.setOpaque(true);
+        scrollPane.setBackground(DARK_GRAY);
         scrollPane.getViewport().setOpaque(false);
         panel.add(scrollPane);
 
@@ -225,7 +233,7 @@ public class PanelCamarero extends JPanel {
         //Label Mesa
         JLabel labelMesa = new JLabel("Mesa:");
         labelMesa.setFont( new Font("TimesRoman",Font.BOLD,20));
-        labelMesa.setForeground(Color.white);
+        labelMesa.setForeground(white);
         labelMesa.setBounds(50,150,70,20);
         panel.add(labelMesa);
         //Campo Mesa
@@ -237,7 +245,7 @@ public class PanelCamarero extends JPanel {
         //Label Camarero
         JLabel labelCamarero = new JLabel("Camarero:");
         labelCamarero.setFont( new Font("TimesRoman",Font.BOLD,20));
-        labelCamarero.setForeground(Color.white);
+        labelCamarero.setForeground(white);
         labelCamarero.setBounds(50,350,100,20);
         panel.add(labelCamarero);
         //Campo Camarero
@@ -249,7 +257,7 @@ public class PanelCamarero extends JPanel {
         //Label Producto
         JLabel labelProducto = new JLabel("Producto:");
         labelProducto.setFont( new Font("TimesRoman",Font.BOLD,20));
-        labelProducto.setForeground(Color.white);
+        labelProducto.setForeground(white);
         labelProducto.setBounds(50,250,100,20);
         panel.add(labelProducto);
         //Combo Producto
@@ -260,7 +268,7 @@ public class PanelCamarero extends JPanel {
         //Label Tipo Producto
         JLabel labelTipoProducto = new JLabel("Tipo:");
         labelTipoProducto.setFont( new Font("TimesRoman",Font.BOLD,20));
-        labelTipoProducto.setForeground(Color.white);
+        labelTipoProducto.setForeground(white);
         labelTipoProducto.setBounds(50,200,100,20);
         panel.add(labelTipoProducto);
         //Combo Tipo Producto
@@ -285,7 +293,7 @@ public class PanelCamarero extends JPanel {
         //Label Cantidad
         JLabel labelCantidad = new JLabel("Cantidad:");
         labelCantidad.setFont( new Font("TimesRoman",Font.BOLD,20));
-        labelCantidad.setForeground(Color.white);
+        labelCantidad.setForeground(white);
         labelCantidad.setBounds(50,300,100,20);
         panel.add(labelCantidad);
         //Campo Cantidad

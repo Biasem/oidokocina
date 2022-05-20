@@ -11,6 +11,7 @@ import metodos.metodos;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.stream.Collectors;
@@ -21,10 +22,18 @@ public class PanelCocinero extends JPanel {
         panel.setLayout(null);
         //Boton Comandas
         JButton verComandas = new JButton("Comandas");
+
+        String enlace = new File("").getAbsolutePath() + "\\src\\main\\imagenes\\guion.png";
+        ImageIcon imagen = new ImageIcon(enlace);
+        Image imagenLimitadaTamanyo = imagen.getImage().getScaledInstance(60, 60,  java.awt.Image.SCALE_SMOOTH);
+        imagen.setImage(imagenLimitadaTamanyo);
+        verComandas.setIcon(imagen);
+        verComandas.setFocusPainted(true);
+
         ArrayList<JButton> comanda = new ArrayList<>();
         comanda.add(verComandas);
         metodos.plantillaboton(comanda, panel);
-        verComandas.setBounds(460, 340, 250, 100);
+        verComandas.setBounds(460, 500, 250, 100);
         ActionListener oyenteComandas = e -> panelComandas(panel);
         verComandas.addActionListener(oyenteComandas);
         //boton atras
@@ -46,6 +55,17 @@ public class PanelCocinero extends JPanel {
         scrollPane.setBounds(50, 50, 1120, 620);// aqui se puede ajustar los parametros del scrool
         scrollPane.setOpaque(false);
         scrollPane.getViewport().setOpaque(false);
+
+        String enlace = new File("").getAbsolutePath() + "\\src\\main\\imagenes\\fondo.png";
+        ImageIcon imagen = new ImageIcon(enlace);
+        Image imagenLimitadaTamanyo = imagen.getImage().getScaledInstance(1120, 620,  java.awt.Image.SCALE_SMOOTH);
+        imagen.setImage(imagenLimitadaTamanyo);
+
+
+        JLabel image = new JLabel();
+        image.setIcon(imagen);
+        image.setBounds(0, 0, 1120, 620);
+
 
         //scrollPane.getViewport().setOpaque(false);
         panel.add(scrollPane);
@@ -114,6 +134,10 @@ public class PanelCocinero extends JPanel {
                 panel2.add(mesa);
                 panel2.add(texto);
             }
+        }
+
+        if (panel2.getComponentCount() == 0){
+            panel2.add(image);
         }
 
         panel2.setLayout(new GridLayout(total.size(), 2, 2, 2));
