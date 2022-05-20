@@ -3,7 +3,7 @@ package metodos;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
-public class FiltroNumeoDouble implements KeyListener {
+public class FiltroNumeroDouble implements KeyListener {
     @Override
     public void keyTyped(KeyEvent e) {
         char caracter = e.getKeyChar();
