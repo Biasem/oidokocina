@@ -138,10 +138,14 @@ public class PanelCocinero extends JPanel {
 
         if (panel2.getComponentCount() == 0){
             panel2.add(image);
+           scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
+           scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        }else{
+            scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+            scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         }
 
         panel2.setLayout(new GridLayout(total.size(), 2, 2, 2));
-
 
 
         //boton atras
