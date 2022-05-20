@@ -26,11 +26,8 @@ public class PanelCamarero extends JPanel {
 //-----------------------------------------------------------------------------------------------
 
     static void panelCamarero(JPanel panel){
-        //BORRAR CUANDO ESTE IMPLEMENTADA LA BBDD
 
         if (listaProductos.isEmpty()) listaProductos = ProductoBD.obtenerTodosProductos().stream().collect(Collectors.toList());
-
-        //---------------------------------------------------------------------
 
         PanelPrincipal.RestaurarPanel(panel);
         panel.setLayout(null);
@@ -290,6 +287,8 @@ public class PanelCamarero extends JPanel {
         };
         comboTipoProducto.addActionListener(accionComboTipoProducto);
 
+
+
         //Label Cantidad
         JLabel labelCantidad = new JLabel("Cantidad:");
         labelCantidad.setFont( new Font("TimesRoman",Font.BOLD,20));
@@ -312,7 +311,7 @@ public class PanelCamarero extends JPanel {
             public void actionPerformed(ActionEvent e) {
             //comprobamos que no haya campos vacios
                 if(!campoCamarero.getText().isEmpty()&&!campoMesa.getText().isEmpty()&&!campoCantidad.getText().isEmpty()
-                &&!comboProducto.getSelectedItem().toString().isEmpty()){
+                &&comboProducto.getItemCount()>0){
                     //comprobamos que la cantidad no sea 0
                     if (Integer.valueOf(campoCantidad.getText()) > 0) {
                         //comprobamos camarero
@@ -372,17 +371,35 @@ public class PanelCamarero extends JPanel {
         panel2.setOpaque(false);
         JScrollPane scrollPane = new JScrollPane(panel2);
         int bajadaLabel = 0;
+        int numeroParaBoton = 0;
+
         for(LineaComanda lc:listaComandas){
             JLabel labelProducto2 = new JLabel(listaProductos.stream().filter(p->p.getId()== lc.getIdProducto()).collect(Collectors.toList()).get(0).getDescripcion());
-            labelProducto2.setBounds(0,15*bajadaLabel,250,20);
+            labelProducto2.setBounds(0,20*bajadaLabel,250,20);
             panel2.add(labelProducto2);
             JLabel labelTipoProducto2 = new JLabel(listaProductos.stream().filter(p->p.getId()== lc.getIdProducto()).collect(Collectors.toList()).get(0).getTipoProducto().toString());
-            labelTipoProducto2.setBounds(250,15*bajadaLabel,250,20);
+            labelTipoProducto2.setBounds(250,20*bajadaLabel,300,20);
             panel2.add(labelTipoProducto2);
-            JLabel labelCantidad2 = new JLabel(""+lc.getCantidadProducto());
-            labelCantidad2.setBounds(350,15*bajadaLabel,50,20);
+            JLabel labelCantidad2 = new JLabel("Cantidad "+lc.getCantidadProducto());
+            labelCantidad2.setBounds(350,20*bajadaLabel,110,20);
             panel2.add(labelCantidad2);
+            JButton botonEliminarlineacomanda = new JButton("Eliminar linea");
+            botonEliminarlineacomanda.setBounds(430,20*bajadaLabel,125,20);
+            botonEliminarlineacomanda.setName(""+numeroParaBoton);
+            ActionListener accionEliminarLineaComanda = new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                int numero = Integer.valueOf(botonEliminarlineacomanda.getName());
+                    listaComandas.remove(numero);
+                    System.out.println(numero);
+                    System.out.println(listaComandas);
+                    panelPedidos(panel);
+                }
+            };
+            botonEliminarlineacomanda.addActionListener(accionEliminarLineaComanda);
+            panel2.add(botonEliminarlineacomanda);
             bajadaLabel++;
+            numeroParaBoton++;
         }
         scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
