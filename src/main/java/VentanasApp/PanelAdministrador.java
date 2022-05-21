@@ -161,7 +161,7 @@ public class PanelAdministrador extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
             //que no haya campos vacios ni a cero
-                if((campoNumMesa.getText().isEmpty()||campoNumComensales.getText().isEmpty())&&
+                if((!campoNumMesa.getText().isEmpty()&&!campoNumComensales.getText().isEmpty())&&
                     (Integer.valueOf(campoNumComensales.getText())>0)&&
                     (Integer.valueOf(campoNumMesa.getText())>0)){
                     Mesa mesaBuscada = new Mesa(MesaBD.obtenerPorNumMesa(Integer.valueOf(campoNumMesa.getText())));
