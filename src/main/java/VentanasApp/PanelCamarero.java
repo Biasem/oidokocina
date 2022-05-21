@@ -42,7 +42,7 @@ public class PanelCamarero extends JPanel {
 
         listabotones.add(aforo);
 
-        String ruta6 = new File("").getAbsolutePath() + "\\src\\main\\imagenes\\crowd.png" ;
+        String ruta6 = new File("").getAbsolutePath() + "//src//main//imagenes//crowd.png" ;
         ImageIcon imagen6 = new ImageIcon(ruta6);
         Image imagenLimitadaTamanyo = imagen6.getImage().getScaledInstance(60, 60,  java.awt.Image.SCALE_SMOOTH);
         imagen6.setImage(imagenLimitadaTamanyo);
@@ -56,7 +56,7 @@ public class PanelCamarero extends JPanel {
 
         listabotones.add(pedidos);
 
-        String ruta3 = new File("").getAbsolutePath() + "\\src\\main\\imagenes\\products.png" ;
+        String ruta3 = new File("").getAbsolutePath() + "//src//main//imagenes//products.png" ;
         ImageIcon imagen3 = new ImageIcon(ruta3);
         Image imagenLimitadaTamanyo3 = imagen3.getImage().getScaledInstance(60, 60,  java.awt.Image.SCALE_SMOOTH);
         imagen3.setImage(imagenLimitadaTamanyo3);
@@ -70,7 +70,7 @@ public class PanelCamarero extends JPanel {
 
         listabotones.add(cuentas);
 
-        String ruta4 = new File("").getAbsolutePath() + "\\src\\main\\imagenes\\bill.png" ;
+        String ruta4 = new File("").getAbsolutePath() + "//src//main//imagenes//bill.png" ;
         ImageIcon imagen4 = new ImageIcon(ruta4);
         Image imagenLimitadaTamanyo4 = imagen4.getImage().getScaledInstance(60, 60,  java.awt.Image.SCALE_SMOOTH);
         imagen4.setImage(imagenLimitadaTamanyo4);

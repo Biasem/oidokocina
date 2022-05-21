@@ -23,7 +23,7 @@ public class PanelCocinero extends JPanel {
         //Boton Comandas
         JButton verComandas = new JButton("Comandas");
 
-        String enlace = new File("").getAbsolutePath() + "\\src\\main\\imagenes\\guion.png";
+        String enlace = new File("").getAbsolutePath() + "//src//main//imagenes//guion.png";
         ImageIcon imagen = new ImageIcon(enlace);
         Image imagenLimitadaTamanyo = imagen.getImage().getScaledInstance(60, 60,  java.awt.Image.SCALE_SMOOTH);
         imagen.setImage(imagenLimitadaTamanyo);
@@ -56,7 +56,7 @@ public class PanelCocinero extends JPanel {
         scrollPane.setOpaque(false);
         scrollPane.getViewport().setOpaque(false);
 
-        String enlace = new File("").getAbsolutePath() + "\\src\\main\\imagenes\\fondo.png";
+        String enlace = new File("").getAbsolutePath() + "//src//main//imagenes//fondo.png";
         ImageIcon imagen = new ImageIcon(enlace);
         Image imagenLimitadaTamanyo = imagen.getImage().getScaledInstance(1120, 620,  java.awt.Image.SCALE_SMOOTH);
         imagen.setImage(imagenLimitadaTamanyo);

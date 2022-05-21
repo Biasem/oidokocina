@@ -35,7 +35,7 @@ public class CrearFacturaPDF {
 
             PDPageContentStream contentStream = new PDPageContentStream(document, page1);
 
-            PDImageXObject pdImage = PDImageXObject.createFromFile(new File("").getAbsolutePath() +"\\src\\main\\imagenes\\duck.jpg", document);
+            PDImageXObject pdImage = PDImageXObject.createFromFile(new File("").getAbsolutePath() +"//src//main//imagenes//duck.jpg", document);
             contentStream.drawImage(pdImage, 240, 365, pdImage.getWidth() / 10, pdImage.getHeight() / 10);
 
             contentStream.beginText();
