@@ -29,7 +29,7 @@ public class PanelAdministrador extends JPanel {
             }
         };
         mesas.addActionListener(oyenteMesas);
-        String ruta13 = new File("").getAbsolutePath() + "\\src\\main\\imagenes\\mesa.png" ;
+        String ruta13 = new File("").getAbsolutePath() + "//src//main//imagenes//mesa.png" ;
         ImageIcon imagen13 = new ImageIcon(ruta13);
         Image imagenLimitadaTamanyo13 = imagen13.getImage().getScaledInstance(60, 60,  java.awt.Image.SCALE_SMOOTH);
         imagen13.setImage(imagenLimitadaTamanyo13);
@@ -46,7 +46,7 @@ public class PanelAdministrador extends JPanel {
             }
         };
         empleados.addActionListener(oyenteEmpleados);
-        String direccion = new File("").getAbsolutePath() + "\\src\\main\\imagenes\\waiter.png" ;
+        String direccion = new File("").getAbsolutePath() + "//src//main//imagenes//waiter.png" ;
         ImageIcon icono = new ImageIcon(direccion);
         Image imagenLimitada = icono.getImage().getScaledInstance(60, 60,  java.awt.Image.SCALE_SMOOTH);
         icono.setImage(imagenLimitada);
@@ -63,7 +63,7 @@ public class PanelAdministrador extends JPanel {
             }
         };
         productos.addActionListener(oyenteProductos);
-        String ruta2 = new File("").getAbsolutePath() + "\\src\\main\\imagenes\\clipboard.png" ;
+        String ruta2 = new File("").getAbsolutePath() + "//src//main//imagenes//clipboard.png" ;
         ImageIcon imagen2 = new ImageIcon(ruta2);
         Image imagenLimitadaTamanyo2 = imagen2.getImage().getScaledInstance(60, 60,  java.awt.Image.SCALE_SMOOTH);
         imagen2.setImage(imagenLimitadaTamanyo2);

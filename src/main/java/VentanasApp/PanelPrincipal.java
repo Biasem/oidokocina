@@ -68,7 +68,7 @@ public class PanelPrincipal {
         cocinero = new JButton("Cocinero");
         ActionListener oyenteCocinero = e -> PanelCocinero.panelCocinero(panel);
         cocinero.addActionListener(oyenteCocinero);
-        String ruta = new File("").getAbsolutePath() + "\\src\\main\\imagenes\\cocinero.png" ;
+        String ruta = new File("").getAbsolutePath() + "//src//main//imagenes//cocinero.png" ;
         ImageIcon imagen = new ImageIcon(ruta);
         Image imagenLimitadaTamanyo = imagen.getImage().getScaledInstance(60, 60,  java.awt.Image.SCALE_SMOOTH);
         imagen.setImage(imagenLimitadaTamanyo);
@@ -80,7 +80,7 @@ public class PanelPrincipal {
         camarero = new JButton("Camarero");
         ActionListener oyenteCamarero = e -> PanelCamarero.panelCamarero(panel);
         camarero.addActionListener(oyenteCamarero);
-        ruta = new File("").getAbsolutePath() + "\\src\\main\\imagenes\\camarero.png" ;
+        ruta = new File("").getAbsolutePath() + "//src//main//imagenes//camarero.png" ;
         imagen = new ImageIcon(ruta);
         imagenLimitadaTamanyo = imagen.getImage().getScaledInstance(60, 60,  java.awt.Image.SCALE_SMOOTH);
         imagen.setImage(imagenLimitadaTamanyo);
@@ -92,7 +92,7 @@ public class PanelPrincipal {
         admin = new JButton("Administrador");
         ActionListener oyenteAdmin = e -> PanelAdministrador.panelAdministrador(panel);
         admin.addActionListener(oyenteAdmin);
-        ruta = new File("").getAbsolutePath() + "\\src\\main\\imagenes\\apoyo.png" ;
+        ruta = new File("").getAbsolutePath() + "//src//main//imagenes//apoyo.png" ;
         imagen = new ImageIcon(ruta);
         admin.setIcon(imagen);
         admin.setFocusPainted(true);
@@ -102,7 +102,7 @@ public class PanelPrincipal {
         cliente = new JButton("Cliente");
         ActionListener oyenteCliente = e -> PanelCliente.panelCliente(panel);
         cliente.addActionListener(oyenteCliente);
-        ruta = new File("").getAbsolutePath() + "\\src\\main\\imagenes\\cliente.png" ;
+        ruta = new File("").getAbsolutePath() + "//src//main//imagenes//cliente.png" ;
         imagen = new ImageIcon(ruta);
         imagenLimitadaTamanyo = imagen.getImage().getScaledInstance(60, 60,  java.awt.Image.SCALE_SMOOTH);
         imagen.setImage(imagenLimitadaTamanyo);
@@ -129,14 +129,14 @@ public class PanelPrincipal {
 
     private static String geturlimg(){
         String ruta = new File("").getAbsolutePath();
-        return ruta  + "\\src\\main\\imagenes\\menuprincipal.jpg";
+        return ruta  + "//src//main//imagenes//menuprincipal.jpg";
     }
 
     // metodos para botones estándar
     public static void botonAtras(){
         JButton atras = new JButton();
         atras.setBounds(10,10,40,40);
-        String ruta = new File("").getAbsolutePath() + "\\src\\main\\imagenes\\atras.png" ;
+        String ruta = new File("").getAbsolutePath() + "//src//main//imagenes//atras.png" ;
         ImageIcon imagen = new ImageIcon(ruta);
         Image imagenLimitadaTamanyo = imagen.getImage().getScaledInstance(40, 40,  java.awt.Image.SCALE_SMOOTH);
         imagen.setImage(imagenLimitadaTamanyo);
@@ -152,7 +152,7 @@ public class PanelPrincipal {
         JButton atras = new JButton();
         atras.setBounds(10,10,40,40);
         atras.setOpaque(false);
-        String ruta = new File("").getAbsolutePath() + "\\src\\main\\imagenes\\atras.png" ;
+        String ruta = new File("").getAbsolutePath() + "//src//main//imagenes//atras.png" ;
         ImageIcon imagen = new ImageIcon(ruta);
         Image imagenLimitadaTamanyo = imagen.getImage().getScaledInstance(40, 40,  java.awt.Image.SCALE_SMOOTH);
         imagen.setImage(imagenLimitadaTamanyo);
@@ -168,7 +168,7 @@ public class PanelPrincipal {
         JButton atras = new JButton();
         atras.setBounds(10,10,40,40);
         atras.setOpaque(false);
-        String ruta = new File("").getAbsolutePath() + "\\src\\main\\imagenes\\atras.png" ;
+        String ruta = new File("").getAbsolutePath() + "//src//main//imagenes//atras.png" ;
         ImageIcon imagen = new ImageIcon(ruta);
         Image imagenLimitadaTamanyo = imagen.getImage().getScaledInstance(40, 40,  java.awt.Image.SCALE_SMOOTH);
         imagen.setImage(imagenLimitadaTamanyo);

@@ -12,28 +12,28 @@ public class metodos {
     public static void botonadministrador(ArrayList<JButton> lista){
         for (JButton x: lista){
             if (x.getText() == "Crear"){
-                String enlace = new File("").getAbsolutePath() + "\\src\\main\\imagenes\\agregar.png";
+                String enlace = new File("").getAbsolutePath() + "//src//main//imagenes//agregar.png";
                 ImageIcon imagen = new ImageIcon(enlace);
                 Image imagenLimitadaTamanyo = imagen.getImage().getScaledInstance(40, 40,  java.awt.Image.SCALE_SMOOTH);
                 imagen.setImage(imagenLimitadaTamanyo);
                 x.setIcon(imagen);
             }
             if (x.getText() == "Buscar"){
-                String enlace = new File("").getAbsolutePath() + "\\src\\main\\imagenes\\buscar.png";
+                String enlace = new File("").getAbsolutePath() + "//src//main//imagenes//buscar.png";
                 ImageIcon imagen = new ImageIcon(enlace);
                 Image imagenLimitadaTamanyo = imagen.getImage().getScaledInstance(40, 40,  java.awt.Image.SCALE_SMOOTH);
                 imagen.setImage(imagenLimitadaTamanyo);
                 x.setIcon(imagen);
             }
             if (x.getText() == "Modificar"){
-                String enlace = new File("").getAbsolutePath() + "\\src\\main\\imagenes\\editar.png";
+                String enlace = new File("").getAbsolutePath() + "//src//main//imagenes//editar.png";
                 ImageIcon imagen = new ImageIcon(enlace);
                 Image imagenLimitadaTamanyo = imagen.getImage().getScaledInstance(40, 40,  java.awt.Image.SCALE_SMOOTH);
                 imagen.setImage(imagenLimitadaTamanyo);
                 x.setIcon(imagen);
             }
             if (x.getText() == "Eliminar"){
-                String enlace = new File("").getAbsolutePath() + "\\src\\main\\imagenes\\eliminar.png";
+                String enlace = new File("").getAbsolutePath() + "//src//main//imagenes//eliminar.png";
                 ImageIcon imagen = new ImageIcon(enlace);
                 Image imagenLimitadaTamanyo = imagen.getImage().getScaledInstance(40, 40,  java.awt.Image.SCALE_SMOOTH);
                 imagen.setImage(imagenLimitadaTamanyo);
@@ -45,7 +45,7 @@ public class metodos {
     public static void  botonAtras(JButton atras){
 
         atras.setBounds(10,10,40,40);
-        String ruta = new File("").getAbsolutePath() + "\\src\\main\\imagenes\\atras.png" ;
+        String ruta = new File("").getAbsolutePath() + "//src//main//imagenes//atras.png" ;
         ImageIcon imagen = new ImageIcon(ruta);
         Image imagenLimitadaTamanyo = imagen.getImage().getScaledInstance(40, 40,  java.awt.Image.SCALE_SMOOTH);
         imagen.setImage(imagenLimitadaTamanyo);

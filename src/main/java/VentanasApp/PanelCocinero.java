@@ -23,7 +23,7 @@ public class PanelCocinero extends JPanel {
         //Boton Comandas
         JButton verComandas = new JButton("Comandas");
 
-        String enlace = new File("").getAbsolutePath() + "\\src\\main\\imagenes\\guion.png";
+        String enlace = new File("").getAbsolutePath() + "//src//main//imagenes//guion.png";
         ImageIcon imagen = new ImageIcon(enlace);
         Image imagenLimitadaTamanyo = imagen.getImage().getScaledInstance(60, 60,  java.awt.Image.SCALE_SMOOTH);
         imagen.setImage(imagenLimitadaTamanyo);
@@ -56,7 +56,7 @@ public class PanelCocinero extends JPanel {
         scrollPane.setOpaque(false);
         scrollPane.getViewport().setOpaque(false);
 
-        String enlace = new File("").getAbsolutePath() + "\\src\\main\\imagenes\\fondo.png";
+        String enlace = new File("").getAbsolutePath() + "//src//main//imagenes//fondo.png";
         ImageIcon imagen = new ImageIcon(enlace);
         Image imagenLimitadaTamanyo = imagen.getImage().getScaledInstance(1120, 620,  java.awt.Image.SCALE_SMOOTH);
         imagen.setImage(imagenLimitadaTamanyo);
@@ -138,10 +138,14 @@ public class PanelCocinero extends JPanel {
 
         if (panel2.getComponentCount() == 0){
             panel2.add(image);
+           scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
+           scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        }else{
+            scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+            scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         }
 
         panel2.setLayout(new GridLayout(total.size(), 2, 2, 2));
-
 
 
         //boton atras

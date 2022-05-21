@@ -27,7 +27,7 @@ public class PanelCliente extends JPanel {
         panel.setLayout(null);
         JButton vercarta = new JButton();
         vercarta.setBounds(400,200,400,400);
-        String ruta = new File("").getAbsolutePath() + "\\src\\main\\imagenes\\menu.png" ;
+        String ruta = new File("").getAbsolutePath() + "//src//main//imagenes//menu.png" ;
         ImageIcon imagen = new ImageIcon(ruta);
         Image imagenLimitadaTamanyo = imagen.getImage().getScaledInstance(200, 200,  java.awt.Image.SCALE_SMOOTH);
         imagen.setImage(imagenLimitadaTamanyo);
