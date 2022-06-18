@@ -97,7 +97,9 @@ public class PanelCocinero extends JPanel {
                 comida = ProductoBD.obtenerPorId(producto);
                 trabajador = EmpleadoBD.obtenerPorNumEmpleado(empleado);
 
-                texto.setText("Camarero:  " + trabajador.getNombre() + "  " + "Producto:  " + comida.getDescripcion() + "  " + "Cantidad:  " + x.getCantidadProducto() + "  " + "Preparado:  " + x.getCantidadCocinada());
+                texto.setText("Camarero:  " + trabajador.getNombre() + "  " + "Producto:  " +
+                             comida.getDescripcion() + "  " + "Cantidad:  " + x.getCantidadProducto() +
+                              "  " + "Preparado:  " + x.getCantidadCocinada());
                 metodos.plantillatextococinero(texto);
 
                 JButton mesa = new JButton();
